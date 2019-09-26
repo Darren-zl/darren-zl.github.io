@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="python3网络爬虫与信息提取1.体系结构1.1 Requests框架：自动抓取HTML页面与自动网络请求提交1.2 robots.txt:网络爬虫排除标准（从该文件中也可知道存在什么目录）1.3 BeautifulSoup框架：解析HTML页面1.4 RE框架：正则框架，提取页面关键信息1.5 Scrapy框架：网络爬虫原理介绍，专业爬虫框架2.Requests库1234567# -*- co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python3网络爬虫与信息提取">
+<meta property="og:url" content="http://yoursite.com/2019/07/01/python3网络爬虫与信息提取/index.html">
+<meta property="og:site_name" content="Darren-学无止境">
+<meta property="og:description" content="python3网络爬虫与信息提取1.体系结构1.1 Requests框架：自动抓取HTML页面与自动网络请求提交1.2 robots.txt:网络爬虫排除标准（从该文件中也可知道存在什么目录）1.3 BeautifulSoup框架：解析HTML页面1.4 RE框架：正则框架，提取页面关键信息1.5 Scrapy框架：网络爬虫原理介绍，专业爬虫框架2.Requests库1234567# -*- co">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565232827562.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/4340772-b0baf49f04744a80.png">
+<meta property="og:updated_time" content="2019-09-26T04:30:36.494Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python3网络爬虫与信息提取">
+<meta name="twitter:description" content="python3网络爬虫与信息提取1.体系结构1.1 Requests框架：自动抓取HTML页面与自动网络请求提交1.2 robots.txt:网络爬虫排除标准（从该文件中也可知道存在什么目录）1.3 BeautifulSoup框架：解析HTML页面1.4 RE框架：正则框架，提取页面关键信息1.5 Scrapy框架：网络爬虫原理介绍，专业爬虫框架2.Requests库1234567# -*- co">
+<meta name="twitter:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565232827562.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/01/python3网络爬虫与信息提取/">
+
+
+
+
+
+  <title>python3网络爬虫与信息提取 | Darren-学无止境</title>
+  
+
+
+
+
+
+
+
+
+
+  <script>
+class Circle {
+    //创建对象
+    //以一个圆为对象
+    //设置随机的 x，y坐标，r半径，_mx，_my移动的距离
+    //this.r是创建圆的半径，参数越大半径越大
+    //this._mx,this._my是移动的距离，参数越大移动
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.r = Math.random() * 10 ;
+        this._mx = Math.random() ;
+        this._my = Math.random() ;
+
+    }
+
+    //canvas 画圆和画直线
+    //画圆就是正常的用canvas画一个圆
+    //画直线是两个圆连线，为了避免直线过多，给圆圈距离设置了一个值，距离很远的圆圈，就不做连线处理
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //arc() 方法使用一个中心点和半径，为一个画布的当前子路径添加一条弧。
+        ctx.arc(this.x, this.y, this.r, 0, 360)
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(204, 204, 204, 0.3)';
+        ctx.fill();
+    }
+
+    drawLine(ctx, _circle) {
+        let dx = this.x - _circle.x;
+        let dy = this.y - _circle.y;
+        let d = Math.sqrt(dx * dx + dy * dy)
+        if (d < 150) {
+            ctx.beginPath();
+            //开始一条路径，移动到位置 this.x,this.y。创建到达位置 _circle.x,_circle.y 的一条线：
+            ctx.moveTo(this.x, this.y);   //起始点
+            ctx.lineTo(_circle.x, _circle.y);   //终点
+            ctx.closePath();
+            ctx.strokeStyle = 'rgba(204, 204, 204, 0.3)';
+            ctx.stroke();
+        }
+    }
+
+    // 圆圈移动
+    // 圆圈移动的距离必须在屏幕范围内
+    move(w, h) {
+        this._mx = (this.x < w && this.x > 0) ? this._mx : (-this._mx);
+        this._my = (this.y < h && this.y > 0) ? this._my : (-this._my);
+        this.x += this._mx / 2;
+        this.y += this._my / 2;
+    }
+}
+//鼠标点画圆闪烁变动
+class currentCirle extends Circle {
+    constructor(x, y) {
+        super(x, y)
+    }
+
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //注释内容为鼠标焦点的地方圆圈半径变化
+        //this.r = (this.r < 14 && this.r > 1) ? this.r + (Math.random() * 2 - 1) : 2;
+        this.r = 8;
+        ctx.arc(this.x, this.y, this.r, 0, 360);
+        ctx.closePath();
+        //ctx.fillStyle = 'rgba(0,0,0,' + (parseInt(Math.random() * 100) / 100) + ')'
+        ctx.fillStyle = 'rgba(255, 77, 54, 0.3)'
+        ctx.fill();
+
+    }
+}
+//更新页面用requestAnimationFrame替代setTimeout
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+let w = canvas.width = canvas.offsetWidth;
+let h = canvas.height = canvas.offsetHeight;
+let circles = [];
+let current_circle = new currentCirle(0, 0)
+
+let draw = function () {
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0; i < circles.length; i++) {
+        circles[i].move(w, h);
+        circles[i].drawCircle(ctx);
+        for (j = i + 1; j < circles.length; j++) {
+            circles[i].drawLine(ctx, circles[j])
+        }
+    }
+    if (current_circle.x) {
+        current_circle.drawCircle(ctx);
+        for (var k = 1; k < circles.length; k++) {
+            current_circle.drawLine(ctx, circles[k])
+        }
+    }
+    requestAnimationFrame(draw)
+}
+
+let init = function (num) {
+    for (var i = 0; i < num; i++) {
+        circles.push(new Circle(Math.random() * w, Math.random() * h));
+    }
+    draw();
+}
+window.addEventListener('load', init(60));
+window.onmousemove = function (e) {
+    e = e || window.event;
+    current_circle.x = e.clientX;
+    current_circle.y = e.clientY;
+}
+window.onmouseout = function () {
+    current_circle.x = null;
+    current_circle.y = null;
+
+};
+</script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/Darren-zl"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Darren-学无止境</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heart"></i> <br>
+            
+            留言板
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br>
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music">
+          <a href="/music/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br>
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-welfare">
+          <a href="/welfare/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-leaf"></i> <br>
+            
+            福利
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/book/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            书单
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/01/python3网络爬虫与信息提取/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">python3网络爬虫与信息提取</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-01T16:55:34+08:00">
+                2019-07-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2019/07/01/python3网络爬虫与信息提取/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2019/07/01/python3网络爬虫与信息提取/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2019/07/01/python3网络爬虫与信息提取/" class="leancloud_visitors" data-flag-title="python3网络爬虫与信息提取">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        <h1 id="python3网络爬虫与信息提取"><a href="#python3网络爬虫与信息提取" class="headerlink" title="python3网络爬虫与信息提取"></a>python3网络爬虫与信息提取</h1><h3 id="1-体系结构"><a href="#1-体系结构" class="headerlink" title="1.体系结构"></a>1.体系结构</h3><h6 id="1-1-Requests框架：自动抓取HTML页面与自动网络请求提交"><a href="#1-1-Requests框架：自动抓取HTML页面与自动网络请求提交" class="headerlink" title="1.1 Requests框架：自动抓取HTML页面与自动网络请求提交"></a>1.1 Requests框架：自动抓取HTML页面与自动网络请求提交</h6><h6 id="1-2-robots-txt-网络爬虫排除标准（从该文件中也可知道存在什么目录）"><a href="#1-2-robots-txt-网络爬虫排除标准（从该文件中也可知道存在什么目录）" class="headerlink" title="1.2 robots.txt:网络爬虫排除标准（从该文件中也可知道存在什么目录）"></a>1.2 robots.txt:网络爬虫排除标准（从该文件中也可知道存在什么目录）</h6><h6 id="1-3-BeautifulSoup框架：解析HTML页面"><a href="#1-3-BeautifulSoup框架：解析HTML页面" class="headerlink" title="1.3 BeautifulSoup框架：解析HTML页面"></a>1.3 BeautifulSoup框架：解析HTML页面</h6><h6 id="1-4-RE框架：正则框架，提取页面关键信息"><a href="#1-4-RE框架：正则框架，提取页面关键信息" class="headerlink" title="1.4 RE框架：正则框架，提取页面关键信息"></a>1.4 RE框架：正则框架，提取页面关键信息</h6><h6 id="1-5-Scrapy框架：网络爬虫原理介绍，专业爬虫框架"><a href="#1-5-Scrapy框架：网络爬虫原理介绍，专业爬虫框架" class="headerlink" title="1.5 Scrapy框架：网络爬虫原理介绍，专业爬虫框架"></a>1.5 Scrapy框架：网络爬虫原理介绍，专业爬虫框架</h6><h3 id="2-Requests库"><a href="#2-Requests库" class="headerlink" title="2.Requests库"></a>2.Requests库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span>	requests</span><br><span class="line">r = requests.get(<span class="string">"http://www.baidu.com"</span>) <span class="comment">#抓取页面</span></span><br><span class="line">status = r.status_code <span class="comment">#查看状态码</span></span><br><span class="line">print(<span class="string">"状态码为%s"</span>%status)</span><br><span class="line">r.encoding = <span class="string">'utf-8'</span> <span class="comment">#进行utf-8转码</span></span><br><span class="line"><span class="keyword">print</span> (r.text)</span><br></pre></td></tr></table></figure>
+
+<p>Requests库的7种主要方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>requests.request()</td>
+<td>构造一个请求，支撑以下各个方法的基础方法</td>
+</tr>
+<tr>
+<td>requests.get()</td>
+<td>获取HTML网页的主要方法，对应于HTTP的GET</td>
+</tr>
+<tr>
+<td>r = requests.get(‘url’,timeout=1)</td>
+<td>设置秒数超时，仅对于连接有效</td>
+</tr>
+<tr>
+<td>requests.head()</td>
+<td>获取HTML网页头信息的方法，对应HTTP的HEAR</td>
+</tr>
+<tr>
+<td>requests.post()</td>
+<td>向HTML网页提交POST请求的方法，对应HTTP的POST</td>
+</tr>
+<tr>
+<td>requests.put()</td>
+<td>向HTML网页提交PUT请求的方法，对应HTTP的PUT</td>
+</tr>
+<tr>
+<td>requests.patch()</td>
+<td>向HTML网页提交局部修改请求，对应HTTP的PATCH</td>
+</tr>
+<tr>
+<td>requests.delete()</td>
+<td>向HTML网页提交删除请求,对应HTTP的DELETE</td>
+</tr>
+</tbody></table>
+<ul>
+<li><h5 id="Requests-get方法："><a href="#Requests-get方法：" class="headerlink" title="Requests.get方法："></a>Requests.get方法：</h5></li>
+</ul>
+<h6 id="r-requests-get-url-："><a href="#r-requests-get-url-：" class="headerlink" title="r=requests.get(url)："></a>r=requests.get(url)：</h6><p>get()方法构造一个向服务器请求资源的request对象，返回一个包含服务器资源的Response对象。</p>
+<h6 id="requests-get-url-params-None-kwargs-："><a href="#requests-get-url-params-None-kwargs-：" class="headerlink" title="requests.get(url,params=None,**kwargs)："></a>requests.get(url,params=None,**kwargs)：</h6><p>url:拟获要抓取的url链接</p>
+<p>params:url额外参数，字典或字节流格式，可选</p>
+<p>**kwargs:12个访问控制参数</p>
+<ul>
+<li><h5 id="Requests库的两个重要对象"><a href="#Requests库的两个重要对象" class="headerlink" title="Requests库的两个重要对象"></a>Requests库的两个重要对象</h5></li>
+</ul>
+<p>Response:Response对象包含爬虫返回的内容</p>
+<ul>
+<li><h5 id="Response对象属性"><a href="#Response对象属性" class="headerlink" title="Response对象属性"></a>Response对象属性</h5></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>r.status_code</td>
+<td>HTTP请求返回状态，200表示成功，404表示失败（1XX表示正常处理，2XX表示成功状态，3XX表示需请求进行下一步，4XX表示客户端问题，5XX表示服务端问题）</td>
+</tr>
+<tr>
+<td>r.raise_for_status()</td>
+<td>失败请求非200响应则抛出异常</td>
+</tr>
+<tr>
+<td>r.text</td>
+<td>HTTP响应内容的字符串形式，即url对应的页面内容</td>
+</tr>
+<tr>
+<td>r.headers</td>
+<td>以字典对象存储服务器响应头，但是这个字典比较特殊，字典键不区分大小写，若键不存在则返回None</td>
+</tr>
+<tr>
+<td>r.requests.headers</td>
+<td>返回发送到服务器的头信息</td>
+</tr>
+<tr>
+<td>r.cookies</td>
+<td>返回cookie值</td>
+</tr>
+<tr>
+<td>r.history</td>
+<td>返回重定向信息,当然可以在请求是加上allow_redirects = false 阻止重定向</td>
+</tr>
+<tr>
+<td>r.raw</td>
+<td>返回原始响应体，也就是 urllib 的 response 对象，使用 r.raw.read()</td>
+</tr>
+<tr>
+<td>r.ok</td>
+<td>查看r.ok的布尔值便可以知道是否登陆成功</td>
+</tr>
+<tr>
+<td>r.encoding</td>
+<td>从HTTP header中猜测的相应内容编码方式，进行返回内容的转码（获取当前编码），如r.encoding = ‘utf-8’（设置编码）</td>
+</tr>
+<tr>
+<td>r.apparent_encoding</td>
+<td>从内容中分析出相应的内容编码方式（备选编码方式）</td>
+</tr>
+<tr>
+<td>r.content</td>
+<td>HTTP响应内容的二进制形式</td>
+</tr>
+<tr>
+<td>r.json()</td>
+<td>Requests中内置的JSON解码器，以json形式返回,前提返回的内容确保是json格式的，不然解析出错会抛异常</td>
+</tr>
+<tr>
+<td>r.apparent_encoding</td>
+<td>根据网页内容分析出的编码方式可以 看作是r.encoding的备选。</td>
+</tr>
+</tbody></table>
+<ul>
+<li><h5 id="Requests库的异常"><a href="#Requests库的异常" class="headerlink" title="Requests库的异常"></a>Requests库的异常</h5></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>异常</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>requests.ConnectionError</td>
+<td>网络连接错误异常，如DNS查询失败拒绝连接等</td>
+</tr>
+<tr>
+<td>requests.HTTPError</td>
+<td>HTTP错误异常</td>
+</tr>
+<tr>
+<td>requests.URLRequired</td>
+<td>URL缺失异常</td>
+</tr>
+<tr>
+<td>requests.ToolManyRedirects</td>
+<td>超过最大重定向次数，产生重定向异常</td>
+</tr>
+<tr>
+<td>requests.ConnectTimeout</td>
+<td>连接远程服务器超时异常</td>
+</tr>
+<tr>
+<td>requests.Timeout</td>
+<td>请求URL超时，尝试超时异常</td>
+</tr>
+</tbody></table>
+<p>测试代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getHTMLText</span><span class="params">(url)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r = requests.get(url, timeout=<span class="number">30</span>)</span><br><span class="line">        r.raise_for_status()    <span class="comment"># 如果状态不是200，引发HTTPError异常</span></span><br><span class="line">        r.encoding = r.apparent_encoding</span><br><span class="line">        <span class="keyword">return</span> r.text</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"产生异常"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    url = <span class="string">"http://www.baidu1.com"</span></span><br><span class="line">    print(getHTMLText(url))</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-HTTP简单理解"><a href="#3-HTTP简单理解" class="headerlink" title="3.HTTP简单理解"></a>3.HTTP简单理解</h2><table>
+<thead>
+<tr>
+<th>协议类型</th>
+<th>区别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTTP1.0</td>
+<td>1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接，服务器不跟踪每个客户也不记录过去的请求。（多个TCP连接，多请求，使用后关闭）</td>
+</tr>
+<tr>
+<td>HTTP2.0</td>
+<td>1.1则支持持久连接Persistent Connection, 并且默认使用persistent  connection. 在同一个tcp的连接中可以传送多个HTTP请求和响应. 多个请求和响应可以重叠，多个请求和响应可以同时进行. 更加多的请求头和响应头(比如HTTP1.0没有host的字段).（单个TCP隧道，默认长连接，多请求。需有“Connection: close字段”，才会进行连接的关闭）通过cookie进行身份认证。</td>
+</tr>
+</tbody></table>
+<p>在1.0时的会话方式：</p>
+<ol>
+<li><p>建立连接</p>
+</li>
+<li><p>发出请求信息</p>
+</li>
+<li><p>回送响应信息</p>
+</li>
+<li><p>关掉连接</p>
+<p><strong>HTTP 1.1的持续连接，也需要增加新的请求头来帮助实现，例如，Connection请求头的值为Keep-Alive时，客户端通知服务器返回本次请求结果后保持连接；Connection请求头的值为close时，客户端通知服务器返回本次请求结果后关闭连接。**</strong>HTTP 1.1还提供了与身份认证、状态管理和Cache缓存等机制相关的请求头和响应头。</p>
+</li>
+</ol>
+<p>请求的流水线（Pipelining）处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟。例如：一个包含有许多图像的网页文件的多个请求和应答可以在一个连接中传输，但每个单独的网页文件的请求和应答仍然需要使用各自的连接。  HTTP 1.1还允许客户端不用等待上一次请求结果返回，就可以发出下一次请求，但服务器端必须按照接收到客户端请求的先后顺序依次回送响应结果，以保证客户端能够区分出每次请求的响应内容。</p>
+<p><strong>2.HTTP 1.1增加host字段</strong></p>
+<p>在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。</p>
+<p> HTTP1.1的请求消息和响应消息都应支持Host头域，且请求消息中如果没有Host头域会报告一个错误（400 Bad Request）。此外，服务器应该接受以绝对路径标记的资源请求。</p>
+<p><strong>3.100(Continue) Status(节约带宽)</strong></p>
+<p>HTTP/1.1加入了一个新的状态码100（Continue）。客户端事先发送一个只带头域的请求，如果服务器因为权限拒绝了请求，就回送响应码401（Unauthorized）；如果服务器接收此请求就回送响应码100，客户端就可以继续发送带实体的完整请求了。100 (Continue) 状态代码的使用，允许客户端在发request消息body之前先用request header试探一下server，看server要不要接收request body，再决定要不要发request body。</p>
+<p><strong>4</strong>.HTTP/1.1中引入了Chunked transfer-coding来解决上面这个问题，发送方将消息分割成若干个任意大小的数据块，每个数据块在发送时都会附上块的长度，最后用一个零长度的块作为消息结束的标志。这种方法允许发送方只缓冲消息的一个片段，避免缓冲整个消息带来的过载。</p>
+<p><strong>5</strong>.HTTP/1.1在1.0的基础上加入了一些cache的新特性，当缓存对象的Age超过Expire时变为stale对象，cache不需要直接抛弃stale对象，而是与源服务器进行重新激活（revalidation）</p>
+<h5 id="HTTP协议对资源的操作"><a href="#HTTP协议对资源的操作" class="headerlink" title="HTTP协议对资源的操作"></a>HTTP协议对资源的操作</h5><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>请求获取URL位置的资源</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>请求获取URL位置资源的响应消息报告，即获得该资源的头部信息</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>请求向URL位置的资源后附加新的数据</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>请求向URL位置存储一个资源，覆盖原URL位置资源</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>请求局部更新URL位置的资源，即改变该处资源的部分内容</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>请求删除URL位置存储的资源</td>
+</tr>
+</tbody></table>
+<h5 id="理解PATCH和PUT区别"><a href="#理解PATCH和PUT区别" class="headerlink" title="理解PATCH和PUT区别"></a>理解PATCH和PUT区别</h5><p>　假设URL位置有一组数据UserInfo，包括UserID、UserName等20个字段。<br>　需求：用户修改了UserName，其他不变。<br>　　　　· 采用PATCH，仅向URL提交UserName的局部更新请求。<br>　　　　· 采用PUT，必须将所有20个字段一并提交到URL，未提交字段被删除。</p>
+<p>　PATCH的主要好处：节省网络带宽</p>
+<h5 id="Requests库主要方法解析"><a href="#Requests库主要方法解析" class="headerlink" title="Requests库主要方法解析"></a>Requests库主要方法解析</h5><p>requests.request(method, url, **kwargs)</p>
+<ol>
+<li><p>method：请求方式，对应get/put/post等7种<br>　例： r = requests.request(‘OPTIONS’, url, **kwargs)</p>
+</li>
+<li><p>url：拟获取页面的url链接</p>
+</li>
+<li><p>**kwargs：控制访问的参数，共13个，均为可选项</p>
+</li>
+</ol>
+<ul>
+<li>params：字典或字节序列，作为参数增加到url中；</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">kv = &#123;<span class="string">'key1'</span>:<span class="string">'value1'</span>, <span class="string">'key2'</span>:<span class="string">'value2'</span>&#125;</span><br><span class="line">r = requests.request(<span class="string">'GET'</span>, <span class="string">'http://python123.io/ws'</span>,params=kv)</span><br><span class="line">print(r.url)</span><br><span class="line"><span class="comment">#下面内容为返回内容</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">http://python123.io/ws?key1=value1&amp;key2=value2</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>data：字典、字节序列或文件对象，作为Request的内容；</p>
+</li>
+<li><p>json：JSON格式的数据，作为Request的内容；</p>
+</li>
+<li><p>headers：字典，HTTP定制头；</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hd = &#123;<span class="string">'user-agent'</span>:<span class="string">'Chrome/10'</span>&#125;</span><br><span class="line">r = requests.request(<span class="string">'POST'</span>,<span class="string">'http://www.yanlei.shop'</span>,headers=hd)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>cookies：字典或CookieJar，Request中的cookie；</p>
+</li>
+<li><p>auth：元组，支持HTTP认证功能；</p>
+</li>
+<li><p>files：字典类型，传输文件；</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fs = &#123;<span class="string">'file'</span>:open(<span class="string">'data.xls'</span>, <span class="string">'rb'</span>)&#125;</span><br><span class="line">r = requests.request(<span class="string">'POST'</span>,<span class="string">'http://python123.io/ws'</span>,files=fs)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>timeout：设定超时时间，秒为单位；</p>
+</li>
+<li><p>proxies：字典类型，设定访问代理服务器，可以增加登录认证</p>
+</li>
+<li><p>allow_redirects：True/False，默认为True，重定向开关；</p>
+</li>
+<li><p>stream：True/False，默认为True，获取内容立即下载开关；</p>
+</li>
+<li><p>verify：True/False，默认为True，认证SSL证书开关；</p>
+</li>
+<li><p>cert：本地SSL证书路径</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方法及参数</span></span><br><span class="line">requests.get(url, params=<span class="literal">None</span>, **kwargs)</span><br><span class="line">requests.head(url, **kwargs)</span><br><span class="line">requests.post(url, data=<span class="literal">None</span>, json=<span class="literal">None</span>, **kwargs)</span><br><span class="line">requests.put(url, data=<span class="literal">None</span>, **kwargs)</span><br><span class="line">requests.patch(url, data=<span class="literal">None</span>, **kwargs)</span><br><span class="line">requests.delete(url, **kwargs)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-Robots协议"><a href="#4-Robots协议" class="headerlink" title="4.Robots协议"></a>4.Robots协议</h3><p>Robots Exclusion Standard 网络爬虫排除标准</p>
+<p>​    作用：网站告知网络爬虫哪些页面可以抓取，哪些不行。<br>　形式：在网站根目录下的robots.txt文件。<br>　案例：京东的Robots协议<br>　<a href="http://www.jd.com/robots.txt" target="_blank" rel="noopener">http://www.jd.com/robots.txt</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 注释：*代表所有，/代表根目录</span><br><span class="line">User-agent: * </span><br><span class="line">Disallow: /?* </span><br><span class="line">Disallow: /pop/*.html </span><br><span class="line">Disallow: /pinpai/*.html?* </span><br><span class="line">User-agent: EtaoSpider </span><br><span class="line">Disallow: / </span><br><span class="line">User-agent: HuihuiSpider </span><br><span class="line">Disallow: / </span><br><span class="line">User-agent: GwdangSpider </span><br><span class="line">Disallow: / </span><br><span class="line">User-agent: WochachaSpider </span><br><span class="line">Disallow: /</span><br></pre></td></tr></table></figure>
+
+<h5 id="Robots协议的使用"><a href="#Robots协议的使用" class="headerlink" title="Robots协议的使用"></a>Robots协议的使用</h5><p>  网络爬虫：自动或人工识别robots.txt，再进行内容爬取。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565232827562.png" alt="1565232827562"></p>
+<p>约束性：Robots协议是建议但非约束性，网络爬虫可以不遵守，但存在法律风险。</p>
+<h3 id="5-正则表达式"><a href="#5-正则表达式" class="headerlink" title="5.正则表达式"></a>5.正则表达式</h3><p>正则表达式(regular expression)描述了一种字符串匹配的模式（pattern），可以用来检查一个串是否含有某种子串、将匹配的子串替换或者从某个串中取出符合某个条件的子串等。</p>
+<h4 id="非打印字符"><a href="#非打印字符" class="headerlink" title="非打印字符"></a>非打印字符</h4><p>非打印字符也可以是正则表达式的组成部分。下表列出了表示非打印字符的转义序列：</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">\cx</td>
+<td align="left">匹配由x指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
+</tr>
+<tr>
+<td align="left">\f</td>
+<td align="left">匹配一个换页符。等价于 \x0c 和 \cL。</td>
+</tr>
+<tr>
+<td align="left">\n</td>
+<td align="left">匹配一个换行符。等价于 \x0a 和 \cJ。</td>
+</tr>
+<tr>
+<td align="left">\r</td>
+<td align="left">匹配一个回车符。等价于 \x0d 和 \cM。</td>
+</tr>
+<tr>
+<td align="left">\s</td>
+<td align="left">匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。注意 Unicode 正则表达式会匹配全角空格符。</td>
+</tr>
+<tr>
+<td align="left">\S</td>
+<td align="left">匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td align="left">\t</td>
+<td align="left">匹配一个制表符。等价于 \x09 和 \cI。</td>
+</tr>
+<tr>
+<td align="left">\v</td>
+<td align="left">匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
+</tr>
+</tbody></table>
+<h4 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h4><p>所谓特殊字符，就是一些有特殊含义的字符，如上面说的 <strong>runoo*b</strong> 中的 <strong><strong>*，简单的说就是表示任何字符串的意思。如果要查找字符串中的 *</strong></strong> 符号，则需要对 <strong>*** 进行转义，即在其前加一个 **\</strong>: <strong>runo*ob</strong> 匹配 runo*ob。</p>
+<p>许多元字符要求在试图匹配它们时特别对待。若要匹配这些特殊字符，必须首先使字符”转义”，即，将反斜杠字符<strong>\</strong> 放在它们前面。下表列出了正则表达式中的特殊字符：</p>
+<table>
+<thead>
+<tr>
+<th align="left">特别字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">$</td>
+<td align="left">匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 $。</td>
+</tr>
+<tr>
+<td align="left">( )</td>
+<td align="left">标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 ( 和 )。</td>
+</tr>
+<tr>
+<td align="left">*</td>
+<td align="left">匹配前面的子表达式零次或多次。要匹配 * 字符，请使用 *。</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 +。</td>
+</tr>
+<tr>
+<td align="left">.</td>
+<td align="left">匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 . 。</td>
+</tr>
+<tr>
+<td align="left">[</td>
+<td align="left">标记一个中括号表达式的开始。要匹配 [，请使用 [。</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 ?。</td>
+</tr>
+<tr>
+<td align="left">\</td>
+<td align="left">将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， ‘n’ 匹配字符 ‘n’。’\n’ 匹配换行符。序列 ‘\‘ 匹配 “&quot;，而 ‘(‘ 则匹配 “(“。</td>
+</tr>
+<tr>
+<td align="left">^</td>
+<td align="left">匹配输入字符串的开始位置，除非在方括号表达式中使用，此时它表示不接受该字符集合。要匹配 ^ 字符本身，请使用 ^。</td>
+</tr>
+<tr>
+<td align="left">{</td>
+<td align="left">标记限定符表达式的开始。要匹配 {，请使用 {。</td>
+</tr>
+<tr>
+<td align="left">|</td>
+<td align="left">指明两项之间的一个选择。要匹配 |，请使用 |。</td>
+</tr>
+</tbody></table>
+<h4 id="限定符"><a href="#限定符" class="headerlink" title="限定符"></a>限定符</h4><p>限定符用来指定正则表达式的一个给定组件必须要出现多少次才能满足匹配。有 <strong>*** 或 **+</strong> 或 <strong>?</strong> 或 <strong>{n}</strong> 或 <strong>{n,}</strong> 或 <strong>{n,m}</strong> 共6种。</p>
+<p>正则表达式的限定符有：</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">*</td>
+<td align="left">匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td align="left">匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td align="left">?</td>
+<td align="left">匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 、 “does” 中的 “does” 、 “doxy” 中的 “do” 。? 等价于 {0,1}。</td>
+</tr>
+<tr>
+<td align="left">{n}</td>
+<td align="left">n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
+</tr>
+<tr>
+<td align="left">{n,}</td>
+<td align="left">n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
+</tr>
+<tr>
+<td align="left">{n,m}</td>
+<td align="left">m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
+</tr>
+</tbody></table>
+<h4 id="定位符"><a href="#定位符" class="headerlink" title="定位符"></a>定位符</h4><p>定位符使您能够将正则表达式固定到行首或行尾。它们还使您能够创建这样的正则表达式，这些正则表达式出现在一个单词内、在一个单词的开头或者一个单词的结尾。</p>
+<p>定位符用来描述字符串或单词的边界，<strong>^</strong> 和 <strong>$</strong> 分别指字符串的开始与结束，<strong>\b</strong> 描述单词的前或后边界，<strong>\B</strong> 表示非单词边界。</p>
+<p>正则表达式的定位符有：</p>
+<table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">^</td>
+<td align="left">匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与 \n 或 \r 之后的位置匹配。</td>
+</tr>
+<tr>
+<td align="left">$</td>
+<td align="left">匹配输入字符串结尾的位置。如果设置了 RegExp 对象的 Multiline 属性，$ 还会与 \n 或 \r 之前的位置匹配。</td>
+</tr>
+<tr>
+<td align="left">\b</td>
+<td align="left">匹配一个单词边界，即字与空格间的位置。</td>
+</tr>
+<tr>
+<td align="left">\B</td>
+<td align="left">非单词边界匹配。</td>
+</tr>
+</tbody></table>
+<ol>
+<li>python转义字符 <ul>
+<li>正则表达式使用反斜杠” \ “来代表特殊形式或用作转义字符，这里跟Python的语法冲突，因此，Python用” \ “表示正则表达式中的” \ “，因为正则表达式中如果要匹配” \ “，需要用\来转义，变成” \ “，而Python语法中又需要对字符串中每一个\进行转义，所以就变成了” \ “。</li>
+<li>Python里的原生字符串很好地解决了这个问题，这个例子中的正则表达式可以使用r”\”表示。同样，匹配一个数字的”\d”可以写成r”\d”。有了原生字符串，妈妈也不用担心是不是漏写了反斜杠，写出来的表达式也更直观勒。</li>
+</ul>
+</li>
+<li>贪婪模式和非贪婪模式</li>
+</ol>
+<p>正则表达式通常用于在文本中查找匹配的字符串。Python里数量词默认是贪婪的（在少数语言里也可能是默认非贪婪），总是尝试匹配尽可能多的字符；非贪婪则相反，总是尝试匹配尽可能少的字符。在”*”,”?”,”+”,”{m,n}”后面加上？,使贪婪变成非贪婪。</p>
+<p>可参考： <a href="http://blog.csdn.net/zcc_0015/article/details/53671189" target="_blank" rel="noopener">python 正则表达式的贪婪匹配与非贪婪匹配</a></p>
+<h2 id="Python-Re模块"><a href="#Python-Re模块" class="headerlink" title="Python Re模块"></a>Python Re模块</h2><p><img src="https://upload-images.jianshu.io/upload_images/4340772-b0baf49f04744a80.png" alt="img"></p>
+<p>Python 自带了re模块，它提供了对正则表达式的支持。主要用到的方法列举如下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#返回pattern对象</span></span><br><span class="line">re.compile(string[,flag])  </span><br><span class="line"><span class="comment">#以下为匹配所用函数</span></span><br><span class="line">re.match(pattern, string[, flags])</span><br><span class="line">re.search(pattern, string[, flags])</span><br><span class="line">re.split(pattern, string[, maxsplit])</span><br><span class="line">re.findall(pattern, string[, flags])</span><br><span class="line">re.finditer(pattern, string[, flags])</span><br><span class="line">re.sub(pattern, repl, string[, count])</span><br><span class="line">re.subn(pattern, repl, string[, count])</span><br></pre></td></tr></table></figure>
+
+<p>在介绍这几个方法之前，我们先来介绍一下pattern的概念，pattern可以理解为一个匹配模式，那么我们怎么获得这个<strong>匹配模式</strong>呢？很简单，我们需要利用re.compile方法就可以。例如</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'hello'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>另外大家可能注意到了另一个参数 flags，在这里解释一下这个参数的含义：</p>
+<p>参数flag是匹配模式，取值可以使用按位或运算符’|’表示同时生效，比如re.I | re.M。</p>
+<p>可选值有：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">• re.I(全拼：IGNORECASE): 忽略大小写（括号内是完整写法，下同）</span><br><span class="line">• re.M(全拼：MULTILINE): 多行模式，改变<span class="string">'^'</span>和<span class="string">'$'</span>的行为（参见上图）</span><br><span class="line">• re.S(全拼：DOTALL): 点任意匹配模式，改变<span class="string">'.'</span>的行为</span><br><span class="line">• re.L(全拼：LOCALE): 使预定字符类 \w \W \b \B \s \S 取决于当前区域设定</span><br><span class="line">• re.U(全拼：UNICODE): 使预定字符类 \w \W \b \B \s \S \d \D 取决于unicode定义的字符属性</span><br><span class="line">• re.X(全拼：VERBOSE): 详细模式。这个模式下正则表达式可以是多行，忽略空白字符，并可以加入注释。</span><br></pre></td></tr></table></figure>
+
+<p>在刚才所说的另外几个方法例如 re.match 里我们就需要用到这个pattern了，下面我们一一介绍。</p>
+<h3 id="（1）re-match-pattern-string-flags"><a href="#（1）re-match-pattern-string-flags" class="headerlink" title="（1）re.match(pattern, string[, flags])"></a>（1）re.match(pattern, string[, flags])</h3><p>这个方法将会从string（我们要匹配的字符串）的开头开始，尝试匹配pattern，一直向后匹配，如果遇到无法匹配的字符，立即返回None，如果匹配未结束已经到达string的末尾，也会返回None。两个结果均表示匹配失败，否则匹配pattern成功，同时匹配终止，不再对string向后匹配。下面我们通过一个例子理解一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将正则表达式编译成Pattern对象，注意hello前面的r的意思是“原生字符串”</span></span><br><span class="line">pattern = re.compile(<span class="string">r'hello'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 使用re.match匹配文本，获得匹配结果，无法匹配时将返回None</span></span><br><span class="line">result1 = re.match(pattern,<span class="string">'hello'</span>)</span><br><span class="line">result2 = re.match(pattern,<span class="string">'helloo CQC!'</span>)</span><br><span class="line">result3 = re.match(pattern,<span class="string">'helo CQC!'</span>)</span><br><span class="line">result4 = re.match(pattern,<span class="string">'hello CQC!'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#如果1匹配成功</span></span><br><span class="line"><span class="keyword">if</span> result1:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print(result1.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'1匹配失败！'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">#如果2匹配成功</span></span><br><span class="line"><span class="keyword">if</span> result2:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print(result2.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print( <span class="string">'2匹配失败！'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">#如果3匹配成功</span></span><br><span class="line"><span class="keyword">if</span> result3:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print( result3.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'3匹配失败！'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#如果4匹配成功</span></span><br><span class="line"><span class="keyword">if</span> result4:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print( result4.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print( <span class="string">'4匹配失败！'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>我们还看到最后打印出了result.group()，这个是什么意思呢？下面我们说一下关于match对象的的属性和方法<br> Match对象是一次匹配的结果，包含了很多关于此次匹配的信息，可以使用Match提供的可读属性或方法来获取这些信息。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>group([group1, …]):</span><br><span class="line">获得一个或多个分组截获的字符串；指定多个参数时将以元组形式返回。group1可以使用编号也可以使用别名；编号<span class="number">0</span>代表整个匹配的子串；不填写参数时，返回group(<span class="number">0</span>)；没有截获字符串的组返回<span class="literal">None</span>；截获了多次的组返回最后一次截获的子串。</span><br><span class="line"><span class="number">2.</span>groups([default]):</span><br><span class="line">以元组形式返回全部分组截获的字符串。相当于调用group(<span class="number">1</span>,<span class="number">2</span>,…last)。default表示没有截获字符串的组以这个值替代，默认为<span class="literal">None</span>。</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）re-search-pattern-string-flags"><a href="#（2）re-search-pattern-string-flags" class="headerlink" title="（2）re.search(pattern, string[, flags])"></a>（2）re.search(pattern, string[, flags])</h3><p>search方法与match方法极其类似，区别在于match()函数只检测re是不是在string的开始位置匹配，search()会扫描整个string查找匹配，match（）只有在0位置匹配成功的话才有返回，如果不是开始位置匹配成功的话，match()就返回None。同样，search方法的返回对象同样match()返回对象的方法和属性。我们用一个例子感受一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将正则表达式编译成Pattern对象</span></span><br><span class="line">pattern = re.compile(<span class="string">r'world'</span>)</span><br><span class="line"><span class="comment"># 使用search()查找匹配的子串，不存在能匹配的子串时将返回None</span></span><br><span class="line"><span class="comment"># 这个例子中使用match()无法成功匹配</span></span><br><span class="line">match = re.search(pattern,<span class="string">'hello world!'</span>)</span><br><span class="line"><span class="keyword">if</span> match:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print( match.group())</span><br></pre></td></tr></table></figure>
+
+<h3 id="（3）re-split-pattern-string-maxsplit"><a href="#（3）re-split-pattern-string-maxsplit" class="headerlink" title="（3）re.split(pattern, string[, maxsplit])"></a>（3）re.split(pattern, string[, maxsplit])</h3><p>按照能够匹配的子串将string分割后返回列表。maxsplit用于指定最大分割次数，不指定将全部分割。我们通过下面的例子感受一下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'\d+'</span>)</span><br><span class="line">print( re.split(pattern,<span class="string">'one1two2three3four4'</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment">### 输出 ###</span></span><br><span class="line"><span class="comment"># ['one', 'two', 'three', 'four', '']</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="（4）re-findall-pattern-string-flags"><a href="#（4）re-findall-pattern-string-flags" class="headerlink" title="（4）re.findall(pattern, string[, flags])"></a>（4）re.findall(pattern, string[, flags])</h3><p>搜索string，以列表形式返回全部能匹配的子串。我们通过这个例子来感受一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'\d+'</span>)</span><br><span class="line">print( re.findall(pattern,<span class="string">'one1two2three3four4'</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment">### 输出 ###</span></span><br><span class="line"><span class="comment"># ['1', '2', '3', '4']</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="（5）re-finditer-pattern-string-flags"><a href="#（5）re-finditer-pattern-string-flags" class="headerlink" title="（5）re.finditer(pattern, string[, flags])"></a>（5）re.finditer(pattern, string[, flags])</h3><p>搜索string，返回一个顺序访问每一个匹配结果（Match对象）的迭代器。我们通过下面的例子来感受一下</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'\d+'</span>)</span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> re.finditer(pattern,<span class="string">'one1two2three3four4'</span>):</span><br><span class="line">    print( m.group()),</span><br><span class="line"> </span><br><span class="line"><span class="comment">### 输出 ###</span></span><br><span class="line"><span class="comment"># 1 2 3 4</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="（6）re-sub-pattern-repl-string-count"><a href="#（6）re-sub-pattern-repl-string-count" class="headerlink" title="（6）re.sub(pattern, repl, string[, count])"></a>（6）re.sub(pattern, repl, string[, count])</h3><p>使用repl替换string中每一个匹配的子串后返回替换后的字符串。<br> 当repl是一个字符串时，可以使用\id或\g、\g引用分组，但不能使用编号0。<br> 当repl是一个方法时，这个方法应当只接受一个参数（Match对象），并返回一个字符串用于替换（返回的字符串中不能再引用分组）。<br> count用于指定最多替换次数，不指定时全部替换。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'(\w+) (\w+)'</span>)</span><br><span class="line">s = <span class="string">'i say, hello world!'</span></span><br><span class="line"> </span><br><span class="line">print( re.sub(pattern,<span class="string">r'\2 \1'</span>, s))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(m)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> m.group(<span class="number">1</span>).title() + <span class="string">' '</span> + m.group(<span class="number">2</span>).title()</span><br><span class="line"> </span><br><span class="line">print( re.sub(pattern,func, s))</span><br></pre></td></tr></table></figure>
+
+<h3 id="（7）re-subn-pattern-repl-string-count"><a href="#（7）re-subn-pattern-repl-string-count" class="headerlink" title="（7）re.subn(pattern, repl, string[, count])"></a>（7）re.subn(pattern, repl, string[, count])</h3><p>返回 (sub(repl, string[, count]), 替换次数)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'(\w+) (\w+)'</span>)</span><br><span class="line">s = <span class="string">'i say, hello world!'</span></span><br><span class="line"> </span><br><span class="line">print( re.subn(pattern,<span class="string">r'\2 \1'</span>, s))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">(m)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> m.group(<span class="number">1</span>).title() + <span class="string">' '</span> + m.group(<span class="number">2</span>).title()</span><br><span class="line"> </span><br><span class="line">print( re.subn(pattern,func1, s))</span><br><span class="line"> </span><br><span class="line"><span class="comment">### output ###</span></span><br><span class="line"><span class="comment"># ('say i, world hello!', 2)</span></span><br><span class="line"><span class="comment"># ('I Say, Hello World!', 2)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="6-Requests库网络爬虫实战"><a href="#6-Requests库网络爬虫实战" class="headerlink" title="6.Requests库网络爬虫实战"></a>6.Requests库网络爬虫实战</h3><p>1.京东</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">"https://item.jd.com/5145492.html"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    r = requests.get(url)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    r.encoding = r.apparent_encoding</span><br><span class="line">    print(r.text[:<span class="number">1000</span>])</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>2.亚马逊</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接爬取亚马逊商品是会被拒绝访问，所以需要添加'user-agent'字段</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">"https://www.amazon.cn/gp/product/B01M8L5Z3Y"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    kv = &#123;<span class="string">'user-agent'</span>:<span class="string">'Mozilla/5.0'</span>&#125; <span class="comment"># 使用代理访问</span></span><br><span class="line">    r = requests.get(url, headers = kv)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    r.encoding = r.apparent_encoding</span><br><span class="line">    print(t.text[<span class="number">1000</span>:<span class="number">2000</span>])</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>3.百度/360搜索关键词提交</p>
+<pre><code>　搜索引擎关键词提交接口</code></pre><p>　· 百度的关键词接口：<br>　<a href="http://www.baidu.com/s?wd=keyword" target="_blank" rel="noopener">http://www.baidu.com/s?wd=keyword</a><br>　· 360的关键词接口：<br>　<a href="http://www.so.com/s?q=keyword" target="_blank" rel="noopener">http://www.so.com/s?q=keyword</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 百度</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">keyword = <span class="string">"Python"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    kv = &#123;<span class="string">'wd'</span>:keyword&#125;</span><br><span class="line">    r = requests.get(<span class="string">"http://www.baidu.com/s"</span>,params=kv)</span><br><span class="line">    print(r.request.url)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    print(len(r.text))</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 360</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">keyword = <span class="string">"Python"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    kv = &#123;<span class="string">'q'</span>:keyword&#125;</span><br><span class="line">    r = requests.get(<span class="string">"http://www.so.com/s"</span>,params=kv)</span><br><span class="line">    print(r.request.url)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    print(len(r.text))</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>4.网络图片的爬取和存储</p>
+<p>网络图片链接的格式：</p>
+<p><a href="http://www.example.com/picture.jpg" target="_blank" rel="noopener">http://www.example.com/picture.jpg</a></p>
+<p>国家地理：</p>
+<p><a href="http://www.nationalgeographic.com.cn/" target="_blank" rel="noopener">http://www.nationalgeographic.com.cn/</a></p>
+<p>选择一张图片链接：</p>
+<p><a href="http://image.nationalgeographic.com.cn/2017/0704/20170704030835566.jpg" target="_blank" rel="noopener">http://image.nationalgeographic.com.cn/2017/0704/20170704030835566.jpg</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">图片爬取全代码</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">url = <span class="string">"http://image.nationalgeographic.com.cn/2017/0704/20170704030835566.jpg"</span></span><br><span class="line">root = <span class="string">"D://pics//"</span></span><br><span class="line">path = root + url.split(<span class="string">'/'</span>)[<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">        os.mkdir(root)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">        r = requests.get(url)</span><br><span class="line">        <span class="keyword">with</span> open(path,<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(r.content)</span><br><span class="line">            f.close()</span><br><span class="line">            print(<span class="string">"文件保存成功"</span>)</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">with open(path,'wb') as f:等价于</span></span><br><span class="line"><span class="string">try:</span></span><br><span class="line"><span class="string">f = open(path, 'wb')</span></span><br><span class="line"><span class="string">f = write(r.content)</span></span><br><span class="line"><span class="string">finally:</span></span><br><span class="line"><span class="string">if f:</span></span><br><span class="line"><span class="string">f.close()</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">"文件已存在"</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>5.IP地址归属地的自动查询</p>
+<p><a href="http://www.ip138.com" target="_blank" rel="noopener">www.ip138.com</a> IP查询</p>
+<p><a href="http://ip138.com/ips138.asp?ip=ipaddress" target="_blank" rel="noopener">http://ip138.com/ips138.asp?ip=ipaddress</a></p>
+<p><a href="http://m.ip138.com/ip.asp?ip=ipaddress" target="_blank" rel="noopener">http://m.ip138.com/ip.asp?ip=ipaddress</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">"http://m.ip138.com/ip.asp?ip="</span></span><br><span class="line">ip = <span class="string">"114.114.114.114"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    r = requests.get(url + ip)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    r.encoding = r.apparent_encoding</span><br><span class="line">    print(r.text[<span class="number">1900</span>:])</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h4><p><a href="https://www.cnblogs.com/yan-lei/p/7445460.html" target="_blank" rel="noopener">https://www.cnblogs.com/yan-lei/p/7445460.html</a></p>
+<p><a href="https://www.cnblogs.com/ranxf/p/7808537.html（后续需进一步看）" target="_blank" rel="noopener">https://www.cnblogs.com/ranxf/p/7808537.html（后续需进一步看）</a></p>
+<p><a href="https://blog.csdn.net/Amigo_1997/article/details/87936132" target="_blank" rel="noopener">https://blog.csdn.net/Amigo_1997/article/details/87936132</a></p>
+<p><a href="https://www.jianshu.com/p/0e3715bd9c25" target="_blank" rel="noopener">https://www.jianshu.com/p/0e3715bd9c25</a></p>
+
+      
+    </div>
+    
+    
+    
+
+
+<div>
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+    
+</div>
+</div>
+ 
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/26/python3 OS模块/" rel="next" title="python3 OS模块">
+                <i class="fa fa-chevron-left"></i> python3 OS模块
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/19/数据库学习-2/" rel="prev" title="数据库学习">
+                数据库学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="Darren-zl">
+            
+              <p class="site-author-name" itemprop="name">Darren-zl</p>
+              <p class="site-description motion-element" itemprop="description">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Darren-zl" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/p/1005052390784733/home?from=page_100505&mod=TAB&pids=plc_main" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python3网络爬虫与信息提取"><span class="nav-number">1.</span> <span class="nav-text">python3网络爬虫与信息提取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-体系结构"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-1-Requests框架：自动抓取HTML页面与自动网络请求提交"><span class="nav-number">1.0.1.0.0.1.</span> <span class="nav-text">1.1 Requests框架：自动抓取HTML页面与自动网络请求提交</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-2-robots-txt-网络爬虫排除标准（从该文件中也可知道存在什么目录）"><span class="nav-number">1.0.1.0.0.2.</span> <span class="nav-text">1.2 robots.txt:网络爬虫排除标准（从该文件中也可知道存在什么目录）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-3-BeautifulSoup框架：解析HTML页面"><span class="nav-number">1.0.1.0.0.3.</span> <span class="nav-text">1.3 BeautifulSoup框架：解析HTML页面</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-4-RE框架：正则框架，提取页面关键信息"><span class="nav-number">1.0.1.0.0.4.</span> <span class="nav-text">1.4 RE框架：正则框架，提取页面关键信息</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-5-Scrapy框架：网络爬虫原理介绍，专业爬虫框架"><span class="nav-number">1.0.1.0.0.5.</span> <span class="nav-text">1.5 Scrapy框架：网络爬虫原理介绍，专业爬虫框架</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Requests库"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.Requests库</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Requests-get方法："><span class="nav-number">1.0.2.0.1.</span> <span class="nav-text">Requests.get方法：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#r-requests-get-url-："><span class="nav-number">1.0.2.0.1.1.</span> <span class="nav-text">r=requests.get(url)：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#requests-get-url-params-None-kwargs-："><span class="nav-number">1.0.2.0.1.2.</span> <span class="nav-text">requests.get(url,params=None,**kwargs)：</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Requests库的两个重要对象"><span class="nav-number">1.0.2.0.2.</span> <span class="nav-text">Requests库的两个重要对象</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Response对象属性"><span class="nav-number">1.0.2.0.3.</span> <span class="nav-text">Response对象属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Requests库的异常"><span class="nav-number">1.0.2.0.4.</span> <span class="nav-text">Requests库的异常</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-HTTP简单理解"><span class="nav-number">1.1.</span> <span class="nav-text">3.HTTP简单理解</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#HTTP协议对资源的操作"><span class="nav-number">1.1.0.0.1.</span> <span class="nav-text">HTTP协议对资源的操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#理解PATCH和PUT区别"><span class="nav-number">1.1.0.0.2.</span> <span class="nav-text">理解PATCH和PUT区别</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Requests库主要方法解析"><span class="nav-number">1.1.0.0.3.</span> <span class="nav-text">Requests库主要方法解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Robots协议"><span class="nav-number">1.1.1.</span> <span class="nav-text">4.Robots协议</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Robots协议的使用"><span class="nav-number">1.1.1.0.1.</span> <span class="nav-text">Robots协议的使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-正则表达式"><span class="nav-number">1.1.2.</span> <span class="nav-text">5.正则表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#非打印字符"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">非打印字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特殊字符"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">特殊字符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#限定符"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">限定符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#定位符"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">定位符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Python-Re模块"><span class="nav-number">1.2.</span> <span class="nav-text">Python Re模块</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）re-match-pattern-string-flags"><span class="nav-number">1.2.1.</span> <span class="nav-text">（1）re.match(pattern, string[, flags])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）re-search-pattern-string-flags"><span class="nav-number">1.2.2.</span> <span class="nav-text">（2）re.search(pattern, string[, flags])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）re-split-pattern-string-maxsplit"><span class="nav-number">1.2.3.</span> <span class="nav-text">（3）re.split(pattern, string[, maxsplit])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（4）re-findall-pattern-string-flags"><span class="nav-number">1.2.4.</span> <span class="nav-text">（4）re.findall(pattern, string[, flags])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（5）re-finditer-pattern-string-flags"><span class="nav-number">1.2.5.</span> <span class="nav-text">（5）re.finditer(pattern, string[, flags])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（6）re-sub-pattern-repl-string-count"><span class="nav-number">1.2.6.</span> <span class="nav-text">（6）re.sub(pattern, repl, string[, count])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（7）re-subn-pattern-repl-string-count"><span class="nav-number">1.2.7.</span> <span class="nav-text">（7）re.subn(pattern, repl, string[, count])</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Requests库网络爬虫实战"><span class="nav-number">1.2.8.</span> <span class="nav-text">6.Requests库网络爬虫实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#参考链接："><span class="nav-number">1.2.8.1.</span> <span class="nav-text">参考链接：</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Darren-zl</span>
+
+  
+</div>
+
+
+  <!--<div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>-->
+
+
+
+ <!-- <span class="post-meta-divider">|</span>-->
+
+
+
+  <!--<div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  <div class="bg_content">
+    <canvas id="canvas"></canvas>
+</div>
+
+
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytxCyGhU';
+      var conf = '90b283bdb7ccb472f325f3c891156b33';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("29xnQ1C2kcwORHYYn7xsWTnS-gzGzoHsz", "Rq1Gk75oRwH78BryWUL4oYzj");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+</body>
+</html>
