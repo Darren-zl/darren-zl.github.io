@@ -433,6 +433,728 @@ window.onmouseout = function () {
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/08/web页面解析流程学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/08/web页面解析流程学习/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-08T15:17:11+08:00">
+                2019-10-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2019/10/08/web页面解析流程学习/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2019/10/08/web页面解析流程学习/" class="cy_cmt_count" data-xid="2019/10/08/web页面解析流程学习/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2019/10/08/web页面解析流程学习/" class="leancloud_visitors" data-flag-title>
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="web页面解析流程学习–第九周"><a href="#web页面解析流程学习–第九周" class="headerlink" title="web页面解析流程学习–第九周"></a>web页面解析流程学习–第九周</h2><h2 id="1-理解域名解析的整个过程"><a href="#1-理解域名解析的整个过程" class="headerlink" title="1.理解域名解析的整个过程"></a>1.理解域名解析的整个过程</h2><p>​       一个域名“<a href="http://www.baidu.com.”由4部分：第1部分“.”代表根服务器、第2部分“.com.”代表顶级域名服务器、第3部分“baidu.com.”代表域名所有者服务器、第4部分“www.baidu.com.”代表主机域名" target="_blank" rel="noopener">www.baidu.com.”由4部分：第1部分“.”代表根服务器、第2部分“.com.”代表顶级域名服务器、第3部分“baidu.com.”代表域名所有者服务器、第4部分“www.baidu.com.”代表主机域名</a></p>
+<p>​       域名体系是一个分级体系，最高级是根服务器，最低级是本地服务器（如114.114.114.114），域名查询需要逐级递归查询。</p>
+<ol>
+<li><p>当浏览器输入一个地址如:<a href="http://www.baidu.com，首先浏览器会检测自身缓存中有没有没解析过该域名的IP，如果有解析结束直接访问IP。同时域名缓存的时间可以用过TTL属性来设置。" target="_blank" rel="noopener">www.baidu.com，首先浏览器会检测自身缓存中有没有没解析过该域名的IP，如果有解析结束直接访问IP。同时域名缓存的时间可以用过TTL属性来设置。</a></p>
+</li>
+<li><p>如果浏览器缓存中没有命中该域名的IP，浏览器会检测系统的缓存中（hosts文件）有没有对应已解析的结果。如果你在hosts文件中记录了域名对应的IP，浏览器会优先使用hosts对应的IP。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1569483681765.png" alt="1569483681765"></p>
+</li>
+<li><p>如果hosts文件也未命中，便会请求本地域名服务器（LDNS）来解析域名，这台服务器一般在你城市的一个角落，距离你不远并且性能强大，一般都会缓存解析结果。绝大多数域名解析到这步骤就结束了。</p>
+</li>
+<li><p>如果LDNS仍然没有命中，就直接跳到Root Server域名服务器请求解析。</p>
+</li>
+<li><p>根域名服务器会返回LDNS一个所查询的主域名服务器gTLD server地址。gTLD是国际顶级域名，如.com、.cn、.org等，全球只有13台。</p>
+</li>
+<li><p>本地域名服务器（Local DNS Server）再向上一步返回的gTLD服务器发送请求。</p>
+</li>
+<li><p>接受请求的gTLD服务器查找并返回此域名对应的Name Server域名服务器的地址，这个Name Server通常就是你注册的域名服务器，例如你在某个域名服务提供商申请的域名，那么这个域名解析任务就由这个域名提供商的服务器来完成。</p>
+</li>
+<li><p>Name Server域名服务器会查询存储的域名和IP的映射关系表，正常情况下都根据域名得到目标IP记录，连同一个TTL值返回给DNS Server域名服务器。</p>
+</li>
+<li><p>返回该域名对应的IP和TTL，Local DNS Server会缓存这个域名和IP的对应关系，缓存的时间由TTL值控制。</p>
+</li>
+<li><p>把解析的结果返回给用户，用户根据TTL值缓存在本地系统缓存中，域名解析过程结束。</p>
+</li>
+</ol>
+<h2 id="2-Nginx处理的11个过程"><a href="#2-Nginx处理的11个过程" class="headerlink" title="2. Nginx处理的11个过程"></a>2. Nginx处理的11个过程</h2><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1569486341255.png" alt="1569486341255"></p>
+<h3 id="2-1-对应的11个模块："><a href="#2-1-对应的11个模块：" class="headerlink" title="2.1 对应的11个模块："></a>2.1 对应的11个模块：</h3><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>realip</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>POST_READ</td>
+<td>realip</td>
+</tr>
+<tr>
+<td>SERVER_REWRITE</td>
+<td>rewrite</td>
+</tr>
+<tr>
+<td>FIND_CONFIG</td>
+<td></td>
+</tr>
+<tr>
+<td>REWRITE</td>
+<td>rewrite</td>
+</tr>
+<tr>
+<td>POST_REWRITE</td>
+<td></td>
+</tr>
+<tr>
+<td>PREACCESS</td>
+<td>limt_conn,limit_req</td>
+</tr>
+<tr>
+<td>ACCESS</td>
+<td>auth_basic,access,auth_request</td>
+</tr>
+<tr>
+<td>POST_ACCESS</td>
+<td></td>
+</tr>
+<tr>
+<td>PRECONTENT</td>
+<td>try_files</td>
+</tr>
+<tr>
+<td>CONTENT</td>
+<td>index,autoindex,concat</td>
+</tr>
+<tr>
+<td>LOG</td>
+<td>access_log</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-11阶段处理顺序："><a href="#2-2-11阶段处理顺序：" class="headerlink" title="2.2 11阶段处理顺序："></a>2.2 11阶段处理顺序：</h3><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1569488455189.png" alt="1569488455189"></p>
+<h3 id="2-3-对应脑图："><a href="#2-3-对应脑图：" class="headerlink" title="2.3 对应脑图："></a>2.3 对应脑图：</h3><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/3501414338-5d63d34385a4d.png" alt="3501414338-5d63d34385a4d"></p>
+<h3 id="2-4-各功能模块功能"><a href="#2-4-各功能模块功能" class="headerlink" title="2.4 各功能模块功能"></a>2.4 各功能模块功能</h3><h4 id="2-4-1-realip"><a href="#2-4-1-realip" class="headerlink" title="2.4.1 realip"></a>2.4.1 realip</h4><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1569488882628.png" alt="1569488882628"></p>
+<p>real_ip 只有一个<br>X-Forwarded-For 经过的每一个代理服务器</p>
+<h4 id="2-4-2-Rewrite-模块"><a href="#2-4-2-Rewrite-模块" class="headerlink" title="2.4.2 Rewrite 模块"></a>2.4.2 Rewrite 模块</h4><h5 id="2-4-2-1-直接返回的指令-：-不向下执行"><a href="#2-4-2-1-直接返回的指令-：-不向下执行" class="headerlink" title="2.4.2.1 直接返回的指令 ： (不向下执行)"></a>2.4.2.1 直接返回的指令 ： (不向下执行)</h5><ul>
+<li><ol>
+<li>return</li>
+</ol>
+</li>
+<li><ol>
+<li>error_page</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">return 403;</span><br><span class="line">return 404 &quot;find nothing!&quot;;</span><br><span class="line">1. error_page 404 /404.html;</span><br><span class="line"></span><br><span class="line">2. error_page 500 502 503 504 /50x.html;</span><br><span class="line"></span><br><span class="line">3. error_page 404 =200 /empty.gif;</span><br><span class="line"></span><br><span class="line">4. error_page 404 = /404.php;</span><br><span class="line"></span><br><span class="line">5. location / &#123; </span><br><span class="line">       error_page 404 = @fallback; </span><br><span class="line">   &#125; </span><br><span class="line">   location @fallback &#123; </span><br><span class="line">      proxy_pass http://backend; </span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">6. error_page 403 http://example.com/forbidden.html;</span><br><span class="line"></span><br><span class="line">7. error_page 404 =301 http://example.com/notfound.html;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>3.rewrite</li>
+</ul>
+<p>语法 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rewrite regex replacement [flag];</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-4-2-2-location"><a href="#2-4-2-2-location" class="headerlink" title="2.4.2.2  location"></a>2.4.2.2  location</h5><p>仅仅匹配URI，忽略参数<br>location ： 目的是匹配选择合适的 server 配置项。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1569489709728.png" alt="1569489709728"></p>
+<h4 id="2-4-3-limit-conn"><a href="#2-4-3-limit-conn" class="headerlink" title="2.4.3 limit_conn"></a>2.4.3 limit_conn</h4><p>在进行请求分析之前，为客户端的连接数做一定的访问限制。<br>为每个connection ，每个客户端的connection 数量</p>
+<h4 id="2-4-4-access-模块"><a href="#2-4-4-access-模块" class="headerlink" title="2.4.4 access 模块"></a>2.4.4 access 模块</h4><h5 id="2-4-4-1-allow-和-deny"><a href="#2-4-4-1-allow-和-deny" class="headerlink" title="2.4.4.1  allow 和 deny"></a>2.4.4.1  allow 和 deny</h5><p>可以通过 allow 和 deny 做简单的ip 来源限制</p>
+<h5 id="2-4-4-2-auth-basic-基本的验证"><a href="#2-4-4-2-auth-basic-基本的验证" class="headerlink" title="2.4.4.2 auth_basic 基本的验证"></a>2.4.4.2 auth_basic 基本的验证</h5><p>通过一个密码文件，验证用户的登录名和密码</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1569490131866.png" alt="1569490131866"></p>
+<h5 id="2-4-4-3-auth-request"><a href="#2-4-4-3-auth-request" class="headerlink" title="2.4.4.3 auth_request"></a>2.4.4.3 auth_request</h5><p>交给上游服务器，可以由一定的业务来判断</p>
+<p>原理： 收到请求后，通过反向代理技术把请求传递给上游服务</p>
+<h5 id="2-4-4-4-staisfy-指令"><a href="#2-4-4-4-staisfy-指令" class="headerlink" title="2.4.4.4 staisfy 指令"></a>2.4.4.4 staisfy 指令</h5><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1569490285731.png" alt="1569490285731"></p>
+<p>所有并不是 access 模块，所有的指令都会执行，根据satisfy 设置的不同，走不同的流程。<br>可能经过一个阶段就跳入到下一个流程模块去。</p>
+<h4 id="2-4-5-try-files"><a href="#2-4-5-try-files" class="headerlink" title="2.4.5 try_files"></a>2.4.5 try_files</h4><p>原理 ： 依次试图访问多个URL对应的文件，当文件存在时直接返回文件内容。<br>按照顺序访问，<br>如果所有的文件都不存在，则按照最后一个URL结果或者code返回。</p>
+<h4 id="2-4-6-mirror"><a href="#2-4-6-mirror" class="headerlink" title="2.4.6 mirror"></a>2.4.6 mirror</h4><p>处理请求时，生产<strong>子请求</strong>访问其他服务，对子请求的返回值不做处理</p>
+<p>可以做流量的备份。</p>
+<h4 id="2-4-7-autoindex-模块"><a href="#2-4-7-autoindex-模块" class="headerlink" title="2.4.7 autoindex 模块"></a>2.4.7 autoindex 模块</h4><p>当 URL 以 / 结尾时，尝试以 html/xml/json/jsonp 等格式返回 root/alias 中指定目录的目录结构</p>
+<h3 id="2-5-对应命令参数"><a href="#2-5-对应命令参数" class="headerlink" title="2.5 对应命令参数"></a>2.5 对应命令参数</h3><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/56003909-5d6227ef092c2.png" alt="56003909-5d6227ef092c2"></p>
+<h2 id="3-http各字段含义及响应码含义"><a href="#3-http各字段含义及响应码含义" class="headerlink" title="3. http各字段含义及响应码含义"></a>3. http各字段含义及响应码含义</h2><h4 id="3-1-HTTP简单理解"><a href="#3-1-HTTP简单理解" class="headerlink" title="3.1 HTTP简单理解"></a>3.1 HTTP简单理解</h4><table>
+<thead>
+<tr>
+<th>协议类型</th>
+<th>区别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HTTP1.0</td>
+<td>1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接，服务器不跟踪每个客户也不记录过去的请求。（多个TCP连接，多请求，使用后关闭）</td>
+</tr>
+<tr>
+<td>HTTP2.0</td>
+<td>1.1则支持持久连接Persistent Connection, 并且默认使用persistent  connection. 在同一个tcp的连接中可以传送多个HTTP请求和响应. 多个请求和响应可以重叠，多个请求和响应可以同时进行. 更加多的请求头和响应头(比如HTTP1.0没有host的字段).（单个TCP隧道，默认长连接，多请求。需有“Connection: close字段”，才会进行连接的关闭）通过cookie进行身份认证。</td>
+</tr>
+</tbody></table>
+<p>在1.0时的会话方式：</p>
+<ol>
+<li><p>建立连接</p>
+</li>
+<li><p>发出请求信息</p>
+</li>
+<li><p>回送响应信息</p>
+</li>
+<li><p>关掉连接</p>
+<p><strong>HTTP 1.1的持续连接，也需要增加新的请求头来帮助实现，例如，Connection请求头的值为Keep-Alive时，客户端通知服务器返回本次请求结果后保持连接；Connection请求头的值为close时，客户端通知服务器返回本次请求结果后关闭连接。**</strong>HTTP 1.1还提供了与身份认证、状态管理和Cache缓存等机制相关的请求头和响应头。</p>
+</li>
+</ol>
+<p>请求的流水线（Pipelining）处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟。例如：一个包含有许多图像的网页文件的多个请求和应答可以在一个连接中传输，但每个单独的网页文件的请求和应答仍然需要使用各自的连接。  HTTP 1.1还允许客户端不用等待上一次请求结果返回，就可以发出下一次请求，但服务器端必须按照接收到客户端请求的先后顺序依次回送响应结果，以保证客户端能够区分出每次请求的响应内容。</p>
+<p><strong>2.HTTP 1.1增加host字段</strong></p>
+<p>在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。</p>
+<p> HTTP1.1的请求消息和响应消息都应支持Host头域，且请求消息中如果没有Host头域会报告一个错误（400 Bad Request）。此外，服务器应该接受以绝对路径标记的资源请求。</p>
+<p><strong>3.100(Continue) Status(节约带宽)</strong></p>
+<p>HTTP/1.1加入了一个新的状态码100（Continue）。客户端事先发送一个只带头域的请求，如果服务器因为权限拒绝了请求，就回送响应码401（Unauthorized）；如果服务器接收此请求就回送响应码100，客户端就可以继续发送带实体的完整请求了。100 (Continue) 状态代码的使用，允许客户端在发request消息body之前先用request header试探一下server，看server要不要接收request body，再决定要不要发request body。</p>
+<p><strong>4</strong>.HTTP/1.1中引入了Chunked transfer-coding来解决上面这个问题，发送方将消息分割成若干个任意大小的数据块，每个数据块在发送时都会附上块的长度，最后用一个零长度的块作为消息结束的标志。这种方法允许发送方只缓冲消息的一个片段，避免缓冲整个消息带来的过载。</p>
+<p><strong>5</strong>.HTTP/1.1在1.0的基础上加入了一些cache的新特性，当缓存对象的Age超过Expire时变为stale对象，cache不需要直接抛弃stale对象，而是与源服务器进行重新激活（revalidation）</p>
+<h4 id="3-2-HTTP协议对资源的操作"><a href="#3-2-HTTP协议对资源的操作" class="headerlink" title="3.2 HTTP协议对资源的操作"></a>3.2 HTTP协议对资源的操作</h4><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>请求获取URL位置的资源</td>
+</tr>
+<tr>
+<td>HEAD</td>
+<td>请求获取URL位置资源的响应消息报告，即获得该资源的头部信息</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>请求向URL位置的资源后附加新的数据</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td>请求向URL位置存储一个资源，覆盖原URL位置资源</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>请求局部更新URL位置的资源，即改变该处资源的部分内容</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>请求删除URL位置存储的资源</td>
+</tr>
+</tbody></table>
+<h4 id="3-3-理解PATCH和PUT区别"><a href="#3-3-理解PATCH和PUT区别" class="headerlink" title="3.3 理解PATCH和PUT区别"></a>3.3 理解PATCH和PUT区别</h4><p>　假设URL位置有一组数据UserInfo，包括UserID、UserName等20个字段。<br>　需求：用户修改了UserName，其他不变。<br>　　　　· 采用PATCH，仅向URL提交UserName的局部更新请求。<br>　　　　· 采用PUT，必须将所有20个字段一并提交到URL，未提交字段被删除。</p>
+<p>　PATCH的主要好处：节省网络带宽</p>
+<h4 id="3-4-request请求Header简介"><a href="#3-4-request请求Header简介" class="headerlink" title="3.4 request请求Header简介"></a>3.4 request请求Header简介</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>表示含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Accept:</td>
+<td>客户机支持类型</td>
+</tr>
+<tr>
+<td>Accept-Charset:</td>
+<td>采用的编码类型</td>
+</tr>
+<tr>
+<td>Accept-Encoding:</td>
+<td>客户机支持的数据压缩格式</td>
+</tr>
+<tr>
+<td>Accept-Language:</td>
+<td>客户机语言环境</td>
+</tr>
+<tr>
+<td>Host:</td>
+<td>想访问的主机名</td>
+</tr>
+<tr>
+<td>If-Modified-Since:</td>
+<td>资源缓存到客户机的时间</td>
+</tr>
+<tr>
+<td>Referer:</td>
+<td>跳转来源（跳到此网页所点击的链接，主要用于防盗链）</td>
+</tr>
+<tr>
+<td>User-Agent:</td>
+<td>客户机的软件环境（操作系统版本，浏览器版本）</td>
+</tr>
+<tr>
+<td>Cookie:</td>
+<td>从客户机传数据</td>
+</tr>
+<tr>
+<td>Connection:</td>
+<td>请求完之后是否关闭连接</td>
+</tr>
+<tr>
+<td>Date:</td>
+<td>请求时间</td>
+</tr>
+<tr>
+<td>Range:</td>
+<td>说明请求服务器资源的一部分 bytes=1000 ，表示1000字符之后的数据</td>
+</tr>
+</tbody></table>
+<h4 id="3-5-response响应Header"><a href="#3-5-response响应Header" class="headerlink" title="3.5 response响应Header"></a>3.5 response响应Header</h4><p>状态行：处理结果，返回状态码</p>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>表示含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>100~199</td>
+<td>表示请求成功，要求客户机继续提交下一次请求才能完成整个处理过程</td>
+</tr>
+<tr>
+<td>200~299</td>
+<td>表示请求成功并完成整个处理过程，常用200</td>
+</tr>
+<tr>
+<td>300~399</td>
+<td>表示完成请求，客户机需要进一步细化请求，例如请求的资源已经移动到一个新地址，常用302（请求其他资源，结合location使用）、304（读取缓存）、307（读取缓存）</td>
+</tr>
+<tr>
+<td>400~499</td>
+<td>客户端的请求有错误，常见404（不存在）、403（无权限）</td>
+</tr>
+<tr>
+<td>500~599</td>
+<td>服务器端出现错误，常见500</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>服务器类型</th>
+<th>表示含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Content-Encoding:</td>
+<td>服务器回送数据的压缩格式</td>
+</tr>
+<tr>
+<td>Content-Type:</td>
+<td>服务器回送的数据类型</td>
+</tr>
+<tr>
+<td>Content-Lengtg:</td>
+<td>服务器回送数据的长度</td>
+</tr>
+<tr>
+<td>Last-Modified:</td>
+<td>当前资源的最后缓存时间</td>
+</tr>
+<tr>
+<td>Refresh:</td>
+<td>告诉浏览器多长时间刷新一次</td>
+</tr>
+<tr>
+<td>Content-Disposition:</td>
+<td>告诉浏览器以下载方式打开数据（例如：attachment;filename=3.ico）</td>
+</tr>
+<tr>
+<td>Transfer-Encoding:</td>
+<td>告诉浏览器数据的传送格式</td>
+</tr>
+<tr>
+<td>Set-Cookie:</td>
+<td>setcookie() 函数向客户端发送一个 HTTP cookie。</td>
+</tr>
+<tr>
+<td>ETag:</td>
+<td>缓存相关的</td>
+</tr>
+<tr>
+<td>Expires:</td>
+<td>告诉浏览器吧回送的资源缓存多长时间（0，-1表示不缓存）</td>
+</tr>
+<tr>
+<td>Catch-Control:no-catche</td>
+<td>告诉浏览器不要缓存数据</td>
+</tr>
+<tr>
+<td>Pragma:no-catche</td>
+<td>告诉浏览器不要缓存数据</td>
+</tr>
+<tr>
+<td>Cookie:</td>
+<td>cookies是由网络服务器存储在你电脑硬盘上的一个txt类型的小文件，它和你的网络浏览行为有关，所以存储在你电脑上的cookies就好像你的一张身份证，你电脑上的cookies和其他电脑上的cookies是不一样的。</td>
+</tr>
+</tbody></table>
+<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="https://blog.csdn.net/sand_ant/article/details/10503579" target="_blank" rel="noopener">https://blog.csdn.net/sand_ant/article/details/10503579</a></p>
+<p><a href="https://segmentfault.com/a/1190000020178836" target="_blank" rel="noopener">https://segmentfault.com/a/1190000020178836</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/08/各种注入类型的环境搭建和代码编写/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/08/各种注入类型的环境搭建和代码编写/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-08T15:16:29+08:00">
+                2019-10-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2019/10/08/各种注入类型的环境搭建和代码编写/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2019/10/08/各种注入类型的环境搭建和代码编写/" class="cy_cmt_count" data-xid="2019/10/08/各种注入类型的环境搭建和代码编写/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2019/10/08/各种注入类型的环境搭建和代码编写/" class="leancloud_visitors" data-flag-title>
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="第十周-各种注入类型的环境搭建和代码编写"><a href="#第十周-各种注入类型的环境搭建和代码编写" class="headerlink" title="第十周-各种注入类型的环境搭建和代码编写"></a>第十周-各种注入类型的环境搭建和代码编写</h2><p><strong>环境：mysql5.7.26+Apache2.4.39+php5.2</strong></p>
+<h4 id="1-回显注入"><a href="#1-回显注入" class="headerlink" title="1.回显注入"></a>1.回显注入</h4><p>回显注入是sql相关的查询信息，错误信息均能回显到页面中。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES binary'"</span>);</span><br><span class="line">mysql_select_db(<span class="string">'yuangong'</span>, $conn) <span class="keyword">OR</span> emMsg(<span class="string">"数据库连接失败"</span>);</span><br><span class="line"><span class="comment">//这里id没有做整形转换</span></span><br><span class="line">$id = <span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]) ? $_GET[<span class="string">'id'</span>] : <span class="number">1</span>;</span><br><span class="line"><span class="comment">//sql语句没有单引号保护,造成注入</span></span><br><span class="line"><span class="keyword">echo</span> $sql = <span class="string">"SELECT * FROM workers WHERE id=&#123;$id&#125;"</span>;</span><br><span class="line">$result = mysql_query($sql, $conn) <span class="keyword">or</span> <span class="keyword">die</span>(mysql_error()); </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> $row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;h3&gt;&#123;$row['title']&#125;&lt;/h3&gt;&lt;p&gt;&#123;$row['content']&#125;&lt;p&gt;\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> mysql_free_result($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189144065.png" alt="1570189144065"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189270984.png" alt="1570189270984"></p>
+<h4 id="2-错误注入"><a href="#2-错误注入" class="headerlink" title="2.错误注入"></a>2.错误注入</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES binary'"</span>);</span><br><span class="line">mysql_select_db(<span class="string">'yuangong'</span>, $conn) <span class="keyword">OR</span> emMsg(<span class="string">"数据库连接失败"</span>);</span><br><span class="line"><span class="comment">//这里id没有做整形转换</span></span><br><span class="line">$id = <span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]) ? $_GET[<span class="string">'id'</span>] : <span class="number">1</span>;</span><br><span class="line"><span class="comment">//sql语句没有单引号保护,造成注入</span></span><br><span class="line">$sql = <span class="string">"SELECT * FROM workers WHERE id=&#123;$id&#125;"</span>;</span><br><span class="line">$result = mysql_query($sql, $conn) <span class="keyword">or</span> <span class="keyword">die</span>(mysql_error()); </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;h3&gt;&#123;$row['title']&#125;&lt;/h3&gt;&lt;p&gt;&#123;$row['content']&#125;&lt;p&gt;\n"</span>;</span><br><span class="line">mysql_free_result($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>访问<a href="http://127.0.0.1/xinan1.php?id=1页面正常" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1页面正常</a></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189720646.png" alt="1570189720646"></p>
+<p>构造访问<a href="http://127.0.0.1/xinan1.php?id=\" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=\</a> 页面爆出错误意味有报错注入。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189794321.png" alt="1570189794321"></p>
+<p>也可以这么构造<a href="http://127.0.0.1/xinan1.php?id=1" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1</a> and multipoint (()select * from(select user() )1)2 );</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570193965146.png" alt="1570193965146"></p>
+<p>构造访问<a href="http://127.0.0.1/xinan1.php?id=1" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1</a> and 1=2 order by 6页面正常，访问<a href="http://127.0.0.1/xinan1.php?id=1" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1</a> and 1=2 order by 7页面错误。意味有6个字段。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570190563493.png" alt="1570190563493"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570190655815.png" alt="1570190655815"></p>
+<p>用sqlmap进行跑一下：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570195521565.png" alt="1570195521565"></p>
+<h4 id="3-盲注"><a href="#3-盲注" class="headerlink" title="3.盲注"></a>3.盲注</h4><p>盲注不向上面两种，当发现有SQL注入时候，不能得到SQL查询数据的返显。盲注通过服务器返回的状态等各种因素来猜测。</p>
+<p>SQL盲注中常用的几个内置函数：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">length(str)：返回str字符串的长度。</span><br><span class="line">substr(str, pos, len)：将str从pos位置开始截取len长度的字符进行返回。注意这里的pos位置是从1开始的，不是数组的0开始</span><br><span class="line">mid(str,pos,len):跟上面的一样，截取字符串</span><br><span class="line">ascii(str)：返回字符串str的最左面字符的ASCII代码值。</span><br><span class="line">asc();返回字符串str的最左面字符的ASCII代码值。</span><br><span class="line">ord(str):同上，返回ascii码</span><br><span class="line">if(a,b,c) :a为条件，a为true，返回b，否则返回c，如if(1&gt;2,1,0),返回0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES binary'"</span>);</span><br><span class="line">mysql_select_db(<span class="string">'yuangong'</span>, $conn) <span class="keyword">OR</span> emMsg(<span class="string">"数据库连接失败"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'id'</span>])) </span><br><span class="line">&#123;</span><br><span class="line">$id=$_GET[<span class="string">'id'</span>];</span><br><span class="line">$sql=<span class="string">"SELECT * FROM workers WHERE id=&#123;$id&#125;"</span>;</span><br><span class="line">$result=mysql_query($sql);</span><br><span class="line">$row = mysql_fetch_array($result);</span><br><span class="line">	<span class="keyword">if</span>($row)    <span class="comment">//如果查到数据就执行如下</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">echo</span> <span class="string">'数据查询成功'</span>;    </span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">else</span>     <span class="comment">//否则执行这个     从两者返回的网页结构不一样，就可以作为我们盲注条件判断的依据</span></span><br><span class="line">    &#123;</span><br><span class="line">	  <span class="keyword">echo</span> <span class="string">'数据查询失败'</span>;</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>正常页面：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570197354995.png" alt="1570197354995"></p>
+<p>错误页面：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570197383661.png" alt="1570197383661"></p>
+<h4 id="4-宽字节注入"><a href="#4-宽字节注入" class="headerlink" title="4.宽字节注入"></a>4.宽字节注入</h4><p>​        宽字节注入源于程序员设置MySQL连接时错误配置为：set character_set_client=gbk，这样配置会引发编码转换从而导致的注入漏洞。</p>
+<p>​        如果存在宽字节注入，我们输入%df%27时，经过转译变成了%df%5c%27（%5c是反斜杠\），之后在数据库查询前由于使用了GBK多字节编码，即在汉字编码范围内两个字节会被编码为一个汉字。然后MySQL服务器会对查询语句进行GBK编码即%df%5c转换成了汉字“運”（具体见GBK的汉字编码范围见附录），而单引号逃逸了出来，从而造成了注入漏洞。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570203659620.png" alt="1570203659620"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">"Content-Type: text/html; charset=utf-8"</span>); <span class="comment">//将页面设置为utf-8</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>);</span><br><span class="line">mysql_select_db(<span class="string">"yuangong"</span>, $conn);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES GBK"</span>, $conn);	<span class="comment">//不安全的编码方式</span></span><br><span class="line"> </span><br><span class="line">$id = addslashes($_GET[<span class="string">'id'</span>]);			<span class="comment">//不安全的转义函数</span></span><br><span class="line">$sql = <span class="string">"select * from workers where id='$id'"</span>;</span><br><span class="line">$query = mysql_query($sql, $conn);</span><br><span class="line"><span class="keyword">if</span>($query == <span class="keyword">True</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		$result = mysql_fetch_array($query);</span><br><span class="line">		$username = $result[<span class="string">"username"</span>];</span><br><span class="line">		$email = $result[<span class="string">"email"</span>];</span><br><span class="line"> </span><br><span class="line">		print_r(<span class="string">'用户名： '</span> . $username . <span class="string">'&lt;br /&gt;'</span>);</span><br><span class="line">		print_r(<span class="string">'邮  箱： '</span> . $email . <span class="string">'&lt;br /&gt;'</span>);</span><br><span class="line">		$sql = mb_convert_encoding($sql, <span class="string">"UTF-8"</span>, <span class="string">"GBK"</span>);</span><br><span class="line">		print_r(<span class="string">'&lt;br /&gt;SQL语句：'</span> . $sql);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">mysql_close($conn);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;h3&gt;&#123;$row['title']&#125;&lt;/h3&gt;&lt;p&gt;&#123;$row['content']&#125;&lt;p&gt;\n"</span>;</span><br><span class="line">mysql_free_result($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>构建URL:<a href="http://127.0.0.1/xinan1.php?id=1%df%27" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1%df%27</a> and 1=1 %23</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570204003665.png" alt="1570204003665"></p>
+<h5 id="参考链接：https-www-jianshu-com-p-e3c5233a3c42"><a href="#参考链接：https-www-jianshu-com-p-e3c5233a3c42" class="headerlink" title="参考链接：https://www.jianshu.com/p/e3c5233a3c42"></a>参考链接：<a href="https://www.jianshu.com/p/e3c5233a3c42" target="_blank" rel="noopener">https://www.jianshu.com/p/e3c5233a3c42</a></h5>
+          
+        
+      
+    </div>
+    
+    
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/21/数据库相关注入语句的收集和学习-6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3517,7 +4239,7 @@ window.onmouseout = function () {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
