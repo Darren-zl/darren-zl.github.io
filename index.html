@@ -433,7 +433,7 @@ window.onmouseout = function () {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/08/web页面解析流程学习/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/06/各种注入类型的环境搭建和代码编写/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Darren-zl">
@@ -452,7 +452,7 @@ window.onmouseout = function () {
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/10/08/web页面解析流程学习/" itemprop="url">Untitled</a></h1>
+                <a class="post-title-link" href="/2019/10/06/各种注入类型的环境搭建和代码编写/" itemprop="url">各种注入类型的环境搭建和代码编写</a></h1>
         
 
         <div class="post-meta">
@@ -464,8 +464,8 @@ window.onmouseout = function () {
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-08T15:17:11+08:00">
-                2019-10-08
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-06T13:55:34+08:00">
+                2019-10-06
               </time>
             
 
@@ -484,8 +484,8 @@ window.onmouseout = function () {
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2019/10/08/web页面解析流程学习/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://yoursite.com/2019/10/08/web页面解析流程学习/" class="cy_cmt_count" data-xid="2019/10/08/web页面解析流程学习/" itemprop="commentsCount"></span>
+                <a href="/2019/10/06/各种注入类型的环境搭建和代码编写/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2019/10/06/各种注入类型的环境搭建和代码编写/" class="cy_cmt_count" data-xid="2019/10/06/各种注入类型的环境搭建和代码编写/" itemprop="commentsCount"></span>
                 </a>
               
             
@@ -493,7 +493,220 @@ window.onmouseout = function () {
 
           
           
-             <span id="/2019/10/08/web页面解析流程学习/" class="leancloud_visitors" data-flag-title>
+             <span id="/2019/10/06/各种注入类型的环境搭建和代码编写/" class="leancloud_visitors" data-flag-title="各种注入类型的环境搭建和代码编写">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="第十周-各种注入类型的环境搭建和代码编写"><a href="#第十周-各种注入类型的环境搭建和代码编写" class="headerlink" title="第十周-各种注入类型的环境搭建和代码编写"></a>第十周-各种注入类型的环境搭建和代码编写</h2><p><strong>环境：mysql5.7.26+Apache2.4.39+php5.2</strong></p>
+<h4 id="1-回显注入"><a href="#1-回显注入" class="headerlink" title="1.回显注入"></a>1.回显注入</h4><p>回显注入是sql相关的查询信息，错误信息均能回显到页面中。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES binary'"</span>);</span><br><span class="line">mysql_select_db(<span class="string">'yuangong'</span>, $conn) <span class="keyword">OR</span> emMsg(<span class="string">"数据库连接失败"</span>);</span><br><span class="line"><span class="comment">//这里id没有做整形转换</span></span><br><span class="line">$id = <span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]) ? $_GET[<span class="string">'id'</span>] : <span class="number">1</span>;</span><br><span class="line"><span class="comment">//sql语句没有单引号保护,造成注入</span></span><br><span class="line"><span class="keyword">echo</span> $sql = <span class="string">"SELECT * FROM workers WHERE id=&#123;$id&#125;"</span>;</span><br><span class="line">$result = mysql_query($sql, $conn) <span class="keyword">or</span> <span class="keyword">die</span>(mysql_error()); </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> $row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;h3&gt;&#123;$row['title']&#125;&lt;/h3&gt;&lt;p&gt;&#123;$row['content']&#125;&lt;p&gt;\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> mysql_free_result($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189144065.png" alt="1570189144065"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189270984.png" alt="1570189270984"></p>
+<h4 id="2-错误注入"><a href="#2-错误注入" class="headerlink" title="2.错误注入"></a>2.错误注入</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES binary'"</span>);</span><br><span class="line">mysql_select_db(<span class="string">'yuangong'</span>, $conn) <span class="keyword">OR</span> emMsg(<span class="string">"数据库连接失败"</span>);</span><br><span class="line"><span class="comment">//这里id没有做整形转换</span></span><br><span class="line">$id = <span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]) ? $_GET[<span class="string">'id'</span>] : <span class="number">1</span>;</span><br><span class="line"><span class="comment">//sql语句没有单引号保护,造成注入</span></span><br><span class="line">$sql = <span class="string">"SELECT * FROM workers WHERE id=&#123;$id&#125;"</span>;</span><br><span class="line">$result = mysql_query($sql, $conn) <span class="keyword">or</span> <span class="keyword">die</span>(mysql_error()); </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;h3&gt;&#123;$row['title']&#125;&lt;/h3&gt;&lt;p&gt;&#123;$row['content']&#125;&lt;p&gt;\n"</span>;</span><br><span class="line">mysql_free_result($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>访问<a href="http://127.0.0.1/xinan1.php?id=1页面正常" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1页面正常</a></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189720646.png" alt="1570189720646"></p>
+<p>构造访问<a href="http://127.0.0.1/xinan1.php?id=\" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=\</a> 页面爆出错误意味有报错注入。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189794321.png" alt="1570189794321"></p>
+<p>也可以这么构造<a href="http://127.0.0.1/xinan1.php?id=1" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1</a> and multipoint (()select * from(select user() )1)2 );</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570193965146.png" alt="1570193965146"></p>
+<p>构造访问<a href="http://127.0.0.1/xinan1.php?id=1" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1</a> and 1=2 order by 6页面正常，访问<a href="http://127.0.0.1/xinan1.php?id=1" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1</a> and 1=2 order by 7页面错误。意味有6个字段。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570190563493.png" alt="1570190563493"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570190655815.png" alt="1570190655815"></p>
+<p>用sqlmap进行跑一下：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570195521565.png" alt="1570195521565"></p>
+<h4 id="3-盲注"><a href="#3-盲注" class="headerlink" title="3.盲注"></a>3.盲注</h4><p>盲注不向上面两种，当发现有SQL注入时候，不能得到SQL查询数据的返显。盲注通过服务器返回的状态等各种因素来猜测。</p>
+<p>SQL盲注中常用的几个内置函数：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">length(str)：返回str字符串的长度。</span><br><span class="line">substr(str, pos, len)：将str从pos位置开始截取len长度的字符进行返回。注意这里的pos位置是从1开始的，不是数组的0开始</span><br><span class="line">mid(str,pos,len):跟上面的一样，截取字符串</span><br><span class="line">ascii(str)：返回字符串str的最左面字符的ASCII代码值。</span><br><span class="line">asc();返回字符串str的最左面字符的ASCII代码值。</span><br><span class="line">ord(str):同上，返回ascii码</span><br><span class="line">if(a,b,c) :a为条件，a为true，返回b，否则返回c，如if(1&gt;2,1,0),返回0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES binary'"</span>);</span><br><span class="line">mysql_select_db(<span class="string">'yuangong'</span>, $conn) <span class="keyword">OR</span> emMsg(<span class="string">"数据库连接失败"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'id'</span>])) </span><br><span class="line">&#123;</span><br><span class="line">$id=$_GET[<span class="string">'id'</span>];</span><br><span class="line">$sql=<span class="string">"SELECT * FROM workers WHERE id=&#123;$id&#125;"</span>;</span><br><span class="line">$result=mysql_query($sql);</span><br><span class="line">$row = mysql_fetch_array($result);</span><br><span class="line">	<span class="keyword">if</span>($row)    <span class="comment">//如果查到数据就执行如下</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">echo</span> <span class="string">'数据查询成功'</span>;    </span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">else</span>     <span class="comment">//否则执行这个     从两者返回的网页结构不一样，就可以作为我们盲注条件判断的依据</span></span><br><span class="line">    &#123;</span><br><span class="line">	  <span class="keyword">echo</span> <span class="string">'数据查询失败'</span>;</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>正常页面：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570197354995.png" alt="1570197354995"></p>
+<p>错误页面：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570197383661.png" alt="1570197383661"></p>
+<h4 id="4-宽字节注入"><a href="#4-宽字节注入" class="headerlink" title="4.宽字节注入"></a>4.宽字节注入</h4><p>​        宽字节注入源于程序员设置MySQL连接时错误配置为：set character_set_client=gbk，这样配置会引发编码转换从而导致的注入漏洞。</p>
+<p>​        如果存在宽字节注入，我们输入%df%27时，经过转译变成了%df%5c%27（%5c是反斜杠\），之后在数据库查询前由于使用了GBK多字节编码，即在汉字编码范围内两个字节会被编码为一个汉字。然后MySQL服务器会对查询语句进行GBK编码即%df%5c转换成了汉字“運”（具体见GBK的汉字编码范围见附录），而单引号逃逸了出来，从而造成了注入漏洞。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570203659620.png" alt="1570203659620"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">"Content-Type: text/html; charset=utf-8"</span>); <span class="comment">//将页面设置为utf-8</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>);</span><br><span class="line">mysql_select_db(<span class="string">"yuangong"</span>, $conn);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES GBK"</span>, $conn);	<span class="comment">//不安全的编码方式</span></span><br><span class="line"> </span><br><span class="line">$id = addslashes($_GET[<span class="string">'id'</span>]);			<span class="comment">//不安全的转义函数</span></span><br><span class="line">$sql = <span class="string">"select * from workers where id='$id'"</span>;</span><br><span class="line">$query = mysql_query($sql, $conn);</span><br><span class="line"><span class="keyword">if</span>($query == <span class="keyword">True</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		$result = mysql_fetch_array($query);</span><br><span class="line">		$username = $result[<span class="string">"username"</span>];</span><br><span class="line">		$email = $result[<span class="string">"email"</span>];</span><br><span class="line"> </span><br><span class="line">		print_r(<span class="string">'用户名： '</span> . $username . <span class="string">'&lt;br /&gt;'</span>);</span><br><span class="line">		print_r(<span class="string">'邮  箱： '</span> . $email . <span class="string">'&lt;br /&gt;'</span>);</span><br><span class="line">		$sql = mb_convert_encoding($sql, <span class="string">"UTF-8"</span>, <span class="string">"GBK"</span>);</span><br><span class="line">		print_r(<span class="string">'&lt;br /&gt;SQL语句：'</span> . $sql);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">mysql_close($conn);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;h3&gt;&#123;$row['title']&#125;&lt;/h3&gt;&lt;p&gt;&#123;$row['content']&#125;&lt;p&gt;\n"</span>;</span><br><span class="line">mysql_free_result($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>构建URL:<a href="http://127.0.0.1/xinan1.php?id=1%df%27" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1%df%27</a> and 1=1 %23</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570204003665.png" alt="1570204003665"></p>
+<h5 id="参考链接：https-www-jianshu-com-p-e3c5233a3c42"><a href="#参考链接：https-www-jianshu-com-p-e3c5233a3c42" class="headerlink" title="参考链接：https://www.jianshu.com/p/e3c5233a3c42"></a>参考链接：<a href="https://www.jianshu.com/p/e3c5233a3c42" target="_blank" rel="noopener">https://www.jianshu.com/p/e3c5233a3c42</a></h5>
+          
+        
+      
+    </div>
+    
+    
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/30/web页面解析流程学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/30/web页面解析流程学习/" itemprop="url">web页面解析流程学习</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-09-30T10:55:34+08:00">
+                2019-09-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2019/09/30/web页面解析流程学习/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2019/09/30/web页面解析流程学习/" class="cy_cmt_count" data-xid="2019/09/30/web页面解析流程学习/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2019/09/30/web页面解析流程学习/" class="leancloud_visitors" data-flag-title="web页面解析流程学习">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -891,219 +1104,6 @@ window.onmouseout = function () {
 <h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="https://blog.csdn.net/sand_ant/article/details/10503579" target="_blank" rel="noopener">https://blog.csdn.net/sand_ant/article/details/10503579</a></p>
 <p><a href="https://segmentfault.com/a/1190000020178836" target="_blank" rel="noopener">https://segmentfault.com/a/1190000020178836</a></p>
 
-          
-        
-      
-    </div>
-    
-    
-    
-
-
-
-    
-
-    
-
-    
-
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/08/各种注入类型的环境搭建和代码编写/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Darren-zl">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Darren-学无止境">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/08/各种注入类型的环境搭建和代码编写/" itemprop="url">Untitled</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-08T15:16:29+08:00">
-                2019-10-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2019/10/08/各种注入类型的环境搭建和代码编写/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://yoursite.com/2019/10/08/各种注入类型的环境搭建和代码编写/" class="cy_cmt_count" data-xid="2019/10/08/各种注入类型的环境搭建和代码编写/" itemprop="commentsCount"></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2019/10/08/各种注入类型的环境搭建和代码编写/" class="leancloud_visitors" data-flag-title>
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </span></div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-
-      
-      
-
-      
-        
-          
-            <h2 id="第十周-各种注入类型的环境搭建和代码编写"><a href="#第十周-各种注入类型的环境搭建和代码编写" class="headerlink" title="第十周-各种注入类型的环境搭建和代码编写"></a>第十周-各种注入类型的环境搭建和代码编写</h2><p><strong>环境：mysql5.7.26+Apache2.4.39+php5.2</strong></p>
-<h4 id="1-回显注入"><a href="#1-回显注入" class="headerlink" title="1.回显注入"></a>1.回显注入</h4><p>回显注入是sql相关的查询信息，错误信息均能回显到页面中。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES binary'"</span>);</span><br><span class="line">mysql_select_db(<span class="string">'yuangong'</span>, $conn) <span class="keyword">OR</span> emMsg(<span class="string">"数据库连接失败"</span>);</span><br><span class="line"><span class="comment">//这里id没有做整形转换</span></span><br><span class="line">$id = <span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]) ? $_GET[<span class="string">'id'</span>] : <span class="number">1</span>;</span><br><span class="line"><span class="comment">//sql语句没有单引号保护,造成注入</span></span><br><span class="line"><span class="keyword">echo</span> $sql = <span class="string">"SELECT * FROM workers WHERE id=&#123;$id&#125;"</span>;</span><br><span class="line">$result = mysql_query($sql, $conn) <span class="keyword">or</span> <span class="keyword">die</span>(mysql_error()); </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> $row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;h3&gt;&#123;$row['title']&#125;&lt;/h3&gt;&lt;p&gt;&#123;$row['content']&#125;&lt;p&gt;\n"</span>;</span><br><span class="line"><span class="keyword">echo</span> mysql_free_result($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189144065.png" alt="1570189144065"></p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189270984.png" alt="1570189270984"></p>
-<h4 id="2-错误注入"><a href="#2-错误注入" class="headerlink" title="2.错误注入"></a>2.错误注入</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES binary'"</span>);</span><br><span class="line">mysql_select_db(<span class="string">'yuangong'</span>, $conn) <span class="keyword">OR</span> emMsg(<span class="string">"数据库连接失败"</span>);</span><br><span class="line"><span class="comment">//这里id没有做整形转换</span></span><br><span class="line">$id = <span class="keyword">isset</span>($_GET[<span class="string">'id'</span>]) ? $_GET[<span class="string">'id'</span>] : <span class="number">1</span>;</span><br><span class="line"><span class="comment">//sql语句没有单引号保护,造成注入</span></span><br><span class="line">$sql = <span class="string">"SELECT * FROM workers WHERE id=&#123;$id&#125;"</span>;</span><br><span class="line">$result = mysql_query($sql, $conn) <span class="keyword">or</span> <span class="keyword">die</span>(mysql_error()); </span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;h3&gt;&#123;$row['title']&#125;&lt;/h3&gt;&lt;p&gt;&#123;$row['content']&#125;&lt;p&gt;\n"</span>;</span><br><span class="line">mysql_free_result($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>访问<a href="http://127.0.0.1/xinan1.php?id=1页面正常" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1页面正常</a></p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189720646.png" alt="1570189720646"></p>
-<p>构造访问<a href="http://127.0.0.1/xinan1.php?id=\" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=\</a> 页面爆出错误意味有报错注入。</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570189794321.png" alt="1570189794321"></p>
-<p>也可以这么构造<a href="http://127.0.0.1/xinan1.php?id=1" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1</a> and multipoint (()select * from(select user() )1)2 );</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570193965146.png" alt="1570193965146"></p>
-<p>构造访问<a href="http://127.0.0.1/xinan1.php?id=1" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1</a> and 1=2 order by 6页面正常，访问<a href="http://127.0.0.1/xinan1.php?id=1" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1</a> and 1=2 order by 7页面错误。意味有6个字段。</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570190563493.png" alt="1570190563493"></p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570190655815.png" alt="1570190655815"></p>
-<p>用sqlmap进行跑一下：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570195521565.png" alt="1570195521565"></p>
-<h4 id="3-盲注"><a href="#3-盲注" class="headerlink" title="3.盲注"></a>3.盲注</h4><p>盲注不向上面两种，当发现有SQL注入时候，不能得到SQL查询数据的返显。盲注通过服务器返回的状态等各种因素来猜测。</p>
-<p>SQL盲注中常用的几个内置函数：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">length(str)：返回str字符串的长度。</span><br><span class="line">substr(str, pos, len)：将str从pos位置开始截取len长度的字符进行返回。注意这里的pos位置是从1开始的，不是数组的0开始</span><br><span class="line">mid(str,pos,len):跟上面的一样，截取字符串</span><br><span class="line">ascii(str)：返回字符串str的最左面字符的ASCII代码值。</span><br><span class="line">asc();返回字符串str的最左面字符的ASCII代码值。</span><br><span class="line">ord(str):同上，返回ascii码</span><br><span class="line">if(a,b,c) :a为条件，a为true，返回b，否则返回c，如if(1&gt;2,1,0),返回0</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES binary'"</span>);</span><br><span class="line">mysql_select_db(<span class="string">'yuangong'</span>, $conn) <span class="keyword">OR</span> emMsg(<span class="string">"数据库连接失败"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'id'</span>])) </span><br><span class="line">&#123;</span><br><span class="line">$id=$_GET[<span class="string">'id'</span>];</span><br><span class="line">$sql=<span class="string">"SELECT * FROM workers WHERE id=&#123;$id&#125;"</span>;</span><br><span class="line">$result=mysql_query($sql);</span><br><span class="line">$row = mysql_fetch_array($result);</span><br><span class="line">	<span class="keyword">if</span>($row)    <span class="comment">//如果查到数据就执行如下</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">echo</span> <span class="string">'数据查询成功'</span>;    </span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">else</span>     <span class="comment">//否则执行这个     从两者返回的网页结构不一样，就可以作为我们盲注条件判断的依据</span></span><br><span class="line">    &#123;</span><br><span class="line">	  <span class="keyword">echo</span> <span class="string">'数据查询失败'</span>;</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>正常页面：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570197354995.png" alt="1570197354995"></p>
-<p>错误页面：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570197383661.png" alt="1570197383661"></p>
-<h4 id="4-宽字节注入"><a href="#4-宽字节注入" class="headerlink" title="4.宽字节注入"></a>4.宽字节注入</h4><p>​        宽字节注入源于程序员设置MySQL连接时错误配置为：set character_set_client=gbk，这样配置会引发编码转换从而导致的注入漏洞。</p>
-<p>​        如果存在宽字节注入，我们输入%df%27时，经过转译变成了%df%5c%27（%5c是反斜杠\），之后在数据库查询前由于使用了GBK多字节编码，即在汉字编码范围内两个字节会被编码为一个汉字。然后MySQL服务器会对查询语句进行GBK编码即%df%5c转换成了汉字“運”（具体见GBK的汉字编码范围见附录），而单引号逃逸了出来，从而造成了注入漏洞。</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570203659620.png" alt="1570203659620"></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">header(<span class="string">"Content-Type: text/html; charset=utf-8"</span>); <span class="comment">//将页面设置为utf-8</span></span><br><span class="line">$conn = mysql_connect(<span class="string">'localhost'</span>, <span class="string">'root'</span>, <span class="string">'12345678'</span>);</span><br><span class="line">mysql_select_db(<span class="string">"yuangong"</span>, $conn);</span><br><span class="line">mysql_query(<span class="string">"SET NAMES GBK"</span>, $conn);	<span class="comment">//不安全的编码方式</span></span><br><span class="line"> </span><br><span class="line">$id = addslashes($_GET[<span class="string">'id'</span>]);			<span class="comment">//不安全的转义函数</span></span><br><span class="line">$sql = <span class="string">"select * from workers where id='$id'"</span>;</span><br><span class="line">$query = mysql_query($sql, $conn);</span><br><span class="line"><span class="keyword">if</span>($query == <span class="keyword">True</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		$result = mysql_fetch_array($query);</span><br><span class="line">		$username = $result[<span class="string">"username"</span>];</span><br><span class="line">		$email = $result[<span class="string">"email"</span>];</span><br><span class="line"> </span><br><span class="line">		print_r(<span class="string">'用户名： '</span> . $username . <span class="string">'&lt;br /&gt;'</span>);</span><br><span class="line">		print_r(<span class="string">'邮  箱： '</span> . $email . <span class="string">'&lt;br /&gt;'</span>);</span><br><span class="line">		$sql = mb_convert_encoding($sql, <span class="string">"UTF-8"</span>, <span class="string">"GBK"</span>);</span><br><span class="line">		print_r(<span class="string">'&lt;br /&gt;SQL语句：'</span> . $sql);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line"> </span><br><span class="line">mysql_close($conn);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=<span class="string">"zh-CN"</span>&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=<span class="string">"utf-8"</span>&gt;</span><br><span class="line">	&lt;title&gt;员工表&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;boby&gt;</span><br><span class="line">&lt;h2&gt;员工表&lt;/h2&gt;</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"&lt;h3&gt;&#123;$row['title']&#125;&lt;/h3&gt;&lt;p&gt;&#123;$row['content']&#125;&lt;p&gt;\n"</span>;</span><br><span class="line">mysql_free_result($result);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">&lt;/boby&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>构建URL:<a href="http://127.0.0.1/xinan1.php?id=1%df%27" target="_blank" rel="noopener">http://127.0.0.1/xinan1.php?id=1%df%27</a> and 1=1 %23</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570204003665.png" alt="1570204003665"></p>
-<h5 id="参考链接：https-www-jianshu-com-p-e3c5233a3c42"><a href="#参考链接：https-www-jianshu-com-p-e3c5233a3c42" class="headerlink" title="参考链接：https://www.jianshu.com/p/e3c5233a3c42"></a>参考链接：<a href="https://www.jianshu.com/p/e3c5233a3c42" target="_blank" rel="noopener">https://www.jianshu.com/p/e3c5233a3c42</a></h5>
           
         
       
