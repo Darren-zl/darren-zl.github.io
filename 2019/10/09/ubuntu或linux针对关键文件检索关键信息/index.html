@@ -80,21 +80,23 @@
 
 
 
-<meta name="description" content="python3 OS模块1.python os.access()方法概述os.access() 方法使用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。 语法1os.access(path, mode);  参数 path – 要用来检测是否有访问权限的路径。 ``mode – mode为F_OK，测试存在的路径，或者它可">
+<meta name="description" content="ubuntu检测脚本安装说明（以下操作以root用户身份进行）1.首先需要安装Except1.1 查看是否有Except服务 注:如果有则跳过第一步except步骤直接进行第二步。 1.2 检查tcl 安装情况1#whereis tcl   如果如上图为空则需要进行安装。 1.3 下载安装包tcl版本 8.4.19 https://jaist.dl.sourceforge.net/project/">
 <meta property="og:type" content="article">
-<meta property="og:title" content="python3 OS模块">
-<meta property="og:url" content="http://yoursite.com/2019/06/26/python3 OS模块/index.html">
+<meta property="og:title" content="ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本">
+<meta property="og:url" content="http://yoursite.com/2019/10/09/ubuntu或linux针对关键文件检索关键信息/index.html">
 <meta property="og:site_name" content="Darren-学无止境">
-<meta property="og:description" content="python3 OS模块1.python os.access()方法概述os.access() 方法使用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。 语法1os.access(path, mode);  参数 path – 要用来检测是否有访问权限的路径。 ``mode – mode为F_OK，测试存在的路径，或者它可">
+<meta property="og:description" content="ubuntu检测脚本安装说明（以下操作以root用户身份进行）1.首先需要安装Except1.1 查看是否有Except服务 注:如果有则跳过第一步except步骤直接进行第二步。 1.2 检查tcl 安装情况1#whereis tcl   如果如上图为空则需要进行安装。 1.3 下载安装包tcl版本 8.4.19 https://jaist.dl.sourceforge.net/project/">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565146492595.png">
-<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565142839881.png">
-<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565143029894.png">
-<meta property="og:updated_time" content="2019-10-08T07:22:42.583Z">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834278071.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834693116.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834890714.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570512424469.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570522932392.png">
+<meta property="og:updated_time" content="2019-10-09T05:52:12.614Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="python3 OS模块">
-<meta name="twitter:description" content="python3 OS模块1.python os.access()方法概述os.access() 方法使用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。 语法1os.access(path, mode);  参数 path – 要用来检测是否有访问权限的路径。 ``mode – mode为F_OK，测试存在的路径，或者它可">
-<meta name="twitter:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565146492595.png">
+<meta name="twitter:title" content="ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本">
+<meta name="twitter:description" content="ubuntu检测脚本安装说明（以下操作以root用户身份进行）1.首先需要安装Except1.1 查看是否有Except服务 注:如果有则跳过第一步except步骤直接进行第二步。 1.2 检查tcl 安装情况1#whereis tcl   如果如上图为空则需要进行安装。 1.3 下载安装包tcl版本 8.4.19 https://jaist.dl.sourceforge.net/project/">
+<meta name="twitter:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834278071.png">
 
 
 
@@ -124,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/26/python3 OS模块/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/09/ubuntu或linux针对关键文件检索关键信息/">
 
 
 
 
 
-  <title>python3 OS模块 | Darren-学无止境</title>
+  <title>ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本 | Darren-学无止境</title>
   
 
 
@@ -437,7 +439,7 @@ window.onmouseout = function () {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/python3 OS模块/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/ubuntu或linux针对关键文件检索关键信息/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Darren-zl">
@@ -454,7 +456,7 @@ window.onmouseout = function () {
 
         
         
-          <h1 class="post-title" itemprop="name headline">python3 OS模块</h1>
+          <h1 class="post-title" itemprop="name headline">ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本</h1>
         
 
         <div class="post-meta">
@@ -466,8 +468,8 @@ window.onmouseout = function () {
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-26T16:55:34+08:00">
-                2019-06-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-09T13:55:34+08:00">
+                2019-10-09
               </time>
             
 
@@ -486,8 +488,8 @@ window.onmouseout = function () {
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2019/06/26/python3 OS模块/#SOHUCS" itemprop="discussionUrl">
-                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2019/06/26/python3 OS模块/" itemprop="commentsCount"></span>
+                <a href="/2019/10/09/ubuntu或linux针对关键文件检索关键信息/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2019/10/09/ubuntu或linux针对关键文件检索关键信息/" itemprop="commentsCount"></span>
                 </a>
               
             
@@ -495,7 +497,7 @@ window.onmouseout = function () {
 
           
           
-             <span id="/2019/06/26/python3 OS模块/" class="leancloud_visitors" data-flag-title="python3 OS模块">
+             <span id="/2019/10/09/ubuntu或linux针对关键文件检索关键信息/" class="leancloud_visitors" data-flag-title="ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -558,46 +560,43 @@ window.onmouseout = function () {
       
 
       
-        <h1 id="python3-OS模块"><a href="#python3-OS模块" class="headerlink" title="python3 OS模块"></a>python3 OS模块</h1><h4 id="1-python-os-access-方法"><a href="#1-python-os-access-方法" class="headerlink" title="1.python os.access()方法"></a>1.python os.access()方法</h4><h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><p>os.access() 方法使用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。</p>
-<h5 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.access(path, mode);</span><br></pre></td></tr></table></figure>
+        <h2 id="ubuntu检测脚本安装说明（以下操作以root用户身份进行）"><a href="#ubuntu检测脚本安装说明（以下操作以root用户身份进行）" class="headerlink" title="ubuntu检测脚本安装说明（以下操作以root用户身份进行）"></a>ubuntu检测脚本安装说明（以下操作以root用户身份进行）</h2><h3 id="1-首先需要安装Except"><a href="#1-首先需要安装Except" class="headerlink" title="1.首先需要安装Except"></a>1.首先需要安装Except</h3><h5 id="1-1-查看是否有Except服务"><a href="#1-1-查看是否有Except服务" class="headerlink" title="1.1 查看是否有Except服务"></a>1.1 查看是否有Except服务</h5><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834278071.png" alt="1569834278071"></p>
+<p><strong>注:如果有则跳过第一步except步骤直接进行第二步。</strong></p>
+<h5 id="1-2-检查tcl-安装情况"><a href="#1-2-检查tcl-安装情况" class="headerlink" title="1.2 检查tcl 安装情况"></a>1.2 检查tcl 安装情况</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>whereis tcl</span><br></pre></td></tr></table></figure>
 
-<h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><ul>
-<li><strong>path</strong> – 要用来检测是否有访问权限的路径。</li>
-<li>``<strong>mode</strong> – mode为F_OK，测试存在的路径，或者它可以是包含R_OK, W_OK和X_OK或者R_OK, W_OK和X_OK其中之一或者更多。<ul>
-<li><strong>os.F_OK:</strong> 作为access()的mode参数，测试path是否存在。</li>
-<li><strong>os.R_OK:</strong> 包含在access()的mode参数中 ， 测试path是否可读。</li>
-<li><strong>os.W_OK</strong> 包含在access()的mode参数中 ， 测试path是否可写。</li>
-<li><strong>os.X_OK</strong> 包含在access()的mode参数中 ，测试path是否可执行。</li>
-</ul>
-</li>
-</ul>
-<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os, sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假定 /tmp/foo.txt 文件存在，并有读写权限</span></span><br><span class="line"></span><br><span class="line">ret = os.access(<span class="string">"/tmp/foo.txt"</span>, os.F_OK)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"F_OK - 返回值 %s"</span>% ret)</span><br><span class="line"></span><br><span class="line">ret = os.access(<span class="string">"/tmp/foo.txt"</span>, os.R_OK)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"R_OK - 返回值 %s"</span>% ret)</span><br><span class="line"></span><br><span class="line">ret = os.access(<span class="string">"/tmp/foo.txt"</span>, os.W_OK)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"W_OK - 返回值 %s"</span>% ret)</span><br><span class="line"></span><br><span class="line">ret = os.access(<span class="string">"/tmp/foo.txt"</span>, os.X_OK)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"X_OK - 返回值 %s"</span>% ret)</span><br></pre></td></tr></table></figure>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834693116.png" alt="1569834693116"></p>
+<p>如果如上图为空则需要进行安装。</p>
+<h5 id="1-3-下载安装包"><a href="#1-3-下载安装包" class="headerlink" title="1.3 下载安装包"></a>1.3 下载安装包</h5><p>tcl版本 8.4.19</p>
+<p><a href="https://jaist.dl.sourceforge.net/project/tcl/Tcl/8.4.19/tcl8.4.19-src.tar.gz" target="_blank" rel="noopener">https://jaist.dl.sourceforge.net/project/tcl/Tcl/8.4.19/tcl8.4.19-src.tar.gz</a></p>
+<p>except版本5.45</p>
+<p><a href="http://sourceforge.net/projects/expect/files/Expect/5.45/expect5.45.tar.gz" target="_blank" rel="noopener">http://sourceforge.net/projects/expect/files/Expect/5.45/expect5.45.tar.gz</a></p>
+<p>下载两个包，分别解压。</p>
+<h5 id="1-4-先安装tcl"><a href="#1-4-先安装tcl" class="headerlink" title="1.4 先安装tcl"></a>1.4 先安装tcl</h5><p> 进入tcl解压目录，然后进入unix目录：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834890714.png" alt="1569834890714"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>sudo ./configure</span><br><span class="line"><span class="meta">#</span>sudo make</span><br><span class="line"><span class="meta">#</span>sudo make install</span><br></pre></td></tr></table></figure>
 
-<p>返回值：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">F_OK - 返回值 <span class="literal">True</span></span><br><span class="line">R_OK - 返回值 <span class="literal">True</span></span><br><span class="line">W_OK - 返回值 <span class="literal">True</span></span><br><span class="line">X_OK - 返回值 <span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-5-安装expect"><a href="#1-5-安装expect" class="headerlink" title="1.5 安装expect"></a>1.5 安装expect</h5><p>进入expect解压目录：</p>
+<p>安装时需指定tcl的相关目录</p>
+<p>–with-tclinclude 参数就是  tcl开发包的解压安装位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>sudo ./configure --with-tclinclude=/usr/local/src/tcl8.4.19/generic/ --with-tclconfig=/usr/local/lib/       //(这里的with-tclinclude=位置处需要写入tcl安装包解压的位置)</span><br><span class="line"><span class="meta">#</span>sudo make</span><br><span class="line"><span class="meta">#</span>sudo make install</span><br></pre></td></tr></table></figure>
 
-<h4 id="2-python3-os-chdir-方法"><a href="#2-python3-os-chdir-方法" class="headerlink" title="2.python3 os.chdir()方法"></a>2.python3 os.chdir()方法</h4><h5 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h5><p>os.chdir() 方法用于改变当前工作目录到指定的路径。</p>
-<h5 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.chdir(path)</span><br></pre></td></tr></table></figure>
+<p>注意这里的configure命令需要使用–with-tclinclude选项传入tcl安装包中的generic文件夹路径。</p>
+<p>安装完成之后运行expect命令，查看是否安装成功。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> expect</span><br><span class="line">expect1.1&gt;</span><br></pre></td></tr></table></figure>
 
-<h5 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h5><ul>
-<li>path–要切换到的新路径</li>
-</ul>
-<h5 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h5><p>如果允许访问返回True，否则返回False</p>
-<h5 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3.4</span></span><br><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os,sys</span><br><span class="line">path = <span class="string">'C:/Users/'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看当前目录</span></span><br><span class="line">retval = os.getcwd()</span><br><span class="line"><span class="keyword">print</span> (<span class="string">'当前的目录为%s'</span>%retval)</span><br><span class="line"></span><br><span class="line"><span class="comment">#修改当前目录</span></span><br><span class="line">os.chdir(path)</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看修改后的当前目录</span></span><br><span class="line">retval = os.getcwd()</span><br><span class="line">print(<span class="string">'目录修改成功%s'</span>%retval)</span><br></pre></td></tr></table></figure>
+<h3 id="2-检查脚本安装"><a href="#2-检查脚本安装" class="headerlink" title="2. 检查脚本安装"></a>2. 检查脚本安装</h3><h5 id="2-1-检查脚本有一处需要编辑地方"><a href="#2-1-检查脚本有一处需要编辑地方" class="headerlink" title="2.1 检查脚本有一处需要编辑地方"></a>2.1 检查脚本有一处需要编辑地方</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">set -x</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line">NOW_IP=`ip a |awk -F '[ /]+' 'NR==9 &#123;print $3&#125;'`</span><br><span class="line">myPath="/var/"  </span><br><span class="line"></span><br><span class="line">find ./ -regextype posix-extended -regex ".*\.(jpg|png|bmp)" ! -path "./sys/*" ! -path "./etc/*"  ! -path "./bin/*"  ! -path "./lib/*"  ! -path "./lib64/*"  &gt;&gt;  /var/$NOW_IP.txt </span><br><span class="line"></span><br><span class="line">TO_HOST="**"</span><br><span class="line">USER="**"</span><br><span class="line">PASSWD="***"</span><br><span class="line">TO_DIR="/bakdata/checklogs/"</span><br><span class="line"> </span><br><span class="line">/expect5.45/expect &lt;&lt;-EOF  #该处改为你expect安装的目录</span><br><span class="line">set timeout -1</span><br><span class="line">spawn scp  -o "StrictHostKeyChecking no"  /var/$NOW_IP.txt $USER@$TO_HOST:$TO_DIR</span><br><span class="line"> </span><br><span class="line">expect "assword:"</span><br><span class="line">send "$PASSWD\n"</span><br><span class="line"> </span><br><span class="line">expect "100%"</span><br><span class="line">expect eof</span><br><span class="line">EOF</span><br><span class="line">  </span><br><span class="line">rm -rf  /var/$NOW_IP.txt</span><br></pre></td></tr></table></figure>
 
-<p>输出结果：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565146492595.png" alt="1565146492595"></p>
-<p>os模块主要处理操作系统的相关的功能<br>  os.name           获取操作系统平台<br>  os.getcwd()       获取现在的工作目录<br>  os.listdir()      获取某个目录下的所有文件名<br>  os.system()       用来运行shell命令<br>  os.remove()       删除某个文件<br>  os.path.existe()  检验给出的路径是否真地存在<br>  os.path.isfile()  判断是否为文件;若是，返回值为真<br>  os.path.isdir()   判断是否为文件夹;若是，返回值为真<br>  os.path.abspath(name)     获得绝对路径<br>  os.path.splitext()        分离文件名与扩展名<br>  os.path.split()           把一个路径拆分为目录+文件名的形式<br>  os.path.join(path,name)   连接目录与文件名或目录<br>  os.path.basename(path)    返回文件名<br>  os.path.dirname(path)     返回文件路径<br>操作系统相关调用和操作：<br>  os.environ            一个dictionary 包含环境变量的映射关系<br>  os.environ[“HOME”]    可以得到环境变量HOME的值<br>  os.chdir(dir)         改变当前目录 os.chdir(‘d:\outlook’)   注意windows下用到转义<br>  os.getcwd()           得到当前目录<br>  os.getegid()          得到有效组<br>  id os.getgid()        得到组id<br>  os.getuid()           得到用户id<br>  os.geteuid()          得到有效用户id<br>  os.setegid os.setegid() os.seteuid() os.setuid()  设置id<br>  os.getgruops()       得到用户组名称列表<br>  os.getlogin()        得到用户登录名称<br>  os.getenv            得到环境变量<br>  os.putenv            设置环境变量<br>  os.umask             设置umask<br>  os.system(cmd)       利用系统调用，运行cmd命令</p>
-<p>问题（以下源码python2运行成功python3运行失败）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os,sys</span><br><span class="line">newmulv = os.getcwd()</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"当前目录为%s"</span>)%newmulv</span><br></pre></td></tr></table></figure>
+<p>dataacp.sh需要设置可执行权限。chmod 655 dataacp.sh</p>
+<h5 id="2-2-写时间计划"><a href="#2-2-写时间计划" class="headerlink" title="2.2 写时间计划"></a>2.2 写时间计划</h5><p>​        ubuntu第一次进行操作时候，需要进行编辑器选择。选择第二个工具。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570512424469.png" alt="1570512424469"></p>
+<p>然后时间计划如下进行写入</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570522932392.png" alt="1570522932392"></p>
+<p>重启时间计划任务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>service cron restart</span><br></pre></td></tr></table></figure>
 
-<p>报错内容：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565142839881.png" alt="1565142839881"></p>
-<p>查找后发现，源码需改变如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import os,sys</span><br><span class="line">newmulv = os.getcwd()</span><br><span class="line">print ((&quot;当前目录为%s&quot;)%newmulv)</span><br><span class="line">或者</span><br><span class="line">print (&quot;当前目录为%s&quot;%newmulv)</span><br></pre></td></tr></table></figure>
-
-<p>再次运行：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565143029894.png" alt="1565143029894"></p>
+<h4 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h4><p>1:请将datacap.sh脚本放于root目录下    </p>
+<p>2:将datacap.sh权限设置为655</p>
+<p>3:全程用root身份进行操作</p>
 
       
     </div>
@@ -634,8 +633,8 @@ window.onmouseout = function () {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/20/浏览器同源策略与Ajax跨域方法汇总/" rel="next" title="浏览器同源策略与Ajax跨域方法汇总">
-                <i class="fa fa-chevron-left"></i> 浏览器同源策略与Ajax跨域方法汇总
+              <a href="/2019/10/06/各种注入类型的环境搭建和代码编写/" rel="next" title="各种注入类型的环境搭建和代码编写">
+                <i class="fa fa-chevron-left"></i> 各种注入类型的环境搭建和代码编写
               </a>
             
           </div>
@@ -643,10 +642,6 @@ window.onmouseout = function () {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/01/python3网络爬虫与信息提取/" rel="prev" title="python3网络爬虫与信息提取">
-                python3网络爬虫与信息提取 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -783,7 +778,7 @@ window.onmouseout = function () {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#python3-OS模块"><span class="nav-number">1.</span> <span class="nav-text">python3 OS模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-python-os-access-方法"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1.python os.access()方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概述"><span class="nav-number">1.0.0.1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#语法"><span class="nav-number">1.0.0.1.2.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参数"><span class="nav-number">1.0.0.1.3.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实例"><span class="nav-number">1.0.0.1.4.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-python3-os-chdir-方法"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2.python3 os.chdir()方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#概述-1"><span class="nav-number">1.0.0.2.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#语法-1"><span class="nav-number">1.0.0.2.2.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参数-1"><span class="nav-number">1.0.0.2.3.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#返回值"><span class="nav-number">1.0.0.2.4.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实例-1"><span class="nav-number">1.0.0.2.5.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu检测脚本安装说明（以下操作以root用户身份进行）"><span class="nav-number">1.</span> <span class="nav-text">ubuntu检测脚本安装说明（以下操作以root用户身份进行）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首先需要安装Except"><span class="nav-number">1.1.</span> <span class="nav-text">1.首先需要安装Except</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-查看是否有Except服务"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">1.1 查看是否有Except服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-检查tcl-安装情况"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">1.2 检查tcl 安装情况</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-下载安装包"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">1.3 下载安装包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-先安装tcl"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">1.4 先安装tcl</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-5-安装expect"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">1.5 安装expect</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-检查脚本安装"><span class="nav-number">1.2.</span> <span class="nav-text">2. 检查脚本安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-检查脚本有一处需要编辑地方"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">2.1 检查脚本有一处需要编辑地方</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-写时间计划"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">2.2 写时间计划</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注："><span class="nav-number">1.2.1.</span> <span class="nav-text">注：</span></a></li></ol></div>
             
 
           </div>

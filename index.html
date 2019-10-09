@@ -433,6 +433,220 @@ window.onmouseout = function () {
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/ubuntu或linux针对关键文件检索关键信息/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/09/ubuntu或linux针对关键文件检索关键信息/" itemprop="url">ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-09T13:55:34+08:00">
+                2019-10-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2019/10/09/ubuntu或linux针对关键文件检索关键信息/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2019/10/09/ubuntu或linux针对关键文件检索关键信息/" class="cy_cmt_count" data-xid="2019/10/09/ubuntu或linux针对关键文件检索关键信息/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2019/10/09/ubuntu或linux针对关键文件检索关键信息/" class="leancloud_visitors" data-flag-title="ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="ubuntu检测脚本安装说明（以下操作以root用户身份进行）"><a href="#ubuntu检测脚本安装说明（以下操作以root用户身份进行）" class="headerlink" title="ubuntu检测脚本安装说明（以下操作以root用户身份进行）"></a>ubuntu检测脚本安装说明（以下操作以root用户身份进行）</h2><h3 id="1-首先需要安装Except"><a href="#1-首先需要安装Except" class="headerlink" title="1.首先需要安装Except"></a>1.首先需要安装Except</h3><h5 id="1-1-查看是否有Except服务"><a href="#1-1-查看是否有Except服务" class="headerlink" title="1.1 查看是否有Except服务"></a>1.1 查看是否有Except服务</h5><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834278071.png" alt="1569834278071"></p>
+<p><strong>注:如果有则跳过第一步except步骤直接进行第二步。</strong></p>
+<h5 id="1-2-检查tcl-安装情况"><a href="#1-2-检查tcl-安装情况" class="headerlink" title="1.2 检查tcl 安装情况"></a>1.2 检查tcl 安装情况</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>whereis tcl</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834693116.png" alt="1569834693116"></p>
+<p>如果如上图为空则需要进行安装。</p>
+<h5 id="1-3-下载安装包"><a href="#1-3-下载安装包" class="headerlink" title="1.3 下载安装包"></a>1.3 下载安装包</h5><p>tcl版本 8.4.19</p>
+<p><a href="https://jaist.dl.sourceforge.net/project/tcl/Tcl/8.4.19/tcl8.4.19-src.tar.gz" target="_blank" rel="noopener">https://jaist.dl.sourceforge.net/project/tcl/Tcl/8.4.19/tcl8.4.19-src.tar.gz</a></p>
+<p>except版本5.45</p>
+<p><a href="http://sourceforge.net/projects/expect/files/Expect/5.45/expect5.45.tar.gz" target="_blank" rel="noopener">http://sourceforge.net/projects/expect/files/Expect/5.45/expect5.45.tar.gz</a></p>
+<p>下载两个包，分别解压。</p>
+<h5 id="1-4-先安装tcl"><a href="#1-4-先安装tcl" class="headerlink" title="1.4 先安装tcl"></a>1.4 先安装tcl</h5><p> 进入tcl解压目录，然后进入unix目录：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834890714.png" alt="1569834890714"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>sudo ./configure</span><br><span class="line"><span class="meta">#</span>sudo make</span><br><span class="line"><span class="meta">#</span>sudo make install</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-5-安装expect"><a href="#1-5-安装expect" class="headerlink" title="1.5 安装expect"></a>1.5 安装expect</h5><p>进入expect解压目录：</p>
+<p>安装时需指定tcl的相关目录</p>
+<p>–with-tclinclude 参数就是  tcl开发包的解压安装位置</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>sudo ./configure --with-tclinclude=/usr/local/src/tcl8.4.19/generic/ --with-tclconfig=/usr/local/lib/       //(这里的with-tclinclude=位置处需要写入tcl安装包解压的位置)</span><br><span class="line"><span class="meta">#</span>sudo make</span><br><span class="line"><span class="meta">#</span>sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>注意这里的configure命令需要使用–with-tclinclude选项传入tcl安装包中的generic文件夹路径。</p>
+<p>安装完成之后运行expect命令，查看是否安装成功。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> expect</span><br><span class="line">expect1.1&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-检查脚本安装"><a href="#2-检查脚本安装" class="headerlink" title="2. 检查脚本安装"></a>2. 检查脚本安装</h3><h5 id="2-1-检查脚本有一处需要编辑地方"><a href="#2-1-检查脚本有一处需要编辑地方" class="headerlink" title="2.1 检查脚本有一处需要编辑地方"></a>2.1 检查脚本有一处需要编辑地方</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">set -x</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line">NOW_IP=`ip a |awk -F '[ /]+' 'NR==9 &#123;print $3&#125;'`</span><br><span class="line">myPath="/var/"  </span><br><span class="line"></span><br><span class="line">find ./ -regextype posix-extended -regex ".*\.(jpg|png|bmp)" ! -path "./sys/*" ! -path "./etc/*"  ! -path "./bin/*"  ! -path "./lib/*"  ! -path "./lib64/*"  &gt;&gt;  /var/$NOW_IP.txt </span><br><span class="line"></span><br><span class="line">TO_HOST="**"</span><br><span class="line">USER="**"</span><br><span class="line">PASSWD="***"</span><br><span class="line">TO_DIR="/bakdata/checklogs/"</span><br><span class="line"> </span><br><span class="line">/expect5.45/expect &lt;&lt;-EOF  #该处改为你expect安装的目录</span><br><span class="line">set timeout -1</span><br><span class="line">spawn scp  -o "StrictHostKeyChecking no"  /var/$NOW_IP.txt $USER@$TO_HOST:$TO_DIR</span><br><span class="line"> </span><br><span class="line">expect "assword:"</span><br><span class="line">send "$PASSWD\n"</span><br><span class="line"> </span><br><span class="line">expect "100%"</span><br><span class="line">expect eof</span><br><span class="line">EOF</span><br><span class="line">  </span><br><span class="line">rm -rf  /var/$NOW_IP.txt</span><br></pre></td></tr></table></figure>
+
+<p>dataacp.sh需要设置可执行权限。chmod 655 dataacp.sh</p>
+<h5 id="2-2-写时间计划"><a href="#2-2-写时间计划" class="headerlink" title="2.2 写时间计划"></a>2.2 写时间计划</h5><p>​        ubuntu第一次进行操作时候，需要进行编辑器选择。选择第二个工具。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570512424469.png" alt="1570512424469"></p>
+<p>然后时间计划如下进行写入</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570522932392.png" alt="1570522932392"></p>
+<p>重启时间计划任务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>service cron restart</span><br></pre></td></tr></table></figure>
+
+<h4 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h4><p>1:请将datacap.sh脚本放于root目录下    </p>
+<p>2:将datacap.sh权限设置为655</p>
+<p>3:全程用root身份进行操作</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/06/各种注入类型的环境搭建和代码编写/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -4239,7 +4453,7 @@ window.onmouseout = function () {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
