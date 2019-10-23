@@ -80,23 +80,24 @@
 
 
 
-<meta name="description" content="ubuntu检测脚本安装说明（以下操作以root用户身份进行）1.首先需要安装Except1.1 查看是否有Except服务 注:如果有则跳过第一步except步骤直接进行第二步。 1.2 检查tcl 安装情况1#whereis tcl   如果如上图为空则需要进行安装。 1.3 下载安装包tcl版本 8.4.19 https://jaist.dl.sourceforge.net/project/">
+<meta name="description" content="XSS相关漏洞1. POST类型的csrf漏洞，绕过设置了验证来源 referer 的情况。1.1 更改请求方式绕过 ​       如果伪造的敏感信息请求方式是通过POST方法发生的，那可以尝试转换为其他的方法如GET请求。通过GET发送应用程序可能依然执行并且通常没有任何保护机制。 1.2 通过二级子域名形式绕过 ​        referer如果检验方式基于URL白名单的话，可以尝试通过二">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本">
-<meta property="og:url" content="http://yoursite.com/2019/10/09/ubuntu或linux针对关键文件检索关键信息/index.html">
+<meta property="og:title" content="XSS相关漏洞">
+<meta property="og:url" content="http://yoursite.com/2019/10/16/XSS相关漏洞/index.html">
 <meta property="og:site_name" content="Darren-学无止境">
-<meta property="og:description" content="ubuntu检测脚本安装说明（以下操作以root用户身份进行）1.首先需要安装Except1.1 查看是否有Except服务 注:如果有则跳过第一步except步骤直接进行第二步。 1.2 检查tcl 安装情况1#whereis tcl   如果如上图为空则需要进行安装。 1.3 下载安装包tcl版本 8.4.19 https://jaist.dl.sourceforge.net/project/">
+<meta property="og:description" content="XSS相关漏洞1. POST类型的csrf漏洞，绕过设置了验证来源 referer 的情况。1.1 更改请求方式绕过 ​       如果伪造的敏感信息请求方式是通过POST方法发生的，那可以尝试转换为其他的方法如GET请求。通过GET发送应用程序可能依然执行并且通常没有任何保护机制。 1.2 通过二级子域名形式绕过 ​        referer如果检验方式基于URL白名单的话，可以尝试通过二">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834278071.png">
-<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834693116.png">
-<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834890714.png">
-<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570512424469.png">
-<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570522932392.png">
-<meta property="og:updated_time" content="2019-10-14T08:41:03.960Z">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570869244076.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571117909765.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571117964969.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571124477147.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571124503771.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571127738349.png">
+<meta property="og:updated_time" content="2019-10-23T09:48:27.780Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本">
-<meta name="twitter:description" content="ubuntu检测脚本安装说明（以下操作以root用户身份进行）1.首先需要安装Except1.1 查看是否有Except服务 注:如果有则跳过第一步except步骤直接进行第二步。 1.2 检查tcl 安装情况1#whereis tcl   如果如上图为空则需要进行安装。 1.3 下载安装包tcl版本 8.4.19 https://jaist.dl.sourceforge.net/project/">
-<meta name="twitter:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834278071.png">
+<meta name="twitter:title" content="XSS相关漏洞">
+<meta name="twitter:description" content="XSS相关漏洞1. POST类型的csrf漏洞，绕过设置了验证来源 referer 的情况。1.1 更改请求方式绕过 ​       如果伪造的敏感信息请求方式是通过POST方法发生的，那可以尝试转换为其他的方法如GET请求。通过GET发送应用程序可能依然执行并且通常没有任何保护机制。 1.2 通过二级子域名形式绕过 ​        referer如果检验方式基于URL白名单的话，可以尝试通过二">
+<meta name="twitter:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570869244076.png">
 
 
 
@@ -126,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/09/ubuntu或linux针对关键文件检索关键信息/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/16/XSS相关漏洞/">
 
 
 
 
 
-  <title>ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本 | Darren-学无止境</title>
+  <title>XSS相关漏洞 | Darren-学无止境</title>
   
 
 
@@ -439,7 +440,7 @@ window.onmouseout = function () {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/ubuntu或linux针对关键文件检索关键信息/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/16/XSS相关漏洞/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Darren-zl">
@@ -456,7 +457,7 @@ window.onmouseout = function () {
 
         
         
-          <h1 class="post-title" itemprop="name headline">ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本</h1>
+          <h1 class="post-title" itemprop="name headline">XSS相关漏洞</h1>
         
 
         <div class="post-meta">
@@ -468,8 +469,8 @@ window.onmouseout = function () {
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-09T13:55:34+08:00">
-                2019-10-09
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-16T16:00:34+08:00">
+                2019-10-16
               </time>
             
 
@@ -488,8 +489,8 @@ window.onmouseout = function () {
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2019/10/09/ubuntu或linux针对关键文件检索关键信息/#SOHUCS" itemprop="discussionUrl">
-                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2019/10/09/ubuntu或linux针对关键文件检索关键信息/" itemprop="commentsCount"></span>
+                <a href="/2019/10/16/XSS相关漏洞/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2019/10/16/XSS相关漏洞/" itemprop="commentsCount"></span>
                 </a>
               
             
@@ -497,7 +498,7 @@ window.onmouseout = function () {
 
           
           
-             <span id="/2019/10/09/ubuntu或linux针对关键文件检索关键信息/" class="leancloud_visitors" data-flag-title="ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本">
+             <span id="/2019/10/16/XSS相关漏洞/" class="leancloud_visitors" data-flag-title="XSS相关漏洞">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -560,46 +561,179 @@ window.onmouseout = function () {
       
 
       
-        <h2 id="ubuntu检测脚本安装说明（以下操作以root用户身份进行）"><a href="#ubuntu检测脚本安装说明（以下操作以root用户身份进行）" class="headerlink" title="ubuntu检测脚本安装说明（以下操作以root用户身份进行）"></a>ubuntu检测脚本安装说明（以下操作以root用户身份进行）</h2><h3 id="1-首先需要安装Except"><a href="#1-首先需要安装Except" class="headerlink" title="1.首先需要安装Except"></a>1.首先需要安装Except</h3><h5 id="1-1-查看是否有Except服务"><a href="#1-1-查看是否有Except服务" class="headerlink" title="1.1 查看是否有Except服务"></a>1.1 查看是否有Except服务</h5><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834278071.png" alt="1569834278071"></p>
-<p><strong>注:如果有则跳过第一步except步骤直接进行第二步。</strong></p>
-<h5 id="1-2-检查tcl-安装情况"><a href="#1-2-检查tcl-安装情况" class="headerlink" title="1.2 检查tcl 安装情况"></a>1.2 检查tcl 安装情况</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>whereis tcl</span><br></pre></td></tr></table></figure>
+        <h3 id="XSS相关漏洞"><a href="#XSS相关漏洞" class="headerlink" title="XSS相关漏洞"></a>XSS相关漏洞</h3><h5 id="1-POST类型的csrf漏洞，绕过设置了验证来源-referer-的情况。"><a href="#1-POST类型的csrf漏洞，绕过设置了验证来源-referer-的情况。" class="headerlink" title="1. POST类型的csrf漏洞，绕过设置了验证来源 referer 的情况。"></a>1. POST类型的csrf漏洞，绕过设置了验证来源 referer 的情况。</h5><p>1.1 更改请求方式绕过</p>
+<p>​       如果伪造的敏感信息请求方式是通过POST方法发生的，那可以尝试转换为其他的方法如GET请求。通过GET发送应用程序可能依然执行并且通常没有任何保护机制。</p>
+<p>1.2 通过二级子域名形式绕过</p>
+<p>​        referer如果检验方式基于URL白名单的话，可以尝试通过二级子域名或者URL目录区域的方式进行referer绕过。</p>
+<p>如referer的检测URL的字段为baidu.com,则可通过baidu.com.attacker.cn或attacker.cn/baidu.com进行绕过。</p>
+<h5 id="2-有一个存储型-xss-打到了后台-cookie，但是后台在内网，无法访问的情况下，如何利用？"><a href="#2-有一个存储型-xss-打到了后台-cookie，但是后台在内网，无法访问的情况下，如何利用？" class="headerlink" title="2.有一个存储型 xss 打到了后台 cookie，但是后台在内网，无法访问的情况下，如何利用？"></a>2.有一个存储型 xss 打到了后台 cookie，但是后台在内网，无法访问的情况下，如何利用？</h5><p>​        这种情况需要结合beef一起使用。1.可以在beef上把目标的浏览器作为代理进行操作。2.可以利用mitmf结合社会工程学使用户接受Social Engineering中的模块，让用户安装.exe等更新软件获取shell。3.结合metasploit进一步获取权限。</p>
+<h5 id="3-img标签可以跨域"><a href="#3-img标签可以跨域" class="headerlink" title="3. img标签可以跨域"></a>3. img标签可以跨域</h5><p>​        由于img标签不受浏览器同源策略的影响，允许跨域引用资源。因此可以通过 img 标签的 src 属性进行跨域，这也就是图像 Ping 跨域的基本原理。</p>
+<p>编写一个简单的js脚本：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img=<span class="keyword">new</span> Image();</span><br><span class="line">img.src=<span class="string">'https://www.baidu.com/img/bd_logo1.png?where=super'</span>;</span><br><span class="line">img.onerror=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"> alert(<span class="string">'error'</span>);</span><br><span class="line">&#125;</span><br><span class="line">img.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"> alert(<span class="string">'success'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834693116.png" alt="1569834693116"></p>
-<p>如果如上图为空则需要进行安装。</p>
-<h5 id="1-3-下载安装包"><a href="#1-3-下载安装包" class="headerlink" title="1.3 下载安装包"></a>1.3 下载安装包</h5><p>tcl版本 8.4.19</p>
-<p><a href="https://jaist.dl.sourceforge.net/project/tcl/Tcl/8.4.19/tcl8.4.19-src.tar.gz" target="_blank" rel="noopener">https://jaist.dl.sourceforge.net/project/tcl/Tcl/8.4.19/tcl8.4.19-src.tar.gz</a></p>
-<p>except版本5.45</p>
-<p><a href="http://sourceforge.net/projects/expect/files/Expect/5.45/expect5.45.tar.gz" target="_blank" rel="noopener">http://sourceforge.net/projects/expect/files/Expect/5.45/expect5.45.tar.gz</a></p>
-<p>下载两个包，分别解压。</p>
-<h5 id="1-4-先安装tcl"><a href="#1-4-先安装tcl" class="headerlink" title="1.4 先安装tcl"></a>1.4 先安装tcl</h5><p> 进入tcl解压目录，然后进入unix目录：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1569834890714.png" alt="1569834890714"></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>sudo ./configure</span><br><span class="line"><span class="meta">#</span>sudo make</span><br><span class="line"><span class="meta">#</span>sudo make install</span><br></pre></td></tr></table></figure>
+<p>​      图片可以从任何URL中加载，所以将img的src设置成其他域的URL，即可以实现简单的跨域，可以使用onload和onerror事件来确定是否接受到了响应。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>浏览器跨域测试<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>浏览器跨域测试<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/tux.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h5 id="1-5-安装expect"><a href="#1-5-安装expect" class="headerlink" title="1.5 安装expect"></a>1.5 安装expect</h5><p>进入expect解压目录：</p>
-<p>安装时需指定tcl的相关目录</p>
-<p>–with-tclinclude 参数就是  tcl开发包的解压安装位置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>sudo ./configure --with-tclinclude=/usr/local/src/tcl8.4.19/generic/ --with-tclconfig=/usr/local/lib/       //(这里的with-tclinclude=位置处需要写入tcl安装包解压的位置)</span><br><span class="line"><span class="meta">#</span>sudo make</span><br><span class="line"><span class="meta">#</span>sudo make install</span><br></pre></td></tr></table></figure>
+<p>如果图像地址正确,则弹出onload加载信息success，从而实现了简单的跨域。</p>
+<p>使用图片ping跨域只能发送get请求，并且不能访问响应的文本，只能监听是否响应而已。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570869244076.png" alt="1570869244076"></p>
+<h5 id="4-dom型xss除了因为innerHTML-造成，还有什么。"><a href="#4-dom型xss除了因为innerHTML-造成，还有什么。" class="headerlink" title="4. dom型xss除了因为innerHTML 造成，还有什么。"></a>4. dom型xss除了因为innerHTML 造成，还有什么。</h5><p>​        DOM型XSS是基于DOM文档对象的漏洞。DOM型XSS算是反射型漏洞一种，但是不会与后台进行交互。完完全全的web前端安全问题。只能通过前端进行防御。</p>
+<p>​        客户端在加载JS代码中，存在Sources+Sinks的情况即有可能存在DOM型XSS。</p>
+<p><strong>Sources</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document.URL</td>
+<td>返回当前页面的URL</td>
+</tr>
+<tr>
+<td>document.referrer</td>
+<td>返回当前文档的URL</td>
+</tr>
+<tr>
+<td>Window Location</td>
+<td>获得当前页面的地址 (URL)，并把浏览器重定向到新的页面。</td>
+</tr>
+<tr>
+<td>document.location</td>
+<td>很多属性 其中包括返回当前页面的URL</td>
+</tr>
+<tr>
+<td>location.href</td>
+<td>返回完整的URL</td>
+</tr>
+<tr>
+<td>location.search</td>
+<td>返回一个URL的查询部分</td>
+</tr>
+<tr>
+<td>location.hash</td>
+<td>返回一个URL的锚部分</td>
+</tr>
+<tr>
+<td>location.pathname</td>
+<td>返回的URL路径名。</td>
+</tr>
+</tbody></table>
+<p><strong>Sinks</strong></p>
+<p><strong>直接执行脚本类</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>eval(…)</td>
+<td>eval() 函数用来执行一个字符串表达式，并返回表达式的值。</td>
+</tr>
+</tbody></table>
+<p>eval(expression[,globals[,locals]]) //expression – 表达式。globals – 变量作用域，全局命名空间，如果被提供，则必须是一个字典对象。locals – 变量作用域，局部命名空间，如果被提供，可以是任何映射对象。</p>
+<p><strong>写HTML页面类</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document.write(…)</td>
+<td>write() 方法可向文档写入 HTML 表达式或 JavaScript 代码。</td>
+</tr>
+<tr>
+<td>document.writeln(…)</td>
+<td>等同于 write() 方法，不同的是在每个表达式之后写一个换行符。</td>
+</tr>
+<tr>
+<td>element.innerHTML(…)</td>
+<td>获取dom元素的内容</td>
+</tr>
+</tbody></table>
+<p><strong>直接修改DOM类</strong></p>
+<table>
+<thead>
+<tr>
+<th>document.forms</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document.forms[]</td>
+<td>返回对文档中所有 Form 对象引用。</td>
+</tr>
+<tr>
+<td>document.attachEvent(…)</td>
+<td></td>
+</tr>
+<tr>
+<td>document.create…(…)</td>
+<td></td>
+</tr>
+<tr>
+<td>document.execCommand(…)</td>
+<td></td>
+</tr>
+<tr>
+<td>document.body</td>
+<td>返回文档的body元素</td>
+</tr>
+<tr>
+<td>window.attachEvent(…)</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>打开/修改窗口类</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document.open(…)</td>
+<td>打开一个流，以收集来自任何 document.write() 或 document.writeln() 方法的输出。</td>
+</tr>
+<tr>
+<td>window.open(…)</td>
+<td>打开一个新的浏览器窗口或查找一个已命名的窗口。</td>
+</tr>
+<tr>
+<td>window.location.href=</td>
+<td>用于窗口或框架的 Location 对象,返回完整的URL</td>
+</tr>
+</tbody></table>
+<p><strong>例子1：</strong>（document.write与document.URL组合）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> pos=<span class="built_in">document</span>.URL.indexOf(<span class="string">"name="</span>)+<span class="number">5</span>;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">document</span>.write(<span class="built_in">decodeURI</span>(<span class="built_in">document</span>.URL.substring(pos,<span class="built_in">document</span>.URL.length))); </span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>注意这里的configure命令需要使用–with-tclinclude选项传入tcl安装包中的generic文件夹路径。</p>
-<p>安装完成之后运行expect命令，查看是否安装成功。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> expect</span><br><span class="line">expect1.1&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571117909765.png" alt="1571117909765"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571117964969.png" alt="1571117964969"></p>
+<p><strong>例子2：</strong>（location.hash+eval）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/domxss3.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="2-检查脚本安装"><a href="#2-检查脚本安装" class="headerlink" title="2. 检查脚本安装"></a>2. 检查脚本安装</h3><h5 id="2-1-检查脚本有一处需要编辑地方"><a href="#2-1-检查脚本有一处需要编辑地方" class="headerlink" title="2.1 检查脚本有一处需要编辑地方"></a>2.1 检查脚本有一处需要编辑地方</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">set -x</span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line">NOW_IP=`ip a |awk -F '[ /]+' 'NR==9 &#123;print $3&#125;'`</span><br><span class="line">myPath="/var/"  </span><br><span class="line"></span><br><span class="line">find ./ -regextype posix-extended -regex ".*\.(jpg|png|bmp)" ! -path "./sys/*" ! -path "./etc/*"  ! -path "./bin/*"  ! -path "./lib/*"  ! -path "./lib64/*"  &gt;&gt;  /var/$NOW_IP.txt </span><br><span class="line"></span><br><span class="line">TO_HOST="**"</span><br><span class="line">USER="**"</span><br><span class="line">PASSWD="***"</span><br><span class="line">TO_DIR="/bakdata/checklogs/"</span><br><span class="line"> </span><br><span class="line">/expect5.45/expect &lt;&lt;-EOF  #该处改为你expect安装的目录</span><br><span class="line">set timeout -1</span><br><span class="line">spawn scp  -o "StrictHostKeyChecking no"  /var/$NOW_IP.txt $USER@$TO_HOST:$TO_DIR</span><br><span class="line"> </span><br><span class="line">expect "assword:"</span><br><span class="line">send "$PASSWD\n"</span><br><span class="line"> </span><br><span class="line">expect "100%"</span><br><span class="line">expect eof</span><br><span class="line">EOF</span><br><span class="line">  </span><br><span class="line">rm -rf  /var/$NOW_IP.txt</span><br></pre></td></tr></table></figure>
+<p>domxss3.js脚本1:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="built_in">decodeURI</span>(location.hash.substr(<span class="number">1</span>))); <span class="comment">//执行location.hash提取出的内容。#后面的内容</span></span><br></pre></td></tr></table></figure>
 
-<p>dataacp.sh需要设置可执行权限。chmod 655 dataacp.sh</p>
-<p>下面为dataacp1.1.sh 升级了版本。需求是分别输出大于60天与小于60天的文件</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">set -x</span><br><span class="line"></span><br><span class="line">source /etc/profile</span><br><span class="line"></span><br><span class="line">NOW_IP=`ip a |awk -F '[ /]+' 'NR==9 &#123;print $3&#125;'`</span><br><span class="line">myPath="/var/"  </span><br><span class="line">  </span><br><span class="line">find / -regextype posix-extended -regex ".*\.(jpg|png|bmp)" -mtime -60 ! -path "./sys/*" ! -path "./etc/*"  ! -path "./bin/*"  ! -path "./lib/*"  ! -path "./lib64/*"  &gt;&gt;  /var/$NOW_IP.txt.min </span><br><span class="line">find / -regextype posix-extended -regex ".*\.(jpg|png|bmp)" -mtime +60 ! -path "./sys/*" ! -path "./etc/*"  ! -path "./bin/*"  ! -path "./lib/*"  ! -path "./lib64/*"  &gt;&gt;  /var/$NOW_IP.txt.max </span><br><span class="line"></span><br><span class="line">TO_HOST="10.*.*.*"</span><br><span class="line">USER="***"</span><br><span class="line">PASSWD="******"</span><br><span class="line">TO_DIR="/bakdata/checklogs/"</span><br><span class="line"> </span><br><span class="line">/expect/expect5.45/expect &lt;&lt;-EOF</span><br><span class="line">set timeout -1</span><br><span class="line">spawn scp  -o "StrictHostKeyChecking no"  /var/$NOW_IP.txt.min $USER@$TO_HOST:$TO_DIR</span><br><span class="line"> </span><br><span class="line">expect "assword:"</span><br><span class="line">send "$PASSWD\n"</span><br><span class="line"> </span><br><span class="line">expect "100%"</span><br><span class="line">expect eof</span><br><span class="line">EOF</span><br><span class="line">rm -rf  /var/$NOW_IP.txt.min</span><br><span class="line"></span><br><span class="line">/expect/expect5.45/expect &lt;&lt;-EOF</span><br><span class="line">set timeout -1</span><br><span class="line">spawn scp  -o "StrictHostKeyChecking no"  /var/$NOW_IP.txt.max $USER@$TO_HOST:$TO_DIR</span><br><span class="line"> </span><br><span class="line">expect "assword:"</span><br><span class="line">send "$PASSWD\n"</span><br><span class="line"> </span><br><span class="line">expect "100%"</span><br><span class="line">expect eof</span><br><span class="line">EOF</span><br><span class="line">rm -rf  /var/$NOW_IP.txt.max</span><br></pre></td></tr></table></figure>
+<p>domxss3.js脚本2:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> hash = location.hash;</span><br><span class="line"><span class="keyword">if</span>(hash)&#123;</span><br><span class="line">    <span class="keyword">var</span> url = hash.substring(<span class="number">1</span>);</span><br><span class="line">	<span class="built_in">eval</span>(<span class="built_in">decodeURI</span>(url));          <span class="comment">//执行location.hash提取出的内容。#后面的内容</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h5 id="2-2-写时间计划"><a href="#2-2-写时间计划" class="headerlink" title="2.2 写时间计划"></a>2.2 写时间计划</h5><p>​        ubuntu第一次进行操作时候，需要进行编辑器选择。选择第二个工具。</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570512424469.png" alt="1570512424469"></p>
-<p>然后时间计划如下进行写入</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/github/1570522932392.png" alt="1570522932392"></p>
-<p>重启时间计划任务：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>service cron restart</span><br></pre></td></tr></table></figure>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571124477147.png" alt="1571124477147"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571124503771.png" alt="1571124503771"></p>
+<p><strong>例子3：</strong>（location.search+document.location）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> caxun = location.search;  <span class="comment">////返回一个URL的查询部分</span></span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> searchParams = <span class="keyword">new</span> URLSearchParams(caxun);  <span class="comment">//URLSearchParams对象定义了操作 URL传递参数的方法。</span></span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> id = searchParams.get(<span class="string">'id'</span>);   <span class="comment">//获取ID字段</span></span></span><br><span class="line"><span class="javascript">	<span class="keyword">if</span> (id !== <span class="literal">null</span>) &#123;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">document</span>.location = id;</span></span><br><span class="line">	&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="注："><a href="#注：" class="headerlink" title="注："></a>注：</h4><p>1:请将datacap.sh脚本放于root目录下    </p>
-<p>2:将datacap.sh权限设置为655</p>
-<p>3:全程用root身份进行操作</p>
+<p>从URL栏中获取id参数，如果不为空这赋值给document.location,然后页面跳转到新的URL地址。此时可以通过js伪协议实现DOM型XSS攻击。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571127738349.png" alt="1571127738349"></p>
+<h5 id="5-在谷歌浏览器下，反射性-xss-为啥不能触发？"><a href="#5-在谷歌浏览器下，反射性-xss-为啥不能触发？" class="headerlink" title="5.在谷歌浏览器下，反射性 xss 为啥不能触发？"></a>5.在谷歌浏览器下，反射性 xss 为啥不能触发？</h5><p>​        谷歌浏览器在内核中加入了XSS Auditor，XSS Auditor这是一个被加入在了chrome内核中的安全功能，之所以加入内核是为了其它调用chrome内核的浏览器也具备这个功能，目的是为了抵御XSS，功能很强大，能抵御很多反射型XSS的payload，DOM的话效果弱很多，而存储型根本没用。与之类似的IE中也有自己的XSS Filter。</p>
+<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="https://www.mi1k7ea.com/2019/06/25/%E6%B5%85%E6%9E%90DOM%E5%9E%8BXSS/" target="_blank" rel="noopener">浅谈DOM型XSS</a></p>
+<p><a href="https://wizardforcel.gitbooks.io/xss-naxienian/content/7.html" target="_blank" rel="noopener">那些年我们一起学XSS</a></p>
 
       
     </div>
@@ -636,8 +770,8 @@ window.onmouseout = function () {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/06/各种注入类型的环境搭建和代码编写/" rel="next" title="各种注入类型的环境搭建和代码编写">
-                <i class="fa fa-chevron-left"></i> 各种注入类型的环境搭建和代码编写
+              <a href="/2019/10/09/ubuntu或linux针对关键文件检索关键信息/" rel="next" title="ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本">
+                <i class="fa fa-chevron-left"></i> ubuntu和liunx，针对关键文件输出关键信息，定时检测并且上传服务器端脚本
               </a>
             
           </div>
@@ -646,8 +780,8 @@ window.onmouseout = function () {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/10/16/XSS相关漏洞/" rel="prev" title="XSS相关漏洞">
-                XSS相关漏洞 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/23/Discuz_x3.4论坛搭建/" rel="prev" title="Discuz_x3.4论坛搭建">
+                Discuz_x3.4论坛搭建 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -785,7 +919,7 @@ window.onmouseout = function () {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu检测脚本安装说明（以下操作以root用户身份进行）"><span class="nav-number">1.</span> <span class="nav-text">ubuntu检测脚本安装说明（以下操作以root用户身份进行）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首先需要安装Except"><span class="nav-number">1.1.</span> <span class="nav-text">1.首先需要安装Except</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-查看是否有Except服务"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">1.1 查看是否有Except服务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-检查tcl-安装情况"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">1.2 检查tcl 安装情况</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-下载安装包"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">1.3 下载安装包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-先安装tcl"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">1.4 先安装tcl</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-5-安装expect"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">1.5 安装expect</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-检查脚本安装"><span class="nav-number">1.2.</span> <span class="nav-text">2. 检查脚本安装</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-检查脚本有一处需要编辑地方"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">2.1 检查脚本有一处需要编辑地方</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-写时间计划"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">2.2 写时间计划</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注："><span class="nav-number">1.2.1.</span> <span class="nav-text">注：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS相关漏洞"><span class="nav-number">1.</span> <span class="nav-text">XSS相关漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-POST类型的csrf漏洞，绕过设置了验证来源-referer-的情况。"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. POST类型的csrf漏洞，绕过设置了验证来源 referer 的情况。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-有一个存储型-xss-打到了后台-cookie，但是后台在内网，无法访问的情况下，如何利用？"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.有一个存储型 xss 打到了后台 cookie，但是后台在内网，无法访问的情况下，如何利用？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-img标签可以跨域"><span class="nav-number">1.0.3.</span> <span class="nav-text">3. img标签可以跨域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-dom型xss除了因为innerHTML-造成，还有什么。"><span class="nav-number">1.0.4.</span> <span class="nav-text">4. dom型xss除了因为innerHTML 造成，还有什么。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-在谷歌浏览器下，反射性-xss-为啥不能触发？"><span class="nav-number">1.0.5.</span> <span class="nav-text">5.在谷歌浏览器下，反射性 xss 为啥不能触发？</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#参考链接："><span class="nav-number">2.</span> <span class="nav-text">参考链接：</span></a></li></div>
             
 
           </div>

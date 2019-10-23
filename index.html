@@ -433,6 +433,619 @@ window.onmouseout = function () {
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/23/Discuz_x3.4论坛搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/23/Discuz_x3.4论坛搭建/" itemprop="url">Discuz_x3.4论坛搭建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-23T17:00:34+08:00">
+                2019-10-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2019/10/23/Discuz_x3.4论坛搭建/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2019/10/23/Discuz_x3.4论坛搭建/" class="cy_cmt_count" data-xid="2019/10/23/Discuz_x3.4论坛搭建/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2019/10/23/Discuz_x3.4论坛搭建/" class="leancloud_visitors" data-flag-title="Discuz_x3.4论坛搭建">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="Discuz-x3-4论坛搭建"><a href="#Discuz-x3-4论坛搭建" class="headerlink" title="Discuz_x3.4论坛搭建"></a>Discuz_x3.4论坛搭建</h2><p>环境Centos7+nginx1.10.1+php7.1+mysql5.7.28</p>
+<h3 id="1-安装nginx"><a href="#1-安装nginx" class="headerlink" title="1.安装nginx"></a>1.安装nginx</h3><p>1.1 首先更新系统软件源:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum updata</span><br></pre></td></tr></table></figure>
+
+<p>1.2 依赖包安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># yum -y install gcc gcc-c++ autoconf automake libtool make cmake</span><br><span class="line"># yum -y install zlib zlib-devel openssl openssl-devel pcre-devel</span><br></pre></td></tr></table></figure>
+
+<p>1.3 下载并解压nginx包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /usr/local/src</span><br><span class="line">[root@localhost src]# wget -c http://nginx.org/download/nginx-1.10.3.tar.gz</span><br><span class="line">[root@localhost src]# tar zxvf nginx-1.10.3.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>1.4 新建nginx用户，并修改用户权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost src]# groupadd nginx</span><br><span class="line">[root@localhost src]# useradd -g nginx -M nginx</span><br></pre></td></tr></table></figure>
+
+<p><code>useradd</code>命令的<code>-M</code>参数用于不为<code>nginx</code>建立<code>home</code>目录<br>修改<code>/etc/passwd</code>，使得<code>nginx</code>用户无法bash登陆(nginx用户后面由<code>/bin/bash</code>改为<code>/sbin/nologin</code>),修改passwd文件。想最后nginx那一行后面修改<code>/bin/bash</code>改为<code>/sbin/nologin</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx:x:1002:1003::/home/nginx:/sbin/nologin</span><br></pre></td></tr></table></figure>
+
+<p>1.5 编译配置、编译、安装</p>
+<p>进入解压的nginx源码目录，<code>/usr/local/src/</code> 执行以下命令 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# cd /usr/local/src/nginx*</span><br><span class="line">[root@localhost nginx-1.10.3]# pwd</span><br><span class="line">/usr/local/src/nginx-1.10.3</span><br><span class="line">[root@localhost nginx-1.10.3]#</span><br><span class="line">[root@localhost nginx-1.10.3]# ./configure --prefix=/usr/local/nginx \</span><br><span class="line">--pid-path=/usr/local/nginx/run/nginx.pid \</span><br><span class="line">--with-http_ssl_module \</span><br><span class="line">--user=nginx \</span><br><span class="line">--group=nginx \</span><br><span class="line">--with-pcre \</span><br><span class="line">--without-mail_pop3_module \</span><br><span class="line">--without-mail_imap_module \</span><br><span class="line">--without-mail_smtp_module</span><br></pre></td></tr></table></figure>
+
+<p>上面的\表示换行。</p>
+<p>然后进行编译：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nginx-1.10.3]# make</span><br><span class="line">[root@localhost nginx-1.10.3]# make install</span><br></pre></td></tr></table></figure>
+
+<p>编译以后查看版本：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost nginx-1.10.3]# /usr/local/nginx/sbin/nginx -v</span><br><span class="line">nginx version: nginx/1.10.3</span><br></pre></td></tr></table></figure>
+
+<p>nginx停止、重启:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#  nginx 管理的几种方式 -</span><br><span class="line"># 启动Nginx </span><br><span class="line">/usr/local/nginx/sbin/nginx </span><br><span class="line"># 从容停止Nginx：</span><br><span class="line">kill -QUIT 主进程号 # 如上一步中的 ps 命令输出的 29151，就是 Nginx的主进程号</span><br><span class="line"># 快速停止Nginx：</span><br><span class="line">kill -TERM 主进程号</span><br><span class="line"># 强制停止Nginx：</span><br><span class="line">pkill -9 nginx</span><br><span class="line"># 平滑重启nginx</span><br><span class="line">/usr/nginx/sbin/nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<p>至次nginx安装完成。可以访问<a href="http://locahost:80访问你的网站。" target="_blank" rel="noopener">http://locahost:80访问你的网站。</a></p>
+<p>1.6 在防火墙上添加端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#firewall-cmd --zone=public --add-port=80/tcp --permanent</span><br><span class="line">#firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+
+<p>注:如果是阿里云服务器还需要在安全组中将80端口打开。</p>
+<h3 id="2-PHP安装"><a href="#2-PHP安装" class="headerlink" title="2.PHP安装"></a>2.PHP安装</h3><p>2.1 安装epel-release</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]#yum -y install epel-release</span><br></pre></td></tr></table></figure>
+
+<p>2.2 安装php7.1</p>
+<p>首先设定php的yum源，执行下面命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm</span><br><span class="line">[root@localhost ~]# rpm -Uvh https://mirror.webtatic.com/yum/el7/webtatic-release.rpm</span><br></pre></td></tr></table></figure>
+
+<p>2.3 然后进行查看扩展名指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# yum search php71w</span><br></pre></td></tr></table></figure>
+
+<p>2.4 安装php71w和各种扩展程序。安装的时候有两次要输入 Y 回车，才会继续安装的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]# yum install php71w php71w-bcmath php71w-cli php71w-common php71w-devel php71w-embedded php71w-fpm php71w-gd php71w-mbstring php71w-mysqlnd php71w-opcache php71w-pdo php71w-xml</span><br></pre></td></tr></table></figure>
+
+<p>2.5 查看是否安装成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php -v</span><br></pre></td></tr></table></figure>
+
+<p>2.6 php启动</p>
+<p>   这个<code>php-fpm.service</code>文件，位于下述路径中：<code>/lib/systemd/system/</code>中。在这个目录下面，可以看到相关的开机服务项目。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">systemctl status php-fpm.service   //查看PHP运行状态</span><br><span class="line">systemctl start php-fpm.service    //启动PHP</span><br><span class="line">systemctl stop php-fpm.service     //停止PHP</span><br><span class="line">systemctl restart php-fpm.service  //重启PHP</span><br><span class="line">systemctl reload php-fpm.service   //重启修改配置</span><br><span class="line">//开机启动</span><br><span class="line">systemctl enable php-fpm.service</span><br><span class="line">systemctl start php-fpm.service</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-修改nginx路径"><a href="#3-修改nginx路径" class="headerlink" title="3. 修改nginx路径"></a>3. 修改nginx路径</h3><p>我的站点路径为根目录下的web文件夹。需要修改nginx.conf的配置文件。vi  /usr/local/nginx/conf/nginx.conf。修改目录及添加支持php相关内容。</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">将：</span><br><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">           <span class="attribute">root</span>   html;</span><br><span class="line">           <span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line">改为：</span><br><span class="line"><span class="attribute">location</span> / &#123;</span><br><span class="line">           <span class="attribute">root</span>   /web;</span><br><span class="line">           <span class="attribute">index</span>  index.php index.html index.htm;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">将：</span><br><span class="line"><span class="attribute">location</span> <span class="regexp">~ .php$</span> &#123;</span><br><span class="line">           <span class="attribute">root</span>          html;</span><br><span class="line">           <span class="attribute">fastcgi_pass</span>   <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">           <span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">           <span class="attribute">fastcgi_param</span>  SCRIPT_FILENAME  <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">           <span class="attribute">include</span>       fastcgi_params;</span><br><span class="line">        &#125;</span><br><span class="line">改为：</span><br><span class="line"><span class="attribute">location</span> <span class="regexp">~ .php$</span> &#123;</span><br><span class="line">           <span class="attribute">root</span>          /web;</span><br><span class="line">           <span class="attribute">fastcgi_pass</span>   <span class="number">127.0.0.1:9000</span>;</span><br><span class="line">           <span class="attribute">fastcgi_index</span>  index.php;</span><br><span class="line">           <span class="attribute">fastcgi_param</span>  SCRIPT_FILENAME  <span class="variable">$document_root</span><span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">           <span class="attribute">include</span>       fastcgi_params;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后重启nginx。</p>
+<h3 id="4-mysql安装"><a href="#4-mysql安装" class="headerlink" title="4.mysql安装"></a>4.mysql安装</h3><p>首先添加mysql7的源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -Uvh http://repo.mysql.com/mysql57-community-release-el7-7.noarch.rpm</span><br></pre></td></tr></table></figure>
+
+<p>安装mysql，需要敲两遍y。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install mysql-server mysql-devel mysql</span><br></pre></td></tr></table></figure>
+
+<p>mysql安装完成有一个随机密码通过以下命令进行检索：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep &apos;temporary password&apos; /var/log/mysqld.log</span><br></pre></td></tr></table></figure>
+
+<p>mysql 启动及停止命令：</p>
+<p>启动: <code>service mysqld start</code><br>停止: <code>service mysqld stop</code></p>
+<p>使用默认密码数据库成功的话，还不能进行操作先将密码进行修改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER &apos;root&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;@$$#@$sqxffDf123&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>刷新权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-Discuz包上传安装"><a href="#5-Discuz包上传安装" class="headerlink" title="5.Discuz包上传安装"></a>5.Discuz包上传安装</h3><p>5.1 首先下载DiscuzX3.4包：</p>
+<p><a href="https://files.gitee.com/group1/M00/09/6F/wKgCNF2A10WAHBYiALFhkDQrcZc860.zip?token=37a9a08225c013a13171b01a8667a398&ts=1571737159&attname=Discuz_X3.4_SC_UTF8%E3%80%9020190917%E3%80%91.zip&disposition=attachment" target="_blank" rel="noopener">Discuz下载链接</a>   该包在码云上需要进行注册下载。</p>
+<p>5.2 下载好以后压缩包内分别有3个文件夹。readme、utility、upload。 先将readme、utility文件夹上传到站点目录。<strong>注意：upload是将里面的所有文件传输形式以二进制的方式！！！，上传到站点根目录</strong></p>
+<p>5.3 将站点目录及里面所有文件先设置权限为777以后再调回655</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -r 777 web</span><br></pre></td></tr></table></figure>
+
+<p>5.4 如果以上操作都正确。访问<a href="http://locahost/install" target="_blank" rel="noopener">http://locahost/install</a> 链接是可以正常安装discuz的。</p>
+<p>至此就完成了Discuz论坛的安装。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/16/XSS相关漏洞/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/16/XSS相关漏洞/" itemprop="url">XSS相关漏洞</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-16T16:00:34+08:00">
+                2019-10-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2019/10/16/XSS相关漏洞/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2019/10/16/XSS相关漏洞/" class="cy_cmt_count" data-xid="2019/10/16/XSS相关漏洞/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2019/10/16/XSS相关漏洞/" class="leancloud_visitors" data-flag-title="XSS相关漏洞">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        
+          
+            <h3 id="XSS相关漏洞"><a href="#XSS相关漏洞" class="headerlink" title="XSS相关漏洞"></a>XSS相关漏洞</h3><h5 id="1-POST类型的csrf漏洞，绕过设置了验证来源-referer-的情况。"><a href="#1-POST类型的csrf漏洞，绕过设置了验证来源-referer-的情况。" class="headerlink" title="1. POST类型的csrf漏洞，绕过设置了验证来源 referer 的情况。"></a>1. POST类型的csrf漏洞，绕过设置了验证来源 referer 的情况。</h5><p>1.1 更改请求方式绕过</p>
+<p>​       如果伪造的敏感信息请求方式是通过POST方法发生的，那可以尝试转换为其他的方法如GET请求。通过GET发送应用程序可能依然执行并且通常没有任何保护机制。</p>
+<p>1.2 通过二级子域名形式绕过</p>
+<p>​        referer如果检验方式基于URL白名单的话，可以尝试通过二级子域名或者URL目录区域的方式进行referer绕过。</p>
+<p>如referer的检测URL的字段为baidu.com,则可通过baidu.com.attacker.cn或attacker.cn/baidu.com进行绕过。</p>
+<h5 id="2-有一个存储型-xss-打到了后台-cookie，但是后台在内网，无法访问的情况下，如何利用？"><a href="#2-有一个存储型-xss-打到了后台-cookie，但是后台在内网，无法访问的情况下，如何利用？" class="headerlink" title="2.有一个存储型 xss 打到了后台 cookie，但是后台在内网，无法访问的情况下，如何利用？"></a>2.有一个存储型 xss 打到了后台 cookie，但是后台在内网，无法访问的情况下，如何利用？</h5><p>​        这种情况需要结合beef一起使用。1.可以在beef上把目标的浏览器作为代理进行操作。2.可以利用mitmf结合社会工程学使用户接受Social Engineering中的模块，让用户安装.exe等更新软件获取shell。3.结合metasploit进一步获取权限。</p>
+<h5 id="3-img标签可以跨域"><a href="#3-img标签可以跨域" class="headerlink" title="3. img标签可以跨域"></a>3. img标签可以跨域</h5><p>​        由于img标签不受浏览器同源策略的影响，允许跨域引用资源。因此可以通过 img 标签的 src 属性进行跨域，这也就是图像 Ping 跨域的基本原理。</p>
+<p>编写一个简单的js脚本：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img=<span class="keyword">new</span> Image();</span><br><span class="line">img.src=<span class="string">'https://www.baidu.com/img/bd_logo1.png?where=super'</span>;</span><br><span class="line">img.onerror=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"> alert(<span class="string">'error'</span>);</span><br><span class="line">&#125;</span><br><span class="line">img.onload=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"> alert(<span class="string">'success'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​      图片可以从任何URL中加载，所以将img的src设置成其他域的URL，即可以实现简单的跨域，可以使用onload和onerror事件来确定是否接受到了响应。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>浏览器跨域测试<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>浏览器跨域测试<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/tux.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果图像地址正确,则弹出onload加载信息success，从而实现了简单的跨域。</p>
+<p>使用图片ping跨域只能发送get请求，并且不能访问响应的文本，只能监听是否响应而已。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1570869244076.png" alt="1570869244076"></p>
+<h5 id="4-dom型xss除了因为innerHTML-造成，还有什么。"><a href="#4-dom型xss除了因为innerHTML-造成，还有什么。" class="headerlink" title="4. dom型xss除了因为innerHTML 造成，还有什么。"></a>4. dom型xss除了因为innerHTML 造成，还有什么。</h5><p>​        DOM型XSS是基于DOM文档对象的漏洞。DOM型XSS算是反射型漏洞一种，但是不会与后台进行交互。完完全全的web前端安全问题。只能通过前端进行防御。</p>
+<p>​        客户端在加载JS代码中，存在Sources+Sinks的情况即有可能存在DOM型XSS。</p>
+<p><strong>Sources</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document.URL</td>
+<td>返回当前页面的URL</td>
+</tr>
+<tr>
+<td>document.referrer</td>
+<td>返回当前文档的URL</td>
+</tr>
+<tr>
+<td>Window Location</td>
+<td>获得当前页面的地址 (URL)，并把浏览器重定向到新的页面。</td>
+</tr>
+<tr>
+<td>document.location</td>
+<td>很多属性 其中包括返回当前页面的URL</td>
+</tr>
+<tr>
+<td>location.href</td>
+<td>返回完整的URL</td>
+</tr>
+<tr>
+<td>location.search</td>
+<td>返回一个URL的查询部分</td>
+</tr>
+<tr>
+<td>location.hash</td>
+<td>返回一个URL的锚部分</td>
+</tr>
+<tr>
+<td>location.pathname</td>
+<td>返回的URL路径名。</td>
+</tr>
+</tbody></table>
+<p><strong>Sinks</strong></p>
+<p><strong>直接执行脚本类</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>eval(…)</td>
+<td>eval() 函数用来执行一个字符串表达式，并返回表达式的值。</td>
+</tr>
+</tbody></table>
+<p>eval(expression[,globals[,locals]]) //expression – 表达式。globals – 变量作用域，全局命名空间，如果被提供，则必须是一个字典对象。locals – 变量作用域，局部命名空间，如果被提供，可以是任何映射对象。</p>
+<p><strong>写HTML页面类</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document.write(…)</td>
+<td>write() 方法可向文档写入 HTML 表达式或 JavaScript 代码。</td>
+</tr>
+<tr>
+<td>document.writeln(…)</td>
+<td>等同于 write() 方法，不同的是在每个表达式之后写一个换行符。</td>
+</tr>
+<tr>
+<td>element.innerHTML(…)</td>
+<td>获取dom元素的内容</td>
+</tr>
+</tbody></table>
+<p><strong>直接修改DOM类</strong></p>
+<table>
+<thead>
+<tr>
+<th>document.forms</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document.forms[]</td>
+<td>返回对文档中所有 Form 对象引用。</td>
+</tr>
+<tr>
+<td>document.attachEvent(…)</td>
+<td></td>
+</tr>
+<tr>
+<td>document.create…(…)</td>
+<td></td>
+</tr>
+<tr>
+<td>document.execCommand(…)</td>
+<td></td>
+</tr>
+<tr>
+<td>document.body</td>
+<td>返回文档的body元素</td>
+</tr>
+<tr>
+<td>window.attachEvent(…)</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>打开/修改窗口类</strong></p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>document.open(…)</td>
+<td>打开一个流，以收集来自任何 document.write() 或 document.writeln() 方法的输出。</td>
+</tr>
+<tr>
+<td>window.open(…)</td>
+<td>打开一个新的浏览器窗口或查找一个已命名的窗口。</td>
+</tr>
+<tr>
+<td>window.location.href=</td>
+<td>用于窗口或框架的 Location 对象,返回完整的URL</td>
+</tr>
+</tbody></table>
+<p><strong>例子1：</strong>（document.write与document.URL组合）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> pos=<span class="built_in">document</span>.URL.indexOf(<span class="string">"name="</span>)+<span class="number">5</span>;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">document</span>.write(<span class="built_in">decodeURI</span>(<span class="built_in">document</span>.URL.substring(pos,<span class="built_in">document</span>.URL.length))); </span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571117909765.png" alt="1571117909765"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571117964969.png" alt="1571117964969"></p>
+<p><strong>例子2：</strong>（location.hash+eval）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"js/domxss3.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>domxss3.js脚本1:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span>(<span class="built_in">decodeURI</span>(location.hash.substr(<span class="number">1</span>))); <span class="comment">//执行location.hash提取出的内容。#后面的内容</span></span><br></pre></td></tr></table></figure>
+
+<p>domxss3.js脚本2:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> hash = location.hash;</span><br><span class="line"><span class="keyword">if</span>(hash)&#123;</span><br><span class="line">    <span class="keyword">var</span> url = hash.substring(<span class="number">1</span>);</span><br><span class="line">	<span class="built_in">eval</span>(<span class="built_in">decodeURI</span>(url));          <span class="comment">//执行location.hash提取出的内容。#后面的内容</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571124477147.png" alt="1571124477147"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571124503771.png" alt="1571124503771"></p>
+<p><strong>例子3：</strong>（location.search+document.location）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> caxun = location.search;  <span class="comment">////返回一个URL的查询部分</span></span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> searchParams = <span class="keyword">new</span> URLSearchParams(caxun);  <span class="comment">//URLSearchParams对象定义了操作 URL传递参数的方法。</span></span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> id = searchParams.get(<span class="string">'id'</span>);   <span class="comment">//获取ID字段</span></span></span><br><span class="line"><span class="javascript">	<span class="keyword">if</span> (id !== <span class="literal">null</span>) &#123;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">document</span>.location = id;</span></span><br><span class="line">	&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>从URL栏中获取id参数，如果不为空这赋值给document.location,然后页面跳转到新的URL地址。此时可以通过js伪协议实现DOM型XSS攻击。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1571127738349.png" alt="1571127738349"></p>
+<h5 id="5-在谷歌浏览器下，反射性-xss-为啥不能触发？"><a href="#5-在谷歌浏览器下，反射性-xss-为啥不能触发？" class="headerlink" title="5.在谷歌浏览器下，反射性 xss 为啥不能触发？"></a>5.在谷歌浏览器下，反射性 xss 为啥不能触发？</h5><p>​        谷歌浏览器在内核中加入了XSS Auditor，XSS Auditor这是一个被加入在了chrome内核中的安全功能，之所以加入内核是为了其它调用chrome内核的浏览器也具备这个功能，目的是为了抵御XSS，功能很强大，能抵御很多反射型XSS的payload，DOM的话效果弱很多，而存储型根本没用。与之类似的IE中也有自己的XSS Filter。</p>
+<h3 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h3><p><a href="https://www.mi1k7ea.com/2019/06/25/%E6%B5%85%E6%9E%90DOM%E5%9E%8BXSS/" target="_blank" rel="noopener">浅谈DOM型XSS</a></p>
+<p><a href="https://wizardforcel.gitbooks.io/xss-naxienian/content/7.html" target="_blank" rel="noopener">那些年我们一起学XSS</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/09/ubuntu或linux针对关键文件检索关键信息/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3768,649 +4381,13 @@ window.onmouseout = function () {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/python3 OS模块/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Darren-zl">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Darren-学无止境">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/26/python3 OS模块/" itemprop="url">python3 OS模块</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-06-26T16:55:34+08:00">
-                2019-06-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2019/06/26/python3 OS模块/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://yoursite.com/2019/06/26/python3 OS模块/" class="cy_cmt_count" data-xid="2019/06/26/python3 OS模块/" itemprop="commentsCount"></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2019/06/26/python3 OS模块/" class="leancloud_visitors" data-flag-title="python3 OS模块">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </span></div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-
-      
-      
-
-      
-        
-          
-            <h1 id="python3-OS模块"><a href="#python3-OS模块" class="headerlink" title="python3 OS模块"></a>python3 OS模块</h1><h4 id="1-python-os-access-方法"><a href="#1-python-os-access-方法" class="headerlink" title="1.python os.access()方法"></a>1.python os.access()方法</h4><h5 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h5><p>os.access() 方法使用当前的uid/gid尝试访问路径。大部分操作使用有效的 uid/gid, 因此运行环境可以在 suid/sgid 环境尝试。</p>
-<h5 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.access(path, mode);</span><br></pre></td></tr></table></figure>
-
-<h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><ul>
-<li><strong>path</strong> – 要用来检测是否有访问权限的路径。</li>
-<li>``<strong>mode</strong> – mode为F_OK，测试存在的路径，或者它可以是包含R_OK, W_OK和X_OK或者R_OK, W_OK和X_OK其中之一或者更多。<ul>
-<li><strong>os.F_OK:</strong> 作为access()的mode参数，测试path是否存在。</li>
-<li><strong>os.R_OK:</strong> 包含在access()的mode参数中 ， 测试path是否可读。</li>
-<li><strong>os.W_OK</strong> 包含在access()的mode参数中 ， 测试path是否可写。</li>
-<li><strong>os.X_OK</strong> 包含在access()的mode参数中 ，测试path是否可执行。</li>
-</ul>
-</li>
-</ul>
-<h5 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os, sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假定 /tmp/foo.txt 文件存在，并有读写权限</span></span><br><span class="line"></span><br><span class="line">ret = os.access(<span class="string">"/tmp/foo.txt"</span>, os.F_OK)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"F_OK - 返回值 %s"</span>% ret)</span><br><span class="line"></span><br><span class="line">ret = os.access(<span class="string">"/tmp/foo.txt"</span>, os.R_OK)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"R_OK - 返回值 %s"</span>% ret)</span><br><span class="line"></span><br><span class="line">ret = os.access(<span class="string">"/tmp/foo.txt"</span>, os.W_OK)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"W_OK - 返回值 %s"</span>% ret)</span><br><span class="line"></span><br><span class="line">ret = os.access(<span class="string">"/tmp/foo.txt"</span>, os.X_OK)</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"X_OK - 返回值 %s"</span>% ret)</span><br></pre></td></tr></table></figure>
-
-<p>返回值：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">F_OK - 返回值 <span class="literal">True</span></span><br><span class="line">R_OK - 返回值 <span class="literal">True</span></span><br><span class="line">W_OK - 返回值 <span class="literal">True</span></span><br><span class="line">X_OK - 返回值 <span class="literal">False</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="2-python3-os-chdir-方法"><a href="#2-python3-os-chdir-方法" class="headerlink" title="2.python3 os.chdir()方法"></a>2.python3 os.chdir()方法</h4><h5 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h5><p>os.chdir() 方法用于改变当前工作目录到指定的路径。</p>
-<h5 id="语法-1"><a href="#语法-1" class="headerlink" title="语法"></a>语法</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">os.chdir(path)</span><br></pre></td></tr></table></figure>
-
-<h5 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h5><ul>
-<li>path–要切换到的新路径</li>
-</ul>
-<h5 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h5><p>如果允许访问返回True，否则返回False</p>
-<h5 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3.4</span></span><br><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> os,sys</span><br><span class="line">path = <span class="string">'C:/Users/'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看当前目录</span></span><br><span class="line">retval = os.getcwd()</span><br><span class="line"><span class="keyword">print</span> (<span class="string">'当前的目录为%s'</span>%retval)</span><br><span class="line"></span><br><span class="line"><span class="comment">#修改当前目录</span></span><br><span class="line">os.chdir(path)</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看修改后的当前目录</span></span><br><span class="line">retval = os.getcwd()</span><br><span class="line">print(<span class="string">'目录修改成功%s'</span>%retval)</span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565146492595.png" alt="1565146492595"></p>
-<p>os模块主要处理操作系统的相关的功能<br>  os.name           获取操作系统平台<br>  os.getcwd()       获取现在的工作目录<br>  os.listdir()      获取某个目录下的所有文件名<br>  os.system()       用来运行shell命令<br>  os.remove()       删除某个文件<br>  os.path.existe()  检验给出的路径是否真地存在<br>  os.path.isfile()  判断是否为文件;若是，返回值为真<br>  os.path.isdir()   判断是否为文件夹;若是，返回值为真<br>  os.path.abspath(name)     获得绝对路径<br>  os.path.splitext()        分离文件名与扩展名<br>  os.path.split()           把一个路径拆分为目录+文件名的形式<br>  os.path.join(path,name)   连接目录与文件名或目录<br>  os.path.basename(path)    返回文件名<br>  os.path.dirname(path)     返回文件路径<br>操作系统相关调用和操作：<br>  os.environ            一个dictionary 包含环境变量的映射关系<br>  os.environ[“HOME”]    可以得到环境变量HOME的值<br>  os.chdir(dir)         改变当前目录 os.chdir(‘d:\outlook’)   注意windows下用到转义<br>  os.getcwd()           得到当前目录<br>  os.getegid()          得到有效组<br>  id os.getgid()        得到组id<br>  os.getuid()           得到用户id<br>  os.geteuid()          得到有效用户id<br>  os.setegid os.setegid() os.seteuid() os.setuid()  设置id<br>  os.getgruops()       得到用户组名称列表<br>  os.getlogin()        得到用户登录名称<br>  os.getenv            得到环境变量<br>  os.putenv            设置环境变量<br>  os.umask             设置umask<br>  os.system(cmd)       利用系统调用，运行cmd命令</p>
-<p>问题（以下源码python2运行成功python3运行失败）：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os,sys</span><br><span class="line">newmulv = os.getcwd()</span><br><span class="line"><span class="keyword">print</span> (<span class="string">"当前目录为%s"</span>)%newmulv</span><br></pre></td></tr></table></figure>
-
-<p>报错内容：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565142839881.png" alt="1565142839881"></p>
-<p>查找后发现，源码需改变如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import os,sys</span><br><span class="line">newmulv = os.getcwd()</span><br><span class="line">print ((&quot;当前目录为%s&quot;)%newmulv)</span><br><span class="line">或者</span><br><span class="line">print (&quot;当前目录为%s&quot;%newmulv)</span><br></pre></td></tr></table></figure>
-
-<p>再次运行：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565143029894.png" alt="1565143029894"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-
-
-    
-
-    
-
-    
-
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/20/浏览器同源策略与Ajax跨域方法汇总/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Darren-zl">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Darren-学无止境">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/20/浏览器同源策略与Ajax跨域方法汇总/" itemprop="url">浏览器同源策略与Ajax跨域方法汇总</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-05-20T16:55:34+08:00">
-                2019-05-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2019/05/20/浏览器同源策略与Ajax跨域方法汇总/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://yoursite.com/2019/05/20/浏览器同源策略与Ajax跨域方法汇总/" class="cy_cmt_count" data-xid="2019/05/20/浏览器同源策略与Ajax跨域方法汇总/" itemprop="commentsCount"></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2019/05/20/浏览器同源策略与Ajax跨域方法汇总/" class="leancloud_visitors" data-flag-title="浏览器同源策略与Ajax跨域方法汇总">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </span></div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-
-      
-      
-
-      
-        
-          
-            <h1 id="浏览器同源策略与Ajax跨域方法汇总"><a href="#浏览器同源策略与Ajax跨域方法汇总" class="headerlink" title="浏览器同源策略与Ajax跨域方法汇总"></a>浏览器同源策略与Ajax跨域方法汇总</h1><h3 id="1-Ajax开发"><a href="#1-Ajax开发" class="headerlink" title="1. Ajax开发"></a>1. Ajax开发</h3><p>Ajax:“<strong>A</strong>synchronous <strong>J</strong>avaScript  <strong>A</strong>nd <strong>X</strong>ML”（异步 JavaScript 和 XML），是指一种创建交互式网页应用的网页开发技术。</p>
-<p>Ajax=异步JavaScript和XML或者是HTML(标准通用标记语言的子集)</p>
-<p>Ajax 是一种用于创建快速动态网页的技术。</p>
-<p>Ajax 是一种在无需重新加载整个网页的情况下，能够更新部分网页的技术。</p>
-<p>通过在后台与服务器进行少量数据交换，Ajax 可以使网页实现异步更新。这意味着可以在不重新加载整个网页的情况下，对网页的某部分进行更新。</p>
-<p>传统的网页（不使用 Ajax）如果需要更新内容，必须重载整个网页页面。</p>
-<h2 id="2-什么是浏览器同源策略"><a href="#2-什么是浏览器同源策略" class="headerlink" title="2.什么是浏览器同源策略"></a>2.什么是浏览器同源策略</h2><p>同源策略（Same origin policy）是一种约定，它是浏览器最核心也最基本的安全功能，如果缺少了同源策略，则浏览器的正常功能可能都会受到影响。可以说 Web 是构建在同源策略基础之上的，浏览器只是针对同源策略的一种实现。</p>
-<p>它的核心就在于它认为自任何站点装载的信赖内容是不安全的。当被浏览器半信半疑的脚本运行在沙箱时，它们应该只被允许访问来自同一站点的资源，而不是那些来自其它站点可能怀有恶意的资源。</p>
-<p>所谓同源是指：域名、协议、端口相同。</p>
-<p>下表是相对于 <code>http://www.laixiangran.cn/home/index.html</code> 的同源检测结果：</p>
-<p><img src="https://note.youdao.com/yws/api/personal/file/9932BCD648DE4CACB29A563116CE962B?method=download&shareKey=7fad5abd13151856c933a2bc9064a83a" alt="img"></p>
-<p>另外，同源策略又分为以下两种：</p>
-<ol>
-<li>DOM 同源策略：禁止对不同源页面 DOM 进行操作。这里主要场景是 iframe 跨域的情况，不同域名的 iframe 是限制互相访问的。</li>
-<li>XMLHttpRequest 同源策略：禁止使用 XHR 对象向不同源的服务器地址发起 HTTP 请求。</li>
-</ol>
-<h2 id="为什么要有跨域限制"><a href="#为什么要有跨域限制" class="headerlink" title="为什么要有跨域限制"></a>为什么要有跨域限制</h2><p>因为存在浏览器同源策略，所以才会有跨域问题。那么浏览器是出于何种原因会有跨域的限制呢。其实不难想到，跨域限制主要的目的就是为了用户的上网安全。</p>
-<p>如果浏览器没有同源策略，会存在什么样的安全问题呢。下面从 DOM 同源策略和 XMLHttpRequest 同源策略来举例说明：</p>
-<p><strong>如果没有 DOM 同源策略，也就是说不同域的 iframe 之间可以相互访问，那么黑客可以这样进行攻击：</strong></p>
-<ol>
-<li>做一个假网站，里面用 iframe 嵌套一个银行网站 <code>http://mybank.com</code>。</li>
-<li>把 iframe 宽高啥的调整到页面全部，这样用户进来除了域名，别的部分和银行的网站没有任何差别。</li>
-<li>这时如果用户输入账号密码，我们的主网站可以跨域访问到 <code>http://mybank.com</code> 的 dom 节点，就可以拿到用户的账户密码了。</li>
-</ol>
-<p><strong>如果 XMLHttpRequest 同源策略，那么黑客可以进行 CSRF（跨站请求伪造） 攻击：</strong></p>
-<ol>
-<li>用户登录了自己的银行页面 <code>http://mybank.com</code>，<code>http://mybank.com</code> 向用户的 cookie 中添加用户标识。</li>
-<li>用户浏览了恶意页面 <code>http://evil.com</code>，执行了页面中的恶意 AJAX 请求代码。</li>
-<li><code>http://evil.com</code> 向 <code>http://mybank.com</code> 发起 AJAX HTTP 请求，请求会默认把 <code>http://mybank.com</code> 对应 cookie 也同时发送过去。</li>
-<li>银行页面从发送的 cookie 中提取用户标识，验证用户无误，response 中返回请求数据。此时数据就泄露了。</li>
-<li>而且由于 Ajax 在后台执行，用户无法感知这一过程。</li>
-</ol>
-<p>因此，有了浏览器同源策略，我们才能更安全的上网。</p>
-<h2 id="跨域的解决方法"><a href="#跨域的解决方法" class="headerlink" title="跨域的解决方法"></a>跨域的解决方法</h2><p>从上面我们了解到了浏览器同源策略的作用，也正是有了跨域限制，才使我们能安全的上网。但是在实际中，有时候我们需要突破这样的限制，因此下面将介绍几种跨域的解决方法。</p>
-<h3 id="CORS（跨域资源共享）"><a href="#CORS（跨域资源共享）" class="headerlink" title="CORS（跨域资源共享）"></a>CORS（跨域资源共享）</h3><p>CORS（Cross-origin resource sharing，跨域资源共享）是一个 W3C 标准，定义了在必须访问跨域资源时，浏览器与服务器应该如何沟通。CORS 背后的基本思想，就是使用自定义的 HTTP 头部让浏览器与服务器进行沟通，从而决定请求或响应是应该成功，还是应该失败。</p>
-<p>CORS 需要浏览器和服务器同时支持。目前，所有浏览器都支持该功能，IE 浏览器不能低于 IE10。</p>
-<p>整个 CORS 通信过程，都是浏览器自动完成，不需要用户参与。对于开发者来说，CORS 通信与同源的 AJAX 通信没有差别，代码完全一样。浏览器一旦发现 AJAX 请求跨源，就会自动添加一些附加的头信息，有时还会多出一次附加的请求，但用户不会有感觉。</p>
-<p>因此，实现 CORS 通信的关键是服务器。只要服务器实现了 CORS 接口，就可以跨源通信。</p>
-<p>浏览器将CORS请求分成两类：简单请求（simple request）和非简单请求（not-so-simple request）。</p>
-<p>只要同时满足以下两大条件，就属于<strong>简单请求</strong>。</p>
-<ol>
-<li>请求方法是以下三种方法之一：</li>
-</ol>
-<ul>
-<li>HEAD</li>
-<li>GET</li>
-<li>POST</li>
-</ul>
-<ol>
-<li>HTTP的头信息不超出以下几种字段：</li>
-</ol>
-<ul>
-<li>Accept</li>
-<li>Accept-Language</li>
-<li>Content-Language</li>
-<li>Last-Event-ID</li>
-<li>Content-Type：只限于三个值 application/x-www-form-urlencoded、multipart/form-data、text/plain</li>
-</ul>
-<p>凡是不同时满足上面两个条件，就属于<strong>非简单请求</strong>。</p>
-<p>浏览器对这两种请求的处理，是不一样的。</p>
-<h4 id="简单请求"><a href="#简单请求" class="headerlink" title="简单请求"></a>简单请求</h4><ol>
-<li>在请求中需要附加一个额外的 Origin 头部，其中包含请求页面的源信息（协议、域名和端口），以便服务器根据这个头部信息来决定是否给予响应。例如：<code>Origin: http://www.laixiangran.cn</code></li>
-<li>如果服务器认为这个请求可以接受，就在 Access-Control-Allow-Origin 头部中回发相同的源信息（如果是公共资源，可以回发 * ）。例如：<code>Access-Control-Allow-Origin：http://www.laixiangran.cn</code></li>
-<li>没有这个头部或者有这个头部但源信息不匹配，浏览器就会驳回请求。正常情况下，浏览器会处理请求。注意，请求和响应都不包含 cookie 信息。</li>
-<li>如果需要包含 cookie 信息，ajax 请求需要设置 xhr 的属性 withCredentials 为 true，服务器需要设置响应头部 <code>Access-Control-Allow-Credentials: true</code>。</li>
-</ol>
-<h4 id="非简单请求"><a href="#非简单请求" class="headerlink" title="非简单请求"></a>非简单请求</h4><p>浏览器在发送真正的请求之前，会先发送一个 Preflight 请求给服务器，这种请求使用 OPTIONS 方法，发送下列头部：</p>
-<ul>
-<li>Origin：与简单的请求相同。</li>
-<li>Access-Control-Request-Method: 请求自身使用的方法。</li>
-<li>Access-Control-Request-Headers: （可选）自定义的头部信息，多个头部以逗号分隔。</li>
-</ul>
-<p>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Origin: http://www.laixiangran.cn</span><br><span class="line">Access-Control-Request-Method: POST</span><br><span class="line">Access-Control-Request-Headers: NCZ</span><br></pre></td></tr></table></figure>
-
-<p>发送这个请求后，服务器可以决定是否允许这种类型的请求。服务器通过在响应中发送如下头部与浏览器进行沟通：</p>
-<ul>
-<li>Access-Control-Allow-Origin：与简单的请求相同。</li>
-<li>Access-Control-Allow-Methods: 允许的方法，多个方法以逗号分隔。</li>
-<li>Access-Control-Allow-Headers: 允许的头部，多个方法以逗号分隔。</li>
-<li>Access-Control-Max-Age: 应该将这个 Preflight 请求缓存多长时间（以秒表示）。</li>
-</ul>
-<p>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Access-Control-Allow-Origin: http://www.laixiangran.cn</span><br><span class="line">Access-Control-Allow-Methods: GET, POST</span><br><span class="line">Access-Control-Allow-Headers: NCZ</span><br><span class="line">Access-Control-Max-Age: 1728000</span><br></pre></td></tr></table></figure>
-
-<p>一旦服务器通过 Preflight 请求允许该请求之后，以后每次浏览器正常的 CORS 请求，就都跟简单请求一样了。</p>
-<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>CORS 通信与同源的 AJAX 通信没有差别，代码完全一样，容易维护。</li>
-<li>支持所有类型的 HTTP 请求。</li>
-</ul>
-<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
-<li>存在兼容性问题，特别是 IE10 以下的浏览器。</li>
-<li>第一次发送非简单请求时会多一次请求。</li>
-</ul>
-<h3 id="JSONP-跨域"><a href="#JSONP-跨域" class="headerlink" title="JSONP 跨域"></a>JSONP 跨域</h3><p>由于 <code>script</code> 标签不受浏览器同源策略的影响，允许跨域引用资源。因此可以通过动态创建 script 标签，然后利用 src 属性进行跨域，这也就是 JSONP 跨域的基本原理。</p>
-<p>直接通过下面的例子来说明 JSONP 实现跨域的流程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 1. 定义一个 回调函数 handleResponse 用来接收返回的数据</span><br><span class="line">function handleResponse(data) &#123;</span><br><span class="line">    console.log(data);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 2. 动态创建一个 script 标签，并且告诉后端回调函数名叫 handleResponse</span><br><span class="line">var body = document.getElementsByTagName(&apos;body&apos;)[0];</span><br><span class="line">var script = document.gerElement(&apos;script&apos;);</span><br><span class="line">script.src = &apos;http://www.laixiangran.cn/json?callback=handleResponse&apos;;</span><br><span class="line">body.appendChild(script);</span><br><span class="line"></span><br><span class="line">// 3. 通过 script.src 请求 `http://www.laixiangran.cn/json?callback=handleResponse`，</span><br><span class="line">// 4. 后端能够识别这样的 URL 格式并处理该请求，然后返回 handleResponse(&#123;&quot;name&quot;: &quot;laixiangran&quot;&#125;) 给浏览器</span><br><span class="line">// 5. 浏览器在接收到 handleResponse(&#123;&quot;name&quot;: &quot;laixiangran&quot;&#125;) 之后立即执行 ，也就是执行 handleResponse 方法，获得后端返回的数据，这样就完成一次跨域请求了。</span><br></pre></td></tr></table></figure>
-
-<h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>使用简便，没有兼容性问题，目前最流行的一种跨域方法。</li>
-</ul>
-<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><ul>
-<li>只支持 GET 请求。</li>
-<li>由于是从其它域中加载代码执行，因此如果其他域不安全，很可能会在响应中夹带一些恶意代码。</li>
-<li>要确定 JSONP 请求是否失败并不容易。虽然 HTML5 给 script 标签新增了一个 onerror 事件处理程序，但是存在兼容性问题。</li>
-</ul>
-<h3 id="图像-Ping-跨域"><a href="#图像-Ping-跨域" class="headerlink" title="图像 Ping 跨域"></a>图像 Ping 跨域</h3><p>由于 <code>img</code> 标签不受浏览器同源策略的影响，允许跨域引用资源。因此可以通过 img 标签的 src 属性进行跨域，这也就是图像 Ping 跨域的基本原理。</p>
-<p>直接通过下面的例子来说明图像 Ping 实现跨域的流程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var img = new Image();</span><br><span class="line"></span><br><span class="line">// 通过 onload 及 onerror 事件可以知道响应是什么时候接收到的，但是不能获取响应文本</span><br><span class="line">img.onload = img.onerror = function() &#123;</span><br><span class="line">    console.log(&quot;Done!&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 请求数据通过查询字符串形式发送</span><br><span class="line">img.src = &apos;http://www.laixiangran.cn/test?name=laixiangran&apos;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="优点-2"><a href="#优点-2" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>用于实现跟踪用户点击页面或动态广告曝光次数有较大的优势。</li>
-</ul>
-<h4 id="缺点-2"><a href="#缺点-2" class="headerlink" title="缺点"></a>缺点</h4><ul>
-<li>只支持 GET 请求。</li>
-<li>只能浏览器与服务器的单向通信，因为浏览器不能访问服务器的响应文本。</li>
-</ul>
-<h3 id="服务器代理"><a href="#服务器代理" class="headerlink" title="服务器代理"></a>服务器代理</h3><p>浏览器有跨域限制，但是服务器不存在跨域问题，所以可以由服务器请求所要域的资源再返回给客户端。</p>
-<p>服务器代理是万能的。</p>
-<h3 id="document-domain-跨域"><a href="#document-domain-跨域" class="headerlink" title="document.domain 跨域"></a>document.domain 跨域</h3><p>对于主域名相同，而子域名不同的情况，可以使用 document.domain 来跨域。这种方式非常适用于 iframe 跨域的情况。</p>
-<p>比如，有一个页面，它的地址是 <code>http://www.laixiangran.cn/a.html</code>，在这个页面里面有一个 iframe，它的 src 是 <code>http://laixiangran.cn/b.html</code>。很显然，这个页面与它里面的 iframe 框架是不同域的，所以我们是无法通过在页面中书写 js 代码来获取 iframe 中的东西的。</p>
-<p>这个时候，document.domain 就可以派上用场了，我们只要把 <code>http://www.laixiangran.cn/a.html</code> 和 <code>http://laixiangran.cn/b.html</code> 这两个页面的 document.domain 都设成相同的域名就可以了。但要注意的是，document.domain 的设置是有限制的，我们只能把 document.domain 设置成自身或更高一级的父域，且主域必须相同。例如：<code>a.b.laixiangran.cn</code> 中某个文档的 document.domain 可以设成 <code>a.b.laixiangran.cn</code>、<code>b.laixiangran.cn</code> 、<code>laixiangran.cn</code> 中的任意一个，但是不可以设成 <code>c.a.b.laixiangran.cn</code> ，因为这是当前域的子域，也不可以设成 <code>baidu.com</code>，因为主域已经不相同了。</p>
-<p>例如，在页面 <code>http://www.laixiangran.cn/a.html</code> 中设置document.domain：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>在页面 <code>http://laixiangran.cn/b.html</code> 中也设置 document.domain，而且这也是必须的，虽然这个文档的 domain 就是 <code>laixiangran.cn</code>，但是还是必须显式地设置 document.domain 的值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>这样，<code>http://www.laixiangran.cn/a.html</code> 就可以通过 js 访问到 <code>http://laixiangran.cn/b.html</code> 中的各种属性和对象了。</p>
-<h3 id="window-name-跨域"><a href="#window-name-跨域" class="headerlink" title="window.name 跨域"></a>window.name 跨域</h3><p>window 对象有个 name 属性，该属性有个特征：即在一个窗口（window）的生命周期内，窗口载入的所有的页面（不管是相同域的页面还是不同域的页面）都是共享一个 <code>window.name</code> 的，每个页面对 <code>window.name</code> 都有读写的权限，<code>window.name</code> 是持久存在一个窗口载入过的所有页面中的，并不会因新页面的载入而进行重置。</p>
-<p>通过下面的例子介绍如何通过 window.name 来跨域获取数据的。</p>
-<p>页面 <code>http://www.laixiangran.cn/a.html</code> 的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>页面 <code>http://laixiangran.cn/b.html</code> 的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="location-hash-跨域"><a href="#location-hash-跨域" class="headerlink" title="location.hash 跨域"></a>location.hash 跨域</h3><p>location.hash 方式跨域，是子框架具有修改父框架 src 的 hash 值，通过这个属性进行传递数据，且更改 hash 值，页面不会刷新。但是传递的数据的字节数是有限的。</p>
-<p>页面 <code>http://www.laixiangran.cn/a.html</code> 的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>页面 <code>http://laixiangran.cn/b.html</code> 的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="postMessage-跨域"><a href="#postMessage-跨域" class="headerlink" title="postMessage 跨域"></a>postMessage 跨域</h3><p>window.postMessage(message，targetOrigin) 方法是 HTML5 新引进的特性，可以使用它来向其它的 window 对象发送消息，无论这个 window 对象是属于同源或不同源。这个应该就是以后解决 dom 跨域通用方法了。</p>
-<p>调用 postMessage 方法的 window 对象是指要接收消息的那一个 window 对象，该方法的第一个参数 message 为要发送的消息，类型只能为字符串；第二个参数 targetOrigin 用来限定接收消息的那个 window 对象所在的域，如果不想限定域，可以使用通配符 *。</p>
-<p>需要接收消息的 window 对象，可是通过监听自身的 message 事件来获取传过来的消息，消息内容储存在该事件对象的 data 属性中。</p>
-<p>页面 <code>http://www.laixiangran.cn/a.html</code> 的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>页面 <code>http://laixiangran.cn/b.html</code> 的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="为什么实际开发中会有跨域ajax请求"><a href="#为什么实际开发中会有跨域ajax请求" class="headerlink" title="为什么实际开发中会有跨域ajax请求"></a>为什么实际开发中会有跨域ajax请求</h2><p>根据上文的内容我们可以知道，由于浏览器同源政策的影响，跨域的ajax请求是不被允许。那么在实际的开发、应用中，是否有跨域ajax的场景呢？</p>
-<p>答案是肯定的。</p>
-<p>那么有哪些场景会有跨域ajax的需求呢？</p>
-<ol>
-<li>当你调用一个现有的API或公开API：想象一下，你接到了一个新需求，需要在当前开发的新闻详细页<code>http://www.yournews.com/p/123</code>展示该新闻的相关推荐。令人欣慰的是，推荐的接口已经在你们公司的其他产品线里实现了，你只需要给该接口一个<code>query</code>即可：<code>http://www.mynews.com/recommend?query=123</code>。然而问题来了——你发起了一个跨域请求。</li>
-<li>前后端分离的开发模式下，在本地进行接口联调时：也许在你的项目里，你想尝试前后端分离的开发模式。你在本地开发时，mock了一些假数据来帮助自己本地开发。而有一天，你希望在本地和后端同学进行联调。此时，后端rd的接口地址和你发生了跨域问题。这阻止了你们的联调，你只能继续使用你mock的假数据。</li>
-</ol>
-<p>上面只是列举了存在跨域的两个最为常见的场景，这足以说明跨域请求在实际开发中确实经常出现。</p>
-<h2 id="跨域的一些方案"><a href="#跨域的一些方案" class="headerlink" title="跨域的一些方案"></a>跨域的一些方案</h2><p>了解了上面的内容后，下面就来介绍一下在实践中常用的三种ajax跨域方案。这部分的实例代码可以在这里看到：<a href="https://link.jianshu.com?t=https://github.com/alienzhou/cross-domain-demo" target="_blank" rel="noopener">cross-domain-demo</a></p>
-<p>假设这样一个跨域场景：目前有两个项目</p>
-<ul>
-<li><strong>myweb</strong>，这个就是我们目前开发的项目，是一个独立的站点。</li>
-<li><strong>thirdparty</strong>，表示我们需要调用到的第三方（third-party）后端服务，myweb项目就是需要调用它的接口。</li>
-</ul>
-<p>为了简化不必要的代码编写过程，示例使用<code>express-generator</code>来快速生成myweb与thirdparty这两个应用，其中thirdparty我们只需要用到后端接口部分。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install express-generator -g</span><br><span class="line">express --view=pug myweb</span><br><span class="line">express --view=pug thirdparty</span><br></pre></td></tr></table></figure>
-
-<p>在myweb中，index页面 <code>http://127.0.0.1:8085</code>需要跨域访问server中的<code>http://127.0.0.1:3000/info/normal</code>这个接口的信息。前端操作是：当点击<code>button</code>时就会去获取info，并alert出来。<br> 跨域访问的接口<code>http://127.0.0.1:3000/info/normal</code>代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line">const router = express.Router();</span><br><span class="line"></span><br><span class="line">const data = &#123;</span><br><span class="line">    name: &apos;alienzhou&apos;,</span><br><span class="line">    desc: &apos;a developer&apos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">router.get(&apos;/normal&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.json(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>然后是<code>http://127.0.0.1:8085</code>index页面的部分的javascript</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// http://127.0.0.1:8085  -- index.js</span><br><span class="line">document.getElementById(&apos;btn-1&apos;).addEventListener(&apos;click&apos;, function() &#123;</span><br><span class="line">    var xhr = new XMLHttpRequest();</span><br><span class="line">    xhr.onreadystatechange = function() &#123;</span><br><span class="line">        if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) &#123;</span><br><span class="line">            alert(xhr.responseText);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    xhr.open(&apos;get&apos;, &apos;http://127.0.0.1:3000/info/normal&apos;);</span><br><span class="line">    xhr.send(null);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>点击<code>btn-1</code>，在控制台中就会出现如下错误，这个跨域ajax请求受到了同源策略的限制。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Error] Origin http://127.0.0.1:8085 is not allowed by Access-Control-Allow-Origin.</span><br><span class="line">[Error] Failed to load resource: Origin http://127.0.0.1:8085 is not allowed by Access-Control-Allow-Origin. (normal, line 0)</span><br><span class="line">[Error] XMLHttpRequest cannot load http://127.0.0.1:3000/info/normal due to access control checks.</span><br></pre></td></tr></table></figure>
-
-<p>下面来讲具体的三种解决方案：</p>
-<h3 id="使用代理（proxy）"><a href="#使用代理（proxy）" class="headerlink" title="使用代理（proxy）"></a>使用代理（proxy）</h3><p>这种方法本质上仍然遵循了同源政策，只是换了一个请求的思路，将请求移至了后端。</p>
-<p>我们知道，同源政策是浏览器层面的限制。那么，如果我们不在前端跨域，而将“跨域”的任务交给后端服务，是否就规避了同源政策呢？是的。</p>
-<p>这就是“代理”。这个代理可以将我们的请求转发，而后端并不会有所谓的同源政策限制。这个“代理”也可以理解为一个同域的后端服务。</p>
-<p>由于我们的myweb是一个完整的web项目（包括前端部分和后端服务部分），因此，我们可以在myweb项目的后端添加一个<code>proxy</code>接口，专门处理跨域ajax请求的转发。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const express = require(&apos;express&apos;);</span><br><span class="line">const router = express.Router();</span><br><span class="line">const request = require(&apos;request&apos;);</span><br><span class="line"></span><br><span class="line">router.get(&apos;*&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    let path = req.path.replace(/^\/proxy/, &apos;&apos;);</span><br><span class="line">    request.get(`http://127.0.0.1:3000$&#123;path&#125;`, (err, response) =&gt; &#123;</span><br><span class="line">        res.json(JSON.parse(response.body));</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">module.exports = router;</span><br></pre></td></tr></table></figure>
-
-<p>这样，我们在前端访问<code>/proxy/info/normal</code>后，就会自动转发到<code>http://127.0.0.1:3000/proxy/info/normal</code>。</p>
-<p>前端ajax部分如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&apos;btn-1&apos;).addEventListener(&apos;click&apos;, function() &#123;</span><br><span class="line">    var xhr = new XMLHttpRequest();</span><br><span class="line">    xhr.onreadystatechange = function() &#123;</span><br><span class="line">        if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) &#123;</span><br><span class="line">            alert(xhr.responseText);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    xhr.open(&apos;get&apos;, &apos;/proxy/info/normal&apos;);</span><br><span class="line">    xhr.send(null);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>该方法的优点很明显：不需要第三方服务<code>http://127.0.0.1:3000/info/normal</code>进行任何改造。</p>
-<p>当然，该方法也有一些缺点：</p>
-<ul>
-<li>首先，需要你有一个自己的后端服务能够接收并转发请求。如果你进行本地的纯静态页面开发，则需要一些浏览器插件或自动化工具中集成的本地服务器来实现。</li>
-<li>此外，如果请求包含一些特殊的请求头（例如cookie等等），需要在转发时特殊处理。</li>
-</ul>
-<p>下面两种方法则需要第三方服务端或多或少进行配合改造。</p>
-<h3 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h3><p>同源策略往往过于严格了，为了解决浏览器的这个问题，w3c提出了CORS（Cross-Origin Resource Sharing）标准。CORS通过相应的请求头与响应头来实现跨域资源访问。</p>
-<p>如果我们打开控制台，可以在请求头中发现一个叫<code>origin</code>的头信息，它表明了请求的来源。这是浏览器自动添加的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Referer: http://127.0.0.1:8085/</span><br><span class="line">Origin: http://127.0.0.1:8085   &lt;============   origin</span><br><span class="line">Accept: */*</span><br><span class="line">Cache-Control: no-cache</span><br><span class="line">User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.1.2 Safari/603.3.8</span><br><span class="line">Pragma: no-cache</span><br></pre></td></tr></table></figure>
-
-<p>与之对应的，服务器端的响应头中一个头信息为<code>Access-Control-Allow-Origin</code>，表明接受的跨域请求来源。显而易见，这两个信息如果一致，则这个请求就会被接受。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">router.get(&apos;/cors&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.setHeader(&apos;Access-Control-Allow-Origin&apos;, &apos;http://127.0.0.1:8085&apos;);</span><br><span class="line">    res.json(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>如果将<code>Access-Control-Allow-Origin</code>的值设置为<code>*</code>，则会接受所有域的请求。这时的客户端不需要任何配置即可进行跨域访问。</p>
-<p>然而，还有一个问题，CORS默认是不会发送cookie，但是如果我希望这次的请求也能够带上对方服务所需的cookie怎么办？那就需要再进行一定的改造。</p>
-<p>与<code>Access-Control-Allow-Origin</code>相配套的，还有一个叫<code>Access-Control-Allow-Credentials</code>的响应头，如果设置为<code>true</code>则表明服务器允许该请求内包含cookie信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">router.get(&apos;/cors&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    res.setHeader(&apos;Access-Control-Allow-Origin&apos;, &apos;http://127.0.0.1:8085&apos;);</span><br><span class="line">    res.setHeader(&apos;Access-Control-Allow-Credentials&apos;, true);</span><br><span class="line">    res.json(data);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>同时，在客户端，还需要在ajax请求中设置<code>withCredentials</code>属性为<code>true</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&apos;btn-1&apos;).addEventListener(&apos;click&apos;, function() &#123;</span><br><span class="line">    var xhr = new XMLHttpRequest();</span><br><span class="line">    xhr.withCredentials = true;  // 设置withCredentials以便发送cookie</span><br><span class="line">    xhr.onreadystatechange = function() &#123;</span><br><span class="line">        if (xhr.readyState === 4 &amp;&amp; xhr.status === 200) &#123;</span><br><span class="line">            alert(xhr.responseText);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    xhr.open(&apos;get&apos;, &apos;http://127.0.0.1:3000/info/cors&apos;);  // 跨域请求</span><br><span class="line">    xhr.send(null);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，CORS方法有如下优点：</p>
-<ul>
-<li>简单，几乎不需要什么开发量，只需要简单配置相应的请求与响应头信息即可。</li>
-<li>支持各种类型的请求（<code>get</code>, <code>post</code>, <code>put</code>等等）。</li>
-</ul>
-<p>但缺点是：</p>
-<ul>
-<li>需要对跨域的服务接口进行一定的改造。如果该服务因为某些原因无法改造，则无法实现。但这种改造还是相对较小的。</li>
-<li>不兼容一些“古董”浏览器。</li>
-</ul>
-<h3 id="jsonp"><a href="#jsonp" class="headerlink" title="jsonp"></a>jsonp</h3><p>jsonp是跨域领域中历史非常传统的一种方法。如果你还记得第一部分中我们提到过的内容，一些跨域请求是不会受到同源政策的限制的。其中，<code>script</code>标签就是一个。</p>
-<p>在<code>script</code>标签中我们可以引用其他服务上的脚本，最常见的场景就是CDN。因此，有人想到，当有跨域请求到来时，如果我们可以把客户端需要的数据写到javascript脚本文件中并返回给客户端，那么客户端就可以拿到这些数据并使用了。具体是怎样一个流程呢？</p>
-<ol>
-<li>首先，在myweb端，我们可以预先定义一个处理函数，叫它<code>callback</code>；</li>
-<li>然后，在myweb端，我们动态创建一个script标签，并将该标签的<code>src</code>属性指向跨域的接口，并将<code>callback</code>函数名作为请求的参数；</li>
-<li>跨域的thirdparty端接受到该请求后，返回一个javascript脚本文件，用<code>callback</code>函数包裹住数据；</li>
-<li>这时候，前端收到响应数据会自动执行该脚本，这样便会自动执行预先定义的<code>callback</code>函数。</li>
-</ol>
-<p>将上面这个方法具体成下面的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// myweb 部分</span><br><span class="line">// 1. 创建回调函数callback</span><br><span class="line">function myCallback(res) &#123;</span><br><span class="line">    alert(JSON.stringify(res, null , 2));</span><br><span class="line">&#125;</span><br><span class="line">document.getElementById(&apos;btn-4&apos;).addEventListener(&apos;click&apos;, function() &#123;</span><br><span class="line">    // 2. 动态创建script标签，并设置src属性，注意参数cb=myCallback</span><br><span class="line">    var script = document.createElement(&apos;script&apos;);</span><br><span class="line">    script.src = &apos;http://127.0.0.1:3000/info/jsonp?cb=myCallback&apos;;</span><br><span class="line">    document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);</span><br><span class="line">&#125;);</span><br><span class="line">// thirdparty</span><br><span class="line">router.get(&apos;/jsonp&apos;, (req, res, next) =&gt; &#123;</span><br><span class="line">    var str = JSON.stringify(data);</span><br><span class="line">    // 3. 创建script脚本内容，用`callback`函数包裹住数据</span><br><span class="line">    // 形式：callback(data)</span><br><span class="line">    var script = `$&#123;req.query.cb&#125;($&#123;str&#125;)`;</span><br><span class="line">    res.send(script);</span><br><span class="line">&#125;);</span><br><span class="line">// 4. 前端收到响应数据会自动执行该脚本</span><br></pre></td></tr></table></figure>
-
-<p>当然，如果你是用类似jquery这样的库，其中的<code>$.ajax</code>本身是封装了JSONP方式的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    url: &apos;http://127.0.0.1:3000/info/jsonp?cb=myCallback&apos;,</span><br><span class="line">    dataType: &apos;jsonp&apos;, // 注意，此处dataType的值表示请求使用JSONP</span><br><span class="line">    jsonp: &apos;cb&apos;, // 请求query中callback函数的键名</span><br><span class="line">&#125;).done(function (res) &#123;</span><br><span class="line">    alert(JSON.stringify(res, null , 2));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>JSONP作为一个久远的方法，其最大的优点就是兼容性非常好。</p>
-<p>但是其缺点也很明显，由于是通过<code>script</code>标签发起的请求，因此只支持<code>get</code>请求。同时可以看到，较之CORS，其前后端改造开发量要稍高一些。如果跨域服务端不支持改造，那么也无法使用该方法。</p>
-<hr>
-<p>上面三个方案的实例代码可以在这里（<a href="https://link.jianshu.com?t=https://github.com/alienzhou/cross-domain-demo" target="_blank" rel="noopener">cross-domain-demo</a>）clone到本地并运行。<code>git clone git@github.com:alienzhou/cross-domain-demo.git</code></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>同源策略作为浏览器的安全策略之一，在保证请求的安全性之外，也对我们的一些合理与期望的请求进行了控制。幸好，在面对跨域ajax请求时，我们还有一些方法可以应对它，包括使用代理、CORS和JSONP。在不同场景下合理运用各种方法，可以帮助我们有效解决ajax跨域问题。</p>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><a href="https://www.cnblogs.com/2050/p/3191744.html" target="_blank" rel="noopener">js中几种实用的跨域方法原理详解</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/28562290" target="_blank" rel="noopener">跨域的那些事儿</a></li>
-<li><a href="http://www.ruanyifeng.com/blog/2016/04/cors.html" target="_blank" rel="noopener">跨域资源共享 CORS 详解</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-
-
-    
-
-    
-
-    
-
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -4456,7 +4433,7 @@ window.onmouseout = function () {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
